@@ -5,15 +5,33 @@ import (
 	"net/http"
 
 	"github.com/gjagnoor/budget/postgres"
-	"github.com/gjagnoor/budget/web"
+	"github.com/gjagnoor/budget/routes"
+	chi "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/jmoiron/sqlx"
 )
 
+type Test struct {
+	Name string 
+}
+
 func main () {
-	store, err := postgres.NewStore("postgresql://jagnoorg:26487666Cal@localhost:5432/budget?sslmode=disable")
-	
+	r := chi.NewRouter()
+	db := getDB()
+	r.Use(middleware.Logger)
+	routes.UserRoutes(r, db)
+	routes.IncomeRoutes(r, db)
+	routes.ExpenseRoutes(r, db)
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("welcome"))
+	})
+	http.ListenAndServe(":3000", r)
+}
+
+func getDB() *sqlx.DB {
+	db, err := postgres.NewStore("postgresql://jagnoorg:26487666Cal@localhost:5432/budget?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
-	h := web.NewHandler(store)
-	http.ListenAndServe(":3000", h)
+	return db
 }
