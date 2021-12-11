@@ -1,4 +1,4 @@
-package goBudget
+package gobudget
 
 import "github.com/google/uuid"
 
@@ -12,6 +12,7 @@ type Income struct {
 	ID uuid.UUID `db:"id"`
 	Title string `db:"title"`
 	Amount float32 `db:"amount"`
+	PaymentType string `db:"payment_type"`
 	Category string `db:"category"`
 	Notes string `db:"notes"`
 	Created string `db:"created"`
@@ -22,6 +23,7 @@ type Expense struct {
 	ID uuid.UUID `db:"id"`
 	Title string `db:"title"`
 	Amount float32 `db:"amount"`
+	PaymentType string `db:"payment_type"`
 	Category string `db:"category"`
 	Notes string `db:"notes"`
 	Created string `db:"created"`
@@ -47,4 +49,10 @@ type ExpenseStore interface {
 	ExpensesByUser(userID uuid.UUID) ([]Expense, error)
 	CreateExpense(i *Expense) error 
 	DeleteExpense(id uuid.UUID) error
+}
+
+type Store interface {
+	UserStore
+	IncomeStore
+	ExpenseStore
 }
