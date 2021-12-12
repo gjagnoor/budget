@@ -1,15 +1,13 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 
+	static "github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 	"github.com/gjagnoor/budget/postgres"
 	"github.com/gjagnoor/budget/routes"
-	chi "github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	csrf "github.com/gorilla/csrf"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -18,24 +16,21 @@ type Test struct {
 }
 
 func main () {
-	r := chi.NewRouter()
+	router := gin.Default()
 	db := getDB()
-	r.Use(middleware.Logger)
-	r.Use(csrf.Protect([]byte("2094323792209432379220943237922398"), csrf.Secure(false)))
-	routes.UserRoutes(r, db)
-	routes.IncomeRoutes(r, db)
-	routes.ExpenseRoutes(r, db)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		t := template.Must(template.New("layout.html").ParseGlob("templates/includes/*.html"))
-		t = template.Must(t.ParseFiles("templates/layout.html", "templates/home.html"))
-		type params struct {
-			CSRF template.HTML
-		}
-		t.Execute(w, params {
-			CSRF: csrf.TemplateField(r),
+	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))
+	api := router.Group("/api")
+	{
+		api.GET("/", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "pong",
+			})
 		})
-	})
-	http.ListenAndServe(":3000", r)
+	}
+	routes.UserRoutes(api, db)
+	// routes.ExpenseRoutes(api, db)
+	// routes.IncomeRoutes(api, db, api)
+	router.Run(":5000")
 }
 
 func getDB() *sqlx.DB {
