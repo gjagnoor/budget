@@ -1,11 +1,14 @@
 package postgres
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type User struct {
 	ID uuid.UUID 
 	Email string 
-	Joined string 
+	Password string
+	Joined int64 
 }
 
 type Income struct {
