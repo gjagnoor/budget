@@ -9,7 +9,6 @@ import (
 	"github.com/gjagnoor/budget/routes"
 	chi "github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/gorilla/csrf"
 	csrf "github.com/gorilla/csrf"
 	"github.com/jmoiron/sqlx"
 )
