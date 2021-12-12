@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 
@@ -23,7 +24,16 @@ func main () {
 	routes.IncomeRoutes(r, db)
 	routes.ExpenseRoutes(r, db)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
+		t := template.Must(template.New("layout.html").ParseGlob("templates/includes/*.html"))
+		t = template.Must(t.ParseFiles("templates/layout.html", "templates/home.html"))
+		type params struct {
+			Title string
+			Text string
+		}
+		t.Execute(w, params {
+			Title: "Hello",
+			Text: "There",
+		})
 	})
 	http.ListenAndServe(":3000", r)
 }

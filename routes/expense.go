@@ -2,9 +2,9 @@ package routes
 
 import (
 	"encoding/json"
+	"html/template"
 	"log"
 	"net/http"
-	"text/template"
 
 	"github.com/gjagnoor/budget/postgres"
 	"github.com/gjagnoor/budget/templates"

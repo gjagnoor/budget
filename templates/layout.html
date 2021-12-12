@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {{block "header" .}} This is the hedaer {{end}}
+        <h1>Budget App</h1>
+        {{block "content" .}} This will be the default content to render {{end}}
+        {{template "income_expenses_table" .}} {{block "footer" .}} This is the
+        footer {{end}}
+    </body>
+</html>
