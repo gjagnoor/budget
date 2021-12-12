@@ -9,6 +9,7 @@ import (
 	"github.com/gjagnoor/budget/routes"
 	chi "github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/gorilla/csrf"
 	csrf "github.com/gorilla/csrf"
 	"github.com/jmoiron/sqlx"
 )
@@ -21,7 +22,7 @@ func main () {
 	r := chi.NewRouter()
 	db := getDB()
 	r.Use(middleware.Logger)
-	r.Use(csrf.Protect([]byte("32-byte-long-auth-key")))
+	r.Use(csrf.Protect([]byte("2094323792209432379220943237922398"), csrf.Secure(false)))
 	routes.UserRoutes(r, db)
 	routes.IncomeRoutes(r, db)
 	routes.ExpenseRoutes(r, db)
@@ -29,12 +30,10 @@ func main () {
 		t := template.Must(template.New("layout.html").ParseGlob("templates/includes/*.html"))
 		t = template.Must(t.ParseFiles("templates/layout.html", "templates/home.html"))
 		type params struct {
-			Title string
-			Text string
+			CSRF template.HTML
 		}
 		t.Execute(w, params {
-			Title: "Hello",
-			Text: "There",
+			CSRF: csrf.TemplateField(r),
 		})
 	})
 	http.ListenAndServe(":3000", r)
