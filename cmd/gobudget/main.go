@@ -9,6 +9,7 @@ import (
 	"github.com/gjagnoor/budget/routes"
 	chi "github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	csrf "github.com/gorilla/csrf"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -20,6 +21,7 @@ func main () {
 	r := chi.NewRouter()
 	db := getDB()
 	r.Use(middleware.Logger)
+	r.Use(csrf.Protect([]byte("32-byte-long-auth-key")))
 	routes.UserRoutes(r, db)
 	routes.IncomeRoutes(r, db)
 	routes.ExpenseRoutes(r, db)
