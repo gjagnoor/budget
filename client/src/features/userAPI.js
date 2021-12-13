@@ -19,7 +19,6 @@ const signUpOrLogin = async () => {
     console.log("entered?");
     return await axios
         .get("http://localhost:5000/api/google/auth?provider=google")
-        .then((res) => console.log(res))
         .catch((err) => console.error(err));
 };
 

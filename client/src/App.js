@@ -18,6 +18,7 @@ function App({ user, signUpOrLogin, logout, saveUser }) {
         };
         fetchData();
     }, [saveUser]);
+
     return (
         <div className="App">
             <header className="App-header">
@@ -40,7 +41,6 @@ function App({ user, signUpOrLogin, logout, saveUser }) {
                 ) : (
                     <a
                         className="App-link"
-                        // onClick={() => signUpOrLogin()}
                         href="http://localhost:5000/api/google/auth?provider=google"
                     >
                         Login Or SignUp
