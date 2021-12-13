@@ -1,4 +1,1 @@
--   implement redux on the frontend. Setup user on state and implement logout functionality.
--   commit and push changes
--   implement GORM for the backend.
 -   work on things for Fullstack Academy

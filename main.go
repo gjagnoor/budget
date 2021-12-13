@@ -7,13 +7,14 @@ import (
 
 	static "github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
-	"github.com/gjagnoor/budget/postgres"
+	database "github.com/gjagnoor/budget/db"
 	"github.com/gjagnoor/budget/routes"
 	"github.com/gorilla/sessions"
-	"github.com/jmoiron/sqlx"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/google"
+	postgres "gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type Test struct {
@@ -23,6 +24,7 @@ type Test struct {
 func main () {
 	router := gin.Default()
 	db := getDB()
+	database.ApplyMigrations(db)
 	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 	api := router.Group("/api")
 	{
@@ -33,12 +35,14 @@ func main () {
 		})
 	}
 	auth(api)
+	fmt.Println("database:::: ", db)
 	routes.UserRoutes(api, db)
 	router.Run(":5000")
 }
 
-func getDB() *sqlx.DB {
-	db, err := postgres.NewStore("postgresql://jagnoorg:26487666Cal@localhost:5432/budget?sslmode=disable")
+func getDB() *gorm.DB {
+	dsn := "host=localhost user=jagnoorg password=26487666Cal dbname=budget port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -97,3 +101,4 @@ func auth (api *gin.RouterGroup) {
 		gothic.StoreInSession("user", "", c.Request, c.Writer)
 	})
 }
+

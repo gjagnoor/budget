@@ -1,10 +1,11 @@
-package postgres
+package database
 
 import (
 	"fmt" // this was "gjithub" before here and in̆ the mod file. Incase you have issues deploying later
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
 func GetUser (id uuid.UUID, db *sqlx.DB) (User, error) {
@@ -16,13 +17,10 @@ func GetUser (id uuid.UUID, db *sqlx.DB) (User, error) {
 	return user, nil
 }
 
-func GetUsers(db *sqlx.DB) ([]User, error) {
+func GetUsers(db *gorm.DB) ([]User) {
 	var users []User
-	err := db.Select(&users, `SELECT * FROM users`)
-	if err != nil {
-		return []User{}, fmt.Errorf("error getting users: %w", err)
-	}
-	return users, nil
+	db.Select("id", "email").Find(&users)
+	return users
 }
 
 func  CreateUser(user User, db *sqlx.DB) error {

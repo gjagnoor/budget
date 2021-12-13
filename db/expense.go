@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"fmt"
@@ -44,7 +44,6 @@ func CreateExpense(expense Expense, db *sqlx.DB) error {
 		expense.PaymentType, 
 		expense.Category, 
 		expense.Notes, 
-		expense.Created, 
 		expense.UserID, // i think this is how we connect it if I remember correctly
 	)
 	if err != nil {

@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gjagnoor/budget/postgres"
-	"github.com/jmoiron/sqlx"
+	database "github.com/gjagnoor/budget/db"
+	"gorm.io/gorm"
 )
 
-func UserRoutes (api *gin.RouterGroup, db *sqlx.DB) {
+func UserRoutes (api *gin.RouterGroup, db *gorm.DB) {
 
 	// r.POST("/users/{id}", func(w http.ResponseWriter, r *http.Request) { // change this later. ID Should not be sent in the url
 	// 	userID := chi.URLParam(r, "id")
@@ -22,14 +22,8 @@ func UserRoutes (api *gin.RouterGroup, db *sqlx.DB) {
 	// })
 
 	api.GET("/users", func(c *gin.Context) {
-		users, err := postgres.GetUsers(db)
-		if err != nil {
-			http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
-		}
-		result := gin.H{
-			"users": users,
-		}
-		c.JSON(http.StatusOK, result)
+		users := database.GetUsers(db)
+		c.JSON(http.StatusOK, users)
 	})
 
 	// r.Get("/user", func(res http.ResponseWriter, req *http.Request) {
