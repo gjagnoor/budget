@@ -53,7 +53,7 @@ func auth (api *gin.RouterGroup) {
 	store := sessions.NewCookieStore([]byte(key))
 	store.MaxAge(maxAge)
 	store.Options.Path = "/"
-	store.Options.HttpOnly = true   // HttpOnly should always be enabled
+	store.Options.HttpOnly = true // HttpOnly should always be enabled
 	store.Options.Secure = isProd
 
 	gothic.Store = store
@@ -68,19 +68,33 @@ func auth (api *gin.RouterGroup) {
 		),
 	)
 
+	api.GET("/currentUser", func (c *gin.Context) {
+		user, err := gothic.GetFromSession("user", c.Request)
+		fmt.Fprintln(c.Writer, user);
+		if err != nil {
+			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+		}
+		c.JSON(http.StatusFound, gin.H{
+			"user": user,
+		})
+	})
+
 	api.GET("/google/redirect", func(c *gin.Context) {
 		user, err := gothic.CompleteUserAuth(c.Writer, c.Request)
 		if err != nil {
 			fmt.Fprintln(c.Writer, err)
 			return
     	}
-		c.JSON(http.StatusOK, gin.H{
-			"message": "authenticated successfully",
-			"user": user,
-		})
+		fmt.Println(user);
+		gothic.StoreInSession("user", user.Email, c.Request, c.Writer)
+		http.Redirect(c.Writer, c.Request, "http://localhost:3000", http.StatusFound)
 	})
 
 	api.GET("/google/auth", func(c *gin.Context) {
 		gothic.BeginAuthHandler(c.Writer, c.Request)
+	})
+
+	api.GET("/google/auth/logout", func(c *gin.Context) {
+		gothic.Logout(c.Writer, c.Request)
 	})
 }

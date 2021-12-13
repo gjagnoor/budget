@@ -1,7 +1,23 @@
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { connect } from "react-redux";
+import { signUpOrLoginAsync, logoutAsync } from "./features/userAPI";
+import { writeUser } from "./features/userSlice";
+import axios from "axios";
 
-function App() {
+function App({ user, signUpOrLogin, logout, saveUser }) {
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios
+                .get("/api/currentUser")
+                .then((res) => {
+                    saveUser(res.data || "");
+                })
+                .catch((err) => console.error(err));
+        };
+        fetchData();
+    }, [saveUser]);
     return (
         <div className="App">
             <header className="App-header">
@@ -17,15 +33,36 @@ function App() {
                 >
                     Learn React
                 </a>
-                <a
-                    className="App-link"
-                    href="http://localhost:5000/api/google/auth?provider=google"
-                >
-                    Login Or SignUp
-                </a>
+                {user.email ? (
+                    <button className="App-link" onClick={() => logout()}>
+                        Logout
+                    </button>
+                ) : (
+                    <a
+                        className="App-link"
+                        // onClick={() => signUpOrLogin()}
+                        href="http://localhost:5000/api/google/auth?provider=google"
+                    >
+                        Login Or SignUp
+                    </a>
+                )}
             </header>
         </div>
     );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUpOrLogin: () => dispatch(signUpOrLoginAsync()),
+        logout: () => dispatch(logoutAsync()),
+        saveUser: (user) => dispatch(writeUser(user))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,1 +1,4 @@
--   implement Google auth. -- it's actually not that big. i can do this now before hitting the bed
+-   implement redux on the frontend. Setup user on state and implement logout functionality.
+-   commit and push changes
+-   implement GORM for the backend.
+-   work on things for Fullstack Academy
