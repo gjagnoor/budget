@@ -74,9 +74,7 @@ func auth (api *gin.RouterGroup) {
 		if err != nil {
 			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		}
-		c.JSON(http.StatusFound, gin.H{
-			"user": user,
-		})
+		c.JSON(http.StatusFound, user)
 	})
 
 	api.GET("/google/redirect", func(c *gin.Context) {
@@ -96,5 +94,6 @@ func auth (api *gin.RouterGroup) {
 
 	api.GET("/google/auth/logout", func(c *gin.Context) {
 		gothic.Logout(c.Writer, c.Request)
+		gothic.StoreInSession("user", "", c.Request, c.Writer)
 	})
 }

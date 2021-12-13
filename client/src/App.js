@@ -2,16 +2,20 @@ import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { connect } from "react-redux";
-import { signUpOrLoginAsync, logoutAsync } from "./features/userAPI";
+import { logoutAsync } from "./features/userAPI";
 import { writeUser } from "./features/userSlice";
 import axios from "axios";
 
-function App({ user, signUpOrLogin, logout, saveUser }) {
+function App({ user, logout, saveUser }) {
     useEffect(() => {
         const fetchData = async () => {
+            setTimeout(() => {
+                console.log("I am running");
+            }, 5000);
             await axios
                 .get("/api/currentUser")
                 .then((res) => {
+                    console.log("userrr:", res.data);
                     saveUser(res.data || "");
                 })
                 .catch((err) => console.error(err));
@@ -59,7 +63,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUpOrLogin: () => dispatch(signUpOrLoginAsync()),
         logout: () => dispatch(logoutAsync()),
         saveUser: (user) => dispatch(writeUser(user))
     };

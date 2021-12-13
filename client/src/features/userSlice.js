@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { logoutAsync, signUpOrLoginAsync } from "./userAPI";
+import { logoutAsync } from "./userAPI";
 
 const initialState = {
     email: "",
@@ -16,14 +16,10 @@ export const userSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder
-            .addCase(signUpOrLoginAsync.fulfilled, (state, { payload }) => {
-                return state;
-            })
-            .addCase(logoutAsync.fulfilled, (state, { payload }) => {
-                state.email = "";
-                return state;
-            });
+        builder.addCase(logoutAsync.fulfilled, (state, { payload }) => {
+            state.email = "";
+            return state;
+        });
     }
 });
 
