@@ -29,7 +29,10 @@ function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
                 enforceFocus={true}
                 canOutsideClickClose={true}
                 hasBackdrop={true}
-                style={{ backgroundColor: "#3b7668", color: "white" }}
+                style={{
+                    backgroundColor: "#192841",
+                    color: "white"
+                }}
             >
                 <div class="bp3-dialog-header">
                     <span class="bp3-icon-large bp3-icon-dollar"></span>
