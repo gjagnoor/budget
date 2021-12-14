@@ -4,8 +4,10 @@ import { Button, ButtonGroup, Tab, Tabs } from "@blueprintjs/core";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 import { HEADING } from "@blueprintjs/core/lib/esm/common/classes";
 import Months from "./Months";
+import IncomeForm from "./IncomeForm.js";
 
 function Budget() {
+    const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
     return (
         <React.Fragment>
             <div className="Budget-App">
@@ -13,7 +15,10 @@ function Budget() {
                     <Button icon="calendar"></Button>
                     <Button icon="timeline-bar-chart"></Button>
                     <Button icon="search"></Button>
-                    <Button icon="bank-account"></Button>
+                    <Button
+                        icon="bank-account"
+                        onClick={() => setIsIncomeFormOpen(true)}
+                    ></Button>
                     <Button icon="dollar"></Button>
                     <Button icon="flag"></Button>
                 </ButtonGroup>
@@ -21,6 +26,12 @@ function Budget() {
                     <HEADING style={{ color: "white" }}>2022</HEADING>
                 </div>
                 <Months />
+                {isIncomeFormOpen ? (
+                    <IncomeForm
+                        isIncomeFormOpen={isIncomeFormOpen}
+                        setIsIncomeFormOpen={setIsIncomeFormOpen}
+                    />
+                ) : null}
             </div>
         </React.Fragment>
     );
