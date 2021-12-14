@@ -5,6 +5,7 @@
     "proxy": "http://localhost:5000",
     "dependencies": {
         "@blueprintjs/core": "^3.52.0",
+        "@blueprintjs/datetime": "^3.23.19",
         "@blueprintjs/popover2": "^0.12.9",
         "@blueprintjs/select": "^3.18.11",
         "@blueprintjs/table": "^3.9.13",

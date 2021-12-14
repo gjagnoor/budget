@@ -11,7 +11,7 @@ import {
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 
-function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
+function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
     const renderCategories = (category, { handleClick }) => {
@@ -22,8 +22,8 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
     return (
         <div>
             <Dialog
-                isOpen={isIncomeFormOpen}
-                onClose={() => setIsIncomeFormOpen(false)}
+                isOpen={isExpenseFormOpen}
+                onClose={() => setIsExpenseFormOpen(false)}
                 usePortal={true}
                 autoFocus={true}
                 enforceFocus={true}
@@ -33,23 +33,23 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
             >
                 <div class="bp3-dialog-header">
                     <span class="bp3-icon-large bp3-icon-dollar"></span>
-                    <h4 class="bp3-heading">Add Income</h4>
+                    <h4 class="bp3-heading">Add Expense</h4>
                     <button
                         aria-label="Close"
                         class="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
-                        onClick={() => setIsIncomeFormOpen(false)}
+                        onClick={() => setIsExpenseFormOpen(false)}
                     ></button>
                 </div>
                 <div class="bp3-dialog-body">
-                    <FormGroup label="Income Details">
+                    <FormGroup label="Expense Details">
                         <InputGroup
-                            name="income-label"
+                            name="expense-label"
                             type="text"
-                            placeholder="Enter Income Label Here"
+                            placeholder="Enter Expense Label Here"
                             style={{ marginBottom: "1em" }}
                         />
                         <NumericInput
-                            name="income-amount"
+                            name="expense-amount"
                             placeholder="Enter Amount Here in $$.cc"
                             style={{ marginBottom: "1em" }}
                             buttonPosition="none"
@@ -99,7 +99,7 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
                                 color: "white"
                             }}
                         >
-                            + Income
+                            + Expense
                         </button>
                     </div>
                 </div>
@@ -116,4 +116,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncomeForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
