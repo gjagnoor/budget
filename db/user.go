@@ -8,13 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetUser (id uuid.UUID, db *sqlx.DB) (User, error) {
+func GetUser (id string, db *gorm.DB) (User) {
 	var user User
-	err := db.Get(&user, `SELECT * FROM users WHERE id = $1 `, id)
-	if err != nil {
-		return User{}, fmt.Errorf("error getting user: %w", err)
-	}
-	return user, nil
+	db.Select("id").Find(&user)
+	return user
 }
 
 func GetUsers(db *gorm.DB) ([]User) {
@@ -27,7 +24,6 @@ func  CreateUser(user User, db *sqlx.DB) error {
 	err := db.Get(user, `INSERT into users VALUES ($1, $2, $3)`, 
 		user.ID, 
 		user.Email,
-		user.Joined,
 	)
 	if err != nil {
 		return fmt.Errorf("error getting users: %w", err)

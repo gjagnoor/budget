@@ -7,33 +7,31 @@ import (
 
 type User struct {
 	gorm.Model
-	ID uuid.UUID 
+	ID string
 	Email string 
-	Joined int
 	Income []Income
 	Expense []Expense
 }
 
 type Income struct {
 	gorm.Model
-	ID uuid.UUID 
-	Title string 
-	Amount float32 
-	PaymentType string 
-	Category string 
-	Notes string 
-	UserID int
+	ID uuid.UUID
+	Label string
+	Amount int32
+	Category string
+	ReceivedOn int64
+	UserID string
 }
 
 type Expense struct {
 	gorm.Model
-	ID uuid.UUID 
-	Title string 
-	Amount float32
-	PaymentType string 
-	Category string 
-	Notes string 
-	UserID int
+	ID uuid.UUID
+	User string
+	Label string
+	Amount int32
+	Category string
+	ReceivedOn int64
+	UserID string
 }
 
 func ApplyMigrations (db *gorm.DB) {

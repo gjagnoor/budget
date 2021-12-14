@@ -1,11 +1,14 @@
 package routes
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
+	database "github.com/gjagnoor/budget/db"
+	"gorm.io/gorm"
 )
 
-func IncomeRoutes (r gin.Engine, db *sqlx.DB) {
+func IncomeRoutes (api *gin.RouterGroup, db *gorm.DB) {
 
 	// r.Get("/incomes", func(res http.ResponseWriter, req *http.Request) {
 	// 	decoder := json.NewDecoder(req.Body)
@@ -45,6 +48,13 @@ func IncomeRoutes (r gin.Engine, db *sqlx.DB) {
 	// 	}
 	// 	templ.Execute(res, data{Income: income})	
 	// })
+
+	api.POST("/income", func (c *gin.Context) {
+		var requestBody database.Income
+		c.BindJSON(&requestBody)
+		database.CreateIncome(requestBody, db)
+		c.JSON(http.StatusOK, true)
+	})
 
 	// r.Post("/income", func(w http.ResponseWriter, r *http.Request) {
 	// 	decoder := json.NewDecoder(r.Body)

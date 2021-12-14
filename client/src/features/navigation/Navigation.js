@@ -41,7 +41,7 @@ function Navigation({ user, logout, saveUser }) {
                     />
                 </Navbar.Group>
                 <Navbar.Group align={Alignment.RIGHT}>
-                    {user.email ? (
+                    {user.ID ? (
                         <button
                             className="bp3-button bp3-minimal"
                             style={{ color: "white" }}

@@ -10,14 +10,39 @@ import {
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
+import { saveIncomeAsync } from "./budgetAPI.js";
 
-function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
+function IncomeForm({
+    isIncomeFormOpen,
+    setIsIncomeFormOpen,
+    saveIncome,
+    user
+}) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
+    const [amount, setAmount] = useState(0);
+    const [label, setLabel] = useState("");
+
     const renderCategories = (category, { handleClick }) => {
         return (
             <MenuItem key={category} onClick={handleClick} text={category} />
         );
+    };
+    const handleSubmit = async () => {
+        const incomeDetails = {
+            userID: user.ID,
+            label: label,
+            amount: amount,
+            category: category,
+            receivedOn: Date.parse(selectedDate)
+        };
+        console.log(
+            incomeDetails,
+            typeof incomeDetails.user,
+            typeof incomeDetails.receivedOn
+        );
+        await saveIncome(incomeDetails);
+        return;
     };
     return (
         <div>
@@ -47,13 +72,18 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
                             type="text"
                             placeholder="Enter Income Label Here"
                             style={{ marginBottom: "1em" }}
+                            value={label}
+                            onChange={(e) => setLabel(e.target.value)}
                         />
                         <NumericInput
+                            type="number"
                             name="income-amount"
                             placeholder="Enter Amount Here in $$.cc"
                             style={{ marginBottom: "1em" }}
                             buttonPosition="none"
                             fill={true}
+                            value={amount}
+                            onValueChange={(value) => setAmount(value)}
                         />
                         <Select
                             items={["One time", "Recurring", "Sometimes"]}
@@ -98,6 +128,7 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
                                 backgroundColor: "#30404d",
                                 color: "white"
                             }}
+                            onClick={(e) => handleSubmit()}
                         >
                             + Income
                         </button>
@@ -109,11 +140,15 @@ function IncomeForm({ isIncomeFormOpen, setIsIncomeFormOpen }) {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        saveIncome: (details) => dispatch(saveIncomeAsync(details))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncomeForm);

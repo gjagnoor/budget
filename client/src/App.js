@@ -8,8 +8,10 @@ import axios from "axios";
 import Home from "./Home";
 import Navigation from "./features/navigation/Navigation";
 import Budget from "./features/budget/Budget";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function App({ user, logout, saveUser }) {
+function App({ loading, saveUser, user }) {
     useEffect(() => {
         const fetchData = async () => {
             setTimeout(() => {
@@ -18,14 +20,13 @@ function App({ user, logout, saveUser }) {
             await axios
                 .get("/api/currentUser")
                 .then((res) => {
-                    console.log("userrr:", res.data);
-                    saveUser(res.data || "");
+                    saveUser(res.data.split("\n")[0] || "");
                 })
                 .catch((err) => console.error(err));
         };
         fetchData();
     }, [saveUser]);
-
+    console.log(user.ID);
     return (
         <Router>
             <Navigation />
@@ -33,13 +34,25 @@ function App({ user, logout, saveUser }) {
                 <Route path="/" element={<Home />} />
                 <Route path="/budget" element={<Budget />} />
             </Routes>
+            {loading ? (
+                <Backdrop
+                    sx={{
+                        color: "#fff",
+                        zIndex: (theme) => theme.zIndex.drawer + 1
+                    }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            ) : null}
         </Router>
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        loading: state.budget.loading
     };
 };
 

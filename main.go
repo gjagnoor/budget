@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	static "github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
@@ -34,9 +35,10 @@ func main () {
 			})
 		})
 	}
-	auth(api)
+	auth(api, db)
 	fmt.Println("database:::: ", db)
 	routes.UserRoutes(api, db)
+	routes.IncomeRoutes(api, db)
 	router.Run(":5000")
 }
 
@@ -49,7 +51,7 @@ func getDB() *gorm.DB {
 	return db
 }
 
-func auth (api *gin.RouterGroup) {
+func auth (api *gin.RouterGroup, db *gorm.DB) {
 	key := "Secret-session-key"  // Replace with your SESSION_SECRET or similar
 	maxAge := 86400 * 30  // 30 days
 	isProd := false       // Set to true when serving over https
@@ -87,8 +89,15 @@ func auth (api *gin.RouterGroup) {
 			fmt.Fprintln(c.Writer, err)
 			return
     	}
-		fmt.Println(user);
-		gothic.StoreInSession("user", user.Email, c.Request, c.Writer)
+		gothic.StoreInSession("user", user.UserID, c.Request, c.Writer)
+		existingUser := database.GetUser(user.UserID, db)
+		boolean, err := strconv.ParseBool(existingUser.Email)
+		if err != nil && boolean != true {
+			var newUser database.User
+			newUser.ID = user.UserID
+			newUser.Email = user.Email
+			db.Create(&newUser)
+		} 
 		http.Redirect(c.Writer, c.Request, "http://localhost:3000/budget", http.StatusFound)
 	})
 
