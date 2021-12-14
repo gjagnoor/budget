@@ -20,20 +20,12 @@ import (
 // 	return income, nil
 // }
 
-// func GetIncomes(userID uuid.UUID, db *sqlx.DB) ([]Income, error) {
-// 	var incomes []Income
-// 	err := db.Select(
-// 		&incomes,
-// 		`SELECT * FROM incomes WHERE user_id = $1`,
-// 		userID,
-// 	)
-// 	if err != nil {
-// 		return []Income{}, fmt.Errorf("error getting incomes: %w", err)
-// 	}
-// 	return incomes, nil
-// }
+func GetIncomes(userID string, db *gorm.DB) ([]Income) {
+	var incomes []Income
+	db.Select("id", "label", "amount", "user_id", "received_on", "category").Find(&incomes)
+	return incomes
+}
 
-// // need to connect it to the user
 func CreateIncome(income Income, db *gorm.DB) (error) {
 	uuid := uuid.New()
 	income.ID = uuid

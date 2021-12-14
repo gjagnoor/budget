@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 
-function MainTable() {
+function MainTable({ incomes }) {
     const incomeExpenseCellRenderer = (rowIndex) => (
         <Cell key={rowIndex}>Fullstack Academy</Cell>
     );
@@ -12,6 +12,7 @@ function MainTable() {
     const amountCellRenderer = (rowIndex) => (
         <Cell key={rowIndex}>$ 270.00</Cell>
     );
+    console.log("incomes from the backend: ", incomes);
     return (
         <React.Fragment>
             <div>
@@ -92,7 +93,9 @@ function MainTable() {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        incomes: state.budget.incomes
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

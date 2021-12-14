@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -48,6 +49,15 @@ func IncomeRoutes (api *gin.RouterGroup, db *gorm.DB) {
 	// 	}
 	// 	templ.Execute(res, data{Income: income})	
 	// })
+
+	api.GET("/incomes", func (c *gin.Context) {
+		userID, bool := c.GetQuery("userID")
+		if bool == true {
+			fmt.Println(bool)
+		}
+		incomes := database.GetIncomes(userID, db)
+		c.JSON(http.StatusOK, incomes)
+	})
 
 	api.POST("/income", func (c *gin.Context) {
 		var requestBody database.Income

@@ -36,11 +36,6 @@ function IncomeForm({
             category: category,
             receivedOn: Date.parse(selectedDate)
         };
-        console.log(
-            incomeDetails,
-            typeof incomeDetails.user,
-            typeof incomeDetails.receivedOn
-        );
         await saveIncome(incomeDetails);
         return;
     };
