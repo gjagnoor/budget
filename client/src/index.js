@@ -5,6 +5,11 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
+import "normalize.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/table/lib/css/table.css";
+import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 
 ReactDOM.render(
     <Provider store={store}>

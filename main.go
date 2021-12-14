@@ -89,7 +89,7 @@ func auth (api *gin.RouterGroup) {
     	}
 		fmt.Println(user);
 		gothic.StoreInSession("user", user.Email, c.Request, c.Writer)
-		http.Redirect(c.Writer, c.Request, "http://localhost:3000", http.StatusFound)
+		http.Redirect(c.Writer, c.Request, "http://localhost:3000/budget", http.StatusFound)
 	})
 
 	api.GET("/google/auth", func(c *gin.Context) {

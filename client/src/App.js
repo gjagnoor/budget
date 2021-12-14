@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { connect } from "react-redux";
-import { logoutAsync } from "./features/userAPI";
-import { writeUser } from "./features/userSlice";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { logoutAsync } from "./features/user/userAPI";
+import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
+import Home from "./Home";
+import Navigation from "./features/navigation/Navigation";
+import Budget from "./features/budget/Budget";
 
 function App({ user, logout, saveUser }) {
     useEffect(() => {
@@ -24,34 +27,13 @@ function App({ user, logout, saveUser }) {
     }, [saveUser]);
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-                {user.email ? (
-                    <button className="App-link" onClick={() => logout()}>
-                        Logout
-                    </button>
-                ) : (
-                    <a
-                        className="App-link"
-                        href="http://localhost:5000/api/google/auth?provider=google"
-                    >
-                        Login Or SignUp
-                    </a>
-                )}
-            </header>
-        </div>
+        <Router>
+            <Navigation />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/budget" element={<Budget />} />
+            </Routes>
+        </Router>
     );
 }
 
