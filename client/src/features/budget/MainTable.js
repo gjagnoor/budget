@@ -3,31 +3,43 @@ import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 
 function MainTable({ incomes }) {
-    const incomeExpenseCellRenderer = (rowIndex) => (
-        <Cell key={rowIndex}>Fullstack Academy</Cell>
+    const incomeExpenseCellRenderer = (label, i) => (
+        <Cell key={i}>{label}</Cell>
     );
-    const categoryCellRenderer = (rowIndex) => (
-        <Cell key={rowIndex}>Contract</Cell>
+    const categoryCellRenderer = (category, i) => (
+        <Cell key={i}>{category}</Cell>
     );
-    const amountCellRenderer = (rowIndex) => (
-        <Cell key={rowIndex}>$ 270.00</Cell>
-    );
-    console.log("incomes from the backend: ", incomes);
+    const amountCellRenderer = (amount, i) => <Cell key={i}>$ {amount}</Cell>;
+    const getLabels = (incomes) => {
+        return incomes.map((income) => income.Label);
+    };
+    const getCategories = (incomes) => {
+        return incomes.map((income) => income.Category);
+    };
+    const getDollars = (incomes) => {
+        return incomes.map((income) => income.Amount);
+    };
     return (
         <React.Fragment>
             <div>
-                <Table2 numRows={10}>
+                <Table2 numRows={incomes.length}>
                     <Column
                         name="Income"
-                        cellRenderer={incomeExpenseCellRenderer}
+                        cellRenderer={() =>
+                            incomeExpenseCellRenderer(getLabels(incomes))
+                        }
                     />
                     <Column
                         name="Category"
-                        cellRenderer={categoryCellRenderer}
+                        cellRenderer={() =>
+                            categoryCellRenderer(getCategories(incomes))
+                        }
                     />
                     <Column
                         name="Dollars $"
-                        cellRenderer={amountCellRenderer}
+                        cellRenderer={() =>
+                            amountCellRenderer(getDollars(incomes))
+                        }
                     />
                     <Column name="" />
                     <Column
