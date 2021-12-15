@@ -15,7 +15,7 @@ import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function App({ loading, saveUser, user, fetchIncomes, fetchExpenses }) {
+function App({ loading, saveUser, user }) {
     useEffect(() => {
         const fetchData = async () => {
             setTimeout(() => {
@@ -25,12 +25,12 @@ function App({ loading, saveUser, user, fetchIncomes, fetchExpenses }) {
                 .get("/api/currentUser")
                 .then(async (res) => {
                     const userID = res.data.split("\n")[0];
-                    saveUser(userID || "");
+                    await saveUser(userID || "");
                 })
                 .catch((err) => console.error(err));
         };
         fetchData();
-    }, [saveUser, fetchIncomes, fetchExpenses]);
+    }, [saveUser]);
     console.log(user.ID);
     return (
         <Router>
@@ -64,9 +64,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         logout: () => dispatch(logoutAsync()),
-        saveUser: (user) => dispatch(writeUser(user)),
-        fetchIncomes: (userID) => dispatch(fetchIncomesAsync(userID)),
-        fetchExpenses: (userID) => dispatch(fetchExpensesAsync(userID))
+        saveUser: (user) => dispatch(writeUser(user))
     };
 };
 

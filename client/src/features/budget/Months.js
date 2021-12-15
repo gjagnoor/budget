@@ -17,17 +17,15 @@ const months = [
     "Nov",
     "Dec"
 ];
-function Months({ user, fetchData, activeYear }) {
-    const [selectedTab, setSelectedTab] = useState("Jan");
+function Months({ user, fetchData, activeYear, activeMonth }) {
+    const [selectedTab, setSelectedTab] = useState(months[activeMonth - 1]);
     async function handleData(month) {
-        console.log(month);
         const firstOfThisMonth = new Date(
-            `2021/${months.indexOf(month) + 1}/1 00:00:00`
+            `${activeYear}/${months.indexOf(month) + 1}/1 00:00:00`
         );
         const lastOfThisMonth = new Date(
-            `2021/${months.indexOf(month) + 1}/31 23:59:59`
+            `${activeYear}/${months.indexOf(month) + 1}/31 23:59:59`
         );
-        console.log("first and last", firstOfThisMonth, lastOfThisMonth);
         await fetchData({
             UserID: user.ID,
             InitialDate: Date.parse(firstOfThisMonth),
@@ -62,7 +60,8 @@ function Months({ user, fetchData, activeYear }) {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        year: state.budget.activeYear
+        activeYear: state.budget.activeYear,
+        activeMonth: state.budget.activeMonth
     };
 };
 

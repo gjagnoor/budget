@@ -8,6 +8,7 @@ import {
 
 const initialState = {
     activeYear: new Date().getUTCFullYear(),
+    activeMonth: new Date().getUTCMonth() + 1,
     incomes: [],
     expenses: [],
     summary: {
