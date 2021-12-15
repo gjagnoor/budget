@@ -48,7 +48,13 @@ const fetchIncomes = async (details) => {
 const saveIncome = async (details) => {
     return await axios
         .post("/api/income", details)
-        .then((res) => res.data)
+        .then(async (res) => {
+            return await fetchIncomes({
+                UserID: details.userID,
+                InitialDate: details.initialDate,
+                EndDate: details.endDate
+            });
+        })
         .catch((err) => console.error(err));
 };
 
@@ -66,7 +72,19 @@ const fetchExpenses = async (details) => {
 
 const saveExpense = async (details) => {
     return await axios
-        .post("/api/expense", details)
-        .then(async (res) => res.data)
+        .post("/api/expense", {
+            userID: details.userID,
+            label: details.label,
+            amount: details.amount,
+            category: details.category,
+            receivedOn: details.receivedOn
+        })
+        .then(async (res) => {
+            return await fetchExpenses({
+                UserID: details.userID,
+                InitialDate: details.initialDate,
+                EndDate: details.endDate
+            });
+        })
         .catch((err) => console.error(err));
 };

@@ -15,7 +15,7 @@ import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function App({ loading, saveUser, user }) {
+function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
     useEffect(() => {
         const fetchData = async () => {
             setTimeout(() => {
@@ -31,7 +31,19 @@ function App({ loading, saveUser, user }) {
         };
         fetchData();
     }, [saveUser]);
-    console.log(user.ID);
+    // useEffect(() => {
+    //     const firstOfThisMonth = new Date(
+    //         `${activeYear}/${activeMonth}/1 00:00:00`
+    //     );
+    //     const lastOfThisMonth = new Date(
+    //         `${activeYear}/${activeMonth}/31 23:59:59`
+    //     );
+    //     fetchData({
+    //         UserID: user.ID,
+    //         InitialDate: Date.parse(firstOfThisMonth),
+    //         EndDate: Date.parse(lastOfThisMonth)
+    //     });
+    // }, []);
     return (
         <Router>
             <Navigation />
@@ -57,14 +69,20 @@ function App({ loading, saveUser, user }) {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        loading: state.budget.loading
+        loading: state.budget.loading,
+        activeMonth: state.budget.activeMonth,
+        activeYear: state.budget.activeYear
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         logout: () => dispatch(logoutAsync()),
-        saveUser: (user) => dispatch(writeUser(user))
+        saveUser: (user) => dispatch(writeUser(user)),
+        fetchData: (details) => {
+            dispatch(fetchIncomesAsync(details));
+            dispatch(fetchExpensesAsync(details));
+        }
     };
 };
 

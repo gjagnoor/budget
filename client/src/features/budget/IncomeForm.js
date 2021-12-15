@@ -16,7 +16,9 @@ function IncomeForm({
     isIncomeFormOpen,
     setIsIncomeFormOpen,
     saveIncome,
-    user
+    user,
+    activeMonth,
+    activeYear
 }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
@@ -29,12 +31,23 @@ function IncomeForm({
         );
     };
     const handleSubmit = async () => {
+        let firstOfThisMonth = new Date(
+            `${activeYear}/${activeMonth}/1 00:00:00`
+        );
+
+        let lastOfThisMonth = new Date(
+            `${activeYear}/${activeMonth}/31 23:59:59`
+        );
+        firstOfThisMonth = Date.parse(firstOfThisMonth);
+        lastOfThisMonth = Date.parse(lastOfThisMonth);
         const incomeDetails = {
             userID: user.ID,
             label: label,
             amount: amount,
             category: category,
-            receivedOn: Date.parse(selectedDate)
+            receivedOn: Date.parse(selectedDate),
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
         };
         await saveIncome(incomeDetails);
         return;
@@ -136,7 +149,9 @@ function IncomeForm({
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        activeYear: state.budget.activeYear,
+        activeMonth: state.budget.activeMonth
     };
 };
 

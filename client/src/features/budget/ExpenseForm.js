@@ -18,7 +18,9 @@ function ExpenseForm({
     setIsExpenseFormOpen,
     user,
     saveExpense,
-    expenses
+    expenses,
+    activeMonth,
+    activeYear
 }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
@@ -30,12 +32,20 @@ function ExpenseForm({
         );
     };
     const handleSubmit = async () => {
+        const firstOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
+        );
         const expenseDetails = {
             userID: user.ID,
             label: label,
             amount: amount,
             category: category,
-            receivedOn: Date.parse(selectedDate)
+            receivedOn: Date.parse(selectedDate),
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
         };
         await saveExpense(expenseDetails);
         return;
@@ -175,7 +185,9 @@ function ExpenseForm({
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        expenses: state.budget.expenses
+        expenses: state.budget.expenses,
+        activeMonth: state.budget.activeMonth,
+        activeYear: state.budget.activeYear
     };
 };
 

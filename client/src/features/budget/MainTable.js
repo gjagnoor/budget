@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
 
-function MainTable({ incomes, expenses, handleData, month }) {
+function MainTable({ incomes, expenses, handleData, month, loading }) {
     const incomeCellRenderer = (i) => (
         <Cell key={i}>{incomes[i] ? incomes[i].Label : null}</Cell>
     );
@@ -31,7 +31,7 @@ function MainTable({ incomes, expenses, handleData, month }) {
         if (month) {
             handleData(month);
         }
-    }, [handleData, month]);
+    }, [handleData]);
     return (
         <React.Fragment>
             <div>
@@ -67,7 +67,8 @@ function MainTable({ incomes, expenses, handleData, month }) {
 const mapStateToProps = (state) => {
     return {
         incomes: state.budget.incomes,
-        expenses: state.budget.expenses
+        expenses: state.budget.expenses,
+        loading: state.budget.loading
     };
 };
 
