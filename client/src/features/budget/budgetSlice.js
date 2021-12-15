@@ -3,7 +3,9 @@ import {
     fetchIncomesAsync,
     saveIncomeAsync,
     saveExpenseAsync,
-    fetchExpensesAsync
+    fetchExpensesAsync,
+    deleteExpenseAsync,
+    deleteIncomeAsync
 } from "./budgetAPI.js";
 
 const initialState = {
@@ -59,6 +61,32 @@ export const budgetSlice = createSlice({
             })
             .addCase(saveExpenseAsync.fulfilled, (state, { payload }) => {
                 state.expenses = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(deleteExpenseAsync.pending, (state) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(deleteExpenseAsync.fulfilled, (state, { payload }) => {
+                state.expenses = payload || [];
+                if (!state.expenses.length) {
+                    state.activeYear = new Date().getUTCFullYear();
+                    state.activeMonth = new Date().getUTCMonth() + 1;
+                }
+                state.loading = false;
+                return state;
+            })
+            .addCase(deleteIncomeAsync.pending, (state) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
+                state.incomes = payload || [];
+                if (!state.incomes.length) {
+                    state.activeYear = new Date().getUTCFullYear();
+                    state.activeMonth = new Date().getUTCMonth() + 1;
+                }
                 state.loading = false;
                 return state;
             });

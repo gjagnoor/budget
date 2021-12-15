@@ -6,12 +6,11 @@ import {
     InputGroup,
     NumericInput,
     Button,
-    MenuItem,
-    Divider
+    MenuItem
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
-import { saveExpenseAsync } from "./budgetAPI";
+import { saveExpenseAsync, deleteExpenseAsync } from "./budgetAPI";
 
 function ExpenseForm({
     isExpenseFormOpen,
@@ -20,7 +19,8 @@ function ExpenseForm({
     saveExpense,
     expenses,
     activeMonth,
-    activeYear
+    activeYear,
+    deleteExpense
 }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
@@ -48,6 +48,22 @@ function ExpenseForm({
             endDate: lastOfThisMonth
         };
         await saveExpense(expenseDetails);
+        return;
+    };
+    const handleDelete = async (expense) => {
+        const firstOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
+        );
+        const deleteDetails = {
+            userID: user.ID,
+            expenseID: expense.ID,
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
+        };
+        await deleteExpense(deleteDetails);
         return;
     };
     return (
@@ -171,6 +187,9 @@ function ExpenseForm({
                                               icon="small-cross"
                                               intent="danger"
                                               minimal={true}
+                                              onClick={() =>
+                                                  handleDelete(expense)
+                                              }
                                           />
                                       </div>
                                   );
@@ -193,7 +212,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveExpense: (details) => dispatch(saveExpenseAsync(details))
+        saveExpense: (details) => dispatch(saveExpenseAsync(details)),
+        deleteExpense: (details) => dispatch(deleteExpenseAsync(details))
     };
 };
 

@@ -10,7 +10,7 @@ import {
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
-import { saveIncomeAsync } from "./budgetAPI.js";
+import { saveIncomeAsync, deleteIncomeAsync } from "./budgetAPI.js";
 
 function IncomeForm({
     isIncomeFormOpen,
@@ -18,7 +18,9 @@ function IncomeForm({
     saveIncome,
     user,
     activeMonth,
-    activeYear
+    activeYear,
+    deleteIncome,
+    incomes
 }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
@@ -50,6 +52,22 @@ function IncomeForm({
             endDate: lastOfThisMonth
         };
         await saveIncome(incomeDetails);
+        return;
+    };
+    const handleDelete = async (income) => {
+        const firstOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
+        );
+        const deleteDetails = {
+            userID: user.ID,
+            incomeID: income.ID,
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
+        };
+        await deleteIncome(deleteDetails);
         return;
     };
     return (
@@ -142,6 +160,44 @@ function IncomeForm({
                         </button>
                     </div>
                 </div>
+                <div className="bp3-dialog-body">
+                    <div
+                        style={{ borderBottom: "2px solid #3b7668" }}
+                        className="vertical-divider"
+                    ></div>
+                    {incomes.length
+                        ? incomes
+                              .slice()
+                              .reverse()
+                              .map((income, i) => {
+                                  return (
+                                      <div
+                                          key={i}
+                                          style={{
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              margin: "2%"
+                                          }}
+                                      >
+                                          <p>{income.Label}</p>
+                                          <p>
+                                              {new Date(
+                                                  income.ReceivedOn
+                                              ).toLocaleDateString()}
+                                          </p>
+                                          <Button
+                                              icon="small-cross"
+                                              intent="danger"
+                                              minimal={true}
+                                              onClick={() =>
+                                                  handleDelete(income)
+                                              }
+                                          />
+                                      </div>
+                                  );
+                              })
+                        : null}
+                </div>
             </Dialog>
         </div>
     );
@@ -151,13 +207,15 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         activeYear: state.budget.activeYear,
-        activeMonth: state.budget.activeMonth
+        activeMonth: state.budget.activeMonth,
+        incomes: state.budget.incomes
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveIncome: (details) => dispatch(saveIncomeAsync(details))
+        saveIncome: (details) => dispatch(saveIncomeAsync(details)),
+        deleteIncome: (details) => dispatch(deleteIncomeAsync(details))
     };
 };
 

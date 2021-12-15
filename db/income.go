@@ -39,6 +39,11 @@ func CreateIncome(income Income, db *gorm.DB) (error) {
 	return nil
 }
 
+func DeleteIncome(userID string, incomeID string, db *gorm.DB) (error) {
+	var income string
+	db.Raw("DELETE FROM incomes WHERE user_id = ? AND id = ?", userID, incomeID).Scan(&income)
+	return nil
+}
 // func DeleteIncome(id uuid.UUID, db *sqlx.DB) error {
 // 	_, err := db.Exec(`DELETE from incomes WHERE id = $1`, id)
 

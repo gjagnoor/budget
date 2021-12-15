@@ -29,6 +29,16 @@ func ExpenseRoutes (api *gin.RouterGroup, db *gorm.DB) {
 		c.JSON(http.StatusOK, true)
 	})
 
+	api.DELETE("/expense", func (c *gin.Context) {
+		type request struct {
+			UserID string
+			ExpenseID string
+		}
+		var requestBody request
+		c.BindQuery(&requestBody)
+		database.DeleteExpense(requestBody.UserID, requestBody.ExpenseID, db)
+		c.JSON(http.StatusOK, true)
+	})
 	// 	templ := template.Must(template.New("").Parse(templates.ExpensesListHTML))
 
 	// 	expenses, err := postgres.GetExpenses(userID, db)

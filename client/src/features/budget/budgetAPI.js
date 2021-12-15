@@ -33,6 +33,22 @@ export const saveExpenseAsync = createAsyncThunk(
     }
 );
 
+export const deleteExpenseAsync = createAsyncThunk(
+    "expense/delete",
+    async (expenseDetails) => {
+        const expenses = await deleteExpense(expenseDetails);
+        return expenses;
+    }
+);
+
+export const deleteIncomeAsync = createAsyncThunk(
+    "income/delete",
+    async (incomeDetails) => {
+        const incomes = await deleteIncome(incomeDetails);
+        return incomes;
+    }
+);
+
 // find a better way to fetch incomes => instead of query params
 const fetchIncomes = async (details) => {
     return await axios
@@ -81,6 +97,42 @@ const saveExpense = async (details) => {
         })
         .then(async (res) => {
             return await fetchExpenses({
+                UserID: details.userID,
+                InitialDate: details.initialDate,
+                EndDate: details.endDate
+            });
+        })
+        .catch((err) => console.error(err));
+};
+
+const deleteExpense = async (details) => {
+    return await axios
+        .delete("/api/expense", {
+            params: {
+                UserID: details.userID,
+                ExpenseID: details.expenseID
+            }
+        })
+        .then(async (res) => {
+            return await fetchExpenses({
+                UserID: details.userID,
+                InitialDate: details.initialDate,
+                EndDate: details.endDate
+            });
+        })
+        .catch((err) => console.error(err));
+};
+
+const deleteIncome = async (details) => {
+    return await axios
+        .delete("/api/income", {
+            params: {
+                UserID: details.userID,
+                IncomeID: details.incomeID
+            }
+        })
+        .then(async (res) => {
+            return await fetchIncomes({
                 UserID: details.userID,
                 InitialDate: details.initialDate,
                 EndDate: details.endDate

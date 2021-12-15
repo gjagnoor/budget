@@ -26,6 +26,14 @@ func CreateExpense(expense Expense, db *gorm.DB) (error) {
 	return nil
 }
 
+func DeleteExpense(userID string, expenseID string, db *gorm.DB) (error) {
+	var expense string
+	db.Raw("DELETE FROM expenses WHERE user_id = ? AND id = ?", userID, expenseID).Scan(&expense)
+	return nil
+}
+
+
+
 // func GetExpense(id uuid.UUID, db *sqlx.DB) (Expense, error) {
 // 	var expense Expense
 // 	err := db.Get(

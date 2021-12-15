@@ -68,6 +68,17 @@ func IncomeRoutes (api *gin.RouterGroup, db *gorm.DB) {
 		c.JSON(http.StatusOK, true)
 	})
 
+	api.DELETE("/income", func (c *gin.Context) {
+		type request struct {
+			UserID string
+			IncomeID string
+		}
+		var requestBody request
+		c.BindQuery(&requestBody)
+		database.DeleteIncome(requestBody.UserID, requestBody.IncomeID, db)
+		c.JSON(http.StatusOK, true)
+	})
+
 	// r.Post("/income", func(w http.ResponseWriter, r *http.Request) {
 	// 	decoder := json.NewDecoder(r.Body)
 	// 	var income postgres.Income
