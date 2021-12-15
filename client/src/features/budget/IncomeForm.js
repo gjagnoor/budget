@@ -80,11 +80,11 @@ function IncomeForm({
                 enforceFocus={true}
                 canOutsideClickClose={true}
                 hasBackdrop={true}
-                style={{ backgroundColor: "#3b7668", color: "white" }}
+                style={{ backgroundColor: "#192841", color: "white" }}
             >
                 <div className="bp3-dialog-header">
                     <span className="bp3-icon-large bp3-icon-dollar"></span>
-                    <h4 className="bp3-heading">Add Income</h4>
+                    <h4 className="bp3-heading">Add or Delete Income</h4>
                     <button
                         aria-label="Close"
                         className="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
