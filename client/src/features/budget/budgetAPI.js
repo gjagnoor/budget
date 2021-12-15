@@ -67,6 +67,6 @@ const fetchExpenses = async (details) => {
 const saveExpense = async (details) => {
     return await axios
         .post("/api/expense", details)
-        .then((res) => res.data)
+        .then(async (res) => res.data)
         .catch((err) => console.error(err));
 };

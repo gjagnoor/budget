@@ -27,8 +27,6 @@ function MainTable({ incomes, expenses, handleData, month }) {
             {null}
         </Cell>
     );
-    console.log("expenses: ", expenses);
-    console.log("incomes: ", incomes);
     useEffect(() => {
         if (month) {
             handleData(month);
