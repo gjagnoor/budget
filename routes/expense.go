@@ -1,23 +1,33 @@
 package routes
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
+	database "github.com/gjagnoor/budget/db"
+	"gorm.io/gorm"
 )
 
-func ExpenseRoutes (r gin.Engine, db *sqlx.DB) {
+func ExpenseRoutes (api *gin.RouterGroup, db *gorm.DB) {
 
-	// r.Get("/expenses", func(res http.ResponseWriter, req *http.Request) {
-	// 	decoder := json.NewDecoder(req.Body)
-	// 	var userID uuid.UUID
-	// 	err := decoder.Decode(&userID)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-		
-	// 	type data struct {
-	// 		Expenses []postgres.Expense
-	// 	}
+	api.GET("/expenses", func (c *gin.Context) {
+		type request struct {
+			UserID string
+			InitialDate int
+			EndDate int
+		}
+		var requestBody request
+		c.BindQuery(&requestBody)
+		expenses := database.GetExpenses(requestBody.UserID, requestBody.InitialDate, requestBody.EndDate, db)
+		c.JSON(http.StatusOK, expenses)
+	})
+
+	api.POST("/expense", func (c *gin.Context) {
+		var requestBody database.Expense
+		c.BindJSON(&requestBody)
+		database.CreateExpense(requestBody, db)
+		c.JSON(http.StatusOK, true)
+	})
 
 	// 	templ := template.Must(template.New("").Parse(templates.ExpensesListHTML))
 
@@ -49,16 +59,6 @@ func ExpenseRoutes (r gin.Engine, db *sqlx.DB) {
 	// 	templ.Execute(res, data{Expense: expense})	
 	// })
 
-	// r.Post("/expense", func(w http.ResponseWriter, r *http.Request) {
-	// 	decoder := json.NewDecoder(r.Body)
-	// 	var expense postgres.Expense
-	// 	err := decoder.Decode(&expense)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	postgres.CreateExpense(expense, db)
-	// 	w.Write([]byte ("posted new user"))
-	// })
 
 	// r.Delete("/expense", func(w http.ResponseWriter, r *http.Request) {
 	// 	decoder := json.NewDecoder(r.Body)

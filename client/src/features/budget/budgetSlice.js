@@ -1,8 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchIncomesAsync, saveIncomeAsync } from "./budgetAPI.js";
+import {
+    fetchIncomesAsync,
+    saveIncomeAsync,
+    saveExpenseAsync,
+    fetchExpensesAsync
+} from "./budgetAPI.js";
 
 const initialState = {
+    activeYear: new Date().getUTCFullYear(),
     incomes: [],
+    expenses: [],
+    summary: {
+        expenses: 0,
+        income: 0,
+        month: 0,
+        year: 0
+    },
     loading: false
 };
 
@@ -18,7 +31,16 @@ export const budgetSlice = createSlice({
             })
             .addCase(fetchIncomesAsync.fulfilled, (state, { payload }) => {
                 state.loading = false;
-                state.incomes = payload;
+                state.incomes = payload || [];
+                return state;
+            })
+            .addCase(fetchExpensesAsync.pending, (state) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(fetchExpensesAsync.fulfilled, (state, { payload }) => {
+                state.loading = false;
+                state.expenses = payload || [];
                 return state;
             })
             .addCase(saveIncomeAsync.pending, (state) => {
@@ -26,7 +48,14 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(saveIncomeAsync.fulfilled, (state, { payload }) => {
-                console.log("income created: ", payload);
+                state.loading = false;
+                return state;
+            })
+            .addCase(saveExpenseAsync.pending, (state) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(saveExpenseAsync.fulfilled, (state, { payload }) => {
                 state.loading = false;
                 return state;
             });

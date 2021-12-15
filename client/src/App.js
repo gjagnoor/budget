@@ -3,7 +3,10 @@ import "./App.css";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { logoutAsync } from "./features/user/userAPI";
-import { fetchIncomesAsync } from "./features/budget/budgetAPI.js";
+import {
+    fetchIncomesAsync,
+    fetchExpensesAsync
+} from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
 import Home from "./Home";
@@ -12,7 +15,7 @@ import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function App({ loading, saveUser, user, fetchIncomes }) {
+function App({ loading, saveUser, user, fetchIncomes, fetchExpenses }) {
     useEffect(() => {
         const fetchData = async () => {
             setTimeout(() => {
@@ -23,12 +26,11 @@ function App({ loading, saveUser, user, fetchIncomes }) {
                 .then(async (res) => {
                     const userID = res.data.split("\n")[0];
                     saveUser(userID || "");
-                    fetchIncomes(userID);
                 })
                 .catch((err) => console.error(err));
         };
         fetchData();
-    }, [saveUser, fetchIncomes]);
+    }, [saveUser, fetchIncomes, fetchExpenses]);
     console.log(user.ID);
     return (
         <Router>
@@ -63,7 +65,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         logout: () => dispatch(logoutAsync()),
         saveUser: (user) => dispatch(writeUser(user)),
-        fetchIncomes: (userID) => dispatch(fetchIncomesAsync(userID))
+        fetchIncomes: (userID) => dispatch(fetchIncomesAsync(userID)),
+        fetchExpenses: (userID) => dispatch(fetchExpensesAsync(userID))
     };
 };
 

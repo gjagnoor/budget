@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Button, ButtonGroup, Tab, Tabs } from "@blueprintjs/core";
-import { Column, Table2, Cell } from "@blueprintjs/table";
-import { HEADING } from "@blueprintjs/core/lib/esm/common/classes";
+import { Button, ButtonGroup } from "@blueprintjs/core";
 import Months from "./Months";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
 
-function Budget() {
+function Budget({ year }) {
     const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
     const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
@@ -28,7 +26,7 @@ function Budget() {
                     <Button icon="flag"></Button>
                 </ButtonGroup>
                 <div style={{ marginTop: "2em" }}>
-                    <HEADING style={{ color: "white" }}>2022</HEADING>
+                    <p style={{ color: "white" }}>{year}</p>
                 </div>
                 <Months />
                 {isIncomeFormOpen ? (
@@ -49,7 +47,9 @@ function Budget() {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        year: state.budget.activeYear
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

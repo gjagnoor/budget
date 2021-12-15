@@ -9,6 +9,14 @@ export const fetchIncomesAsync = createAsyncThunk(
     }
 );
 
+export const fetchExpensesAsync = createAsyncThunk(
+    "expenses/fetch",
+    async (userID) => {
+        const expenses = await fetchExpenses(userID);
+        return expenses;
+    }
+);
+
 export const saveIncomeAsync = createAsyncThunk(
     "income/create",
     async (incomeDetails) => {
@@ -17,12 +25,20 @@ export const saveIncomeAsync = createAsyncThunk(
     }
 );
 
+export const saveExpenseAsync = createAsyncThunk(
+    "expense/create",
+    async (expenseDetails) => {
+        const createdBoolean = await saveExpense(expenseDetails);
+        return createdBoolean;
+    }
+);
+
 // find a better way to fetch incomes => instead of query params
-const fetchIncomes = async (userID) => {
+const fetchIncomes = async (details) => {
     return await axios
         .get(`/api/incomes`, {
             params: {
-                userID
+                ...details
             }
         })
         .then((res) => res.data)
@@ -32,6 +48,25 @@ const fetchIncomes = async (userID) => {
 const saveIncome = async (details) => {
     return await axios
         .post("/api/income", details)
+        .then((res) => res.data)
+        .catch((err) => console.error(err));
+};
+
+// find a better way to fetch incomes => instead of query params
+const fetchExpenses = async (details) => {
+    return await axios
+        .get(`/api/expenses`, {
+            params: {
+                ...details
+            }
+        })
+        .then((res) => res.data)
+        .catch((err) => console.error(err));
+};
+
+const saveExpense = async (details) => {
+    return await axios
+        .post("/api/expense", details)
         .then((res) => res.data)
         .catch((err) => console.error(err));
 };

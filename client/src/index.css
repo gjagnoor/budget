@@ -21,8 +21,3 @@ code {
     color: white !important;
     height: 2em;
 }
-
-.tab:hover {
-    color: rgb(75, 178, 249) !important;
-    border-bottom: 2px solid rgb(75, 178, 249) !important;
-}

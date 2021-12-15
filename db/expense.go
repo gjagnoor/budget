@@ -1,11 +1,30 @@
 package database
 
-// import (
-// 	"fmt"
+import (
+	"fmt"
 
-// 	"github.com/google/uuid"
-// 	"github.com/jmoiron/sqlx"
-// )
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
+
+func GetExpenses(userID string, initialDate int, endDate int, db *gorm.DB) ([]Expense) {
+	var expenses []Expense
+	fmt.Println("initial Date; ", initialDate)
+	db.Raw("SELECT * FROM expenses WHERE user_id = ? AND received_on BETWEEN ? AND ?", userID, initialDate, endDate).Scan(&expenses)
+	return expenses
+}
+
+func CreateExpense(expense Expense, db *gorm.DB) (error) {
+	uuid := uuid.New()
+	expense.ID = uuid
+	result := db.Create(&expense)
+	if result != nil {
+		return nil
+	} else {
+		fmt.Printf("there was a problem creating the expense")
+	}
+	return nil
+}
 
 // func GetExpense(id uuid.UUID, db *sqlx.DB) (Expense, error) {
 // 	var expense Expense
@@ -20,37 +39,6 @@ package database
 // 	return expense, nil
 // }
 
-// func GetExpenses(userID uuid.UUID, db *sqlx.DB) ([]Expense, error) {
-// 	var expenses []Expense
-// 	err := db.Select(
-// 		&expenses,
-// 		`SELECT * FROM expenses WHERE user_id = $1`,
-// 		userID,
-// 	)
-// 	if err != nil {
-// 		return []Expense{}, fmt.Errorf("error getting Expenses: %w", err)
-// 	}
-// 	return expenses, nil
-// }
-
-// // need to connect it to the user
-// func CreateExpense(expense Expense, db *sqlx.DB) error {
-// 	err := db.Get(
-// 		expense,
-// 		`INSERT into expenses VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-// 		expense.ID,
-// 		expense.Title,
-// 		expense.Amount,
-// 		expense.PaymentType,
-// 		expense.Category,
-// 		expense.Notes,
-// 		expense.UserID, // i think this is how we connect it if I remember correctly
-// 	)
-// 	if err != nil {
-// 		return fmt.Errorf("error creating Expense: %w", err)
-// 	}
-// 	return nil
-// }
 
 // func DeleteExpense(id uuid.UUID, db *sqlx.DB) error {
 // 	_, err := db.Exec(`DELETE from expenses WHERE id = $1`, id)

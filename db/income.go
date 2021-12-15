@@ -20,9 +20,10 @@ import (
 // 	return income, nil
 // }
 
-func GetIncomes(userID string, db *gorm.DB) ([]Income) {
+func GetIncomes(userID string, initialDate int, endDate int, db *gorm.DB) ([]Income) {
 	var incomes []Income
-	db.Select("id", "label", "amount", "user_id", "received_on", "category").Find(&incomes)
+	fmt.Println("initial and end:: ", initialDate, endDate)
+	db.Raw("SELECT * FROM incomes WHERE user_id = ? AND received_on BETWEEN ? AND ?", userID, initialDate, endDate).Scan(&incomes)
 	return incomes
 }
 

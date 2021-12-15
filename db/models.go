@@ -26,11 +26,10 @@ type Income struct {
 type Expense struct {
 	gorm.Model
 	ID uuid.UUID
-	User string
 	Label string
 	Amount int32
 	Category string
-	ReceivedOn int64
+	ReceivedOn int64 // change to added on
 	UserID string
 }
 

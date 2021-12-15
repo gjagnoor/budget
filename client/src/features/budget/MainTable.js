@@ -1,112 +1,75 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
+import Summary from "./Summary";
 
-function MainTable({ incomes }) {
-    const incomeExpenseCellRenderer = (label, i) => (
-        <Cell key={i}>{label}</Cell>
+function MainTable({ incomes, expenses, handleData, month }) {
+    const incomeCellRenderer = (i) => (
+        <Cell key={i}>{incomes[i] ? incomes[i].Label : null}</Cell>
     );
-    const categoryCellRenderer = (category, i) => (
-        <Cell key={i}>{category}</Cell>
+    const incomeCategoryCellRenderer = (i) => (
+        <Cell key={i}>{incomes[i] ? incomes[i].Category : null}</Cell>
     );
-    const amountCellRenderer = (amount, i) => <Cell key={i}>$ {amount}</Cell>;
-    const getLabels = (incomes) => {
-        return incomes.map((income) => income.Label);
-    };
-    const getCategories = (incomes) => {
-        return incomes.map((income) => income.Category);
-    };
-    const getDollars = (incomes) => {
-        return incomes.map((income) => income.Amount);
-    };
+    const incomeAmountCellRenderer = (i) => (
+        <Cell key={i}>{incomes[i] ? `$${incomes[i].Amount}` : null}</Cell>
+    );
+    const expenseCellRenderer = (i) => (
+        <Cell key={i}>{expenses[i] ? expenses[i].Label : null}</Cell>
+    );
+    const expenseCategoryCellRenderer = (i) => (
+        <Cell key={i}>{expenses[i] ? expenses[i].Category : null}</Cell>
+    );
+    const expenseAmountCellRenderer = (i) => (
+        <Cell key={i}>{expenses[i] ? `${expenses[i].Amount}` : null}</Cell>
+    );
+    const emptyCellRenderer = (i) => (
+        <Cell key={i} intent="danger">
+            {null}
+        </Cell>
+    );
+    console.log("expenses: ", expenses);
+    console.log("incomes: ", incomes);
+    useEffect(() => {
+        if (month) {
+            handleData(month);
+        }
+    }, [handleData, month]);
     return (
         <React.Fragment>
             <div>
-                <Table2 numRows={incomes.length}>
-                    <Column
-                        name="Income"
-                        cellRenderer={() =>
-                            incomeExpenseCellRenderer(getLabels(incomes))
-                        }
-                    />
+                <Table2
+                    numRows={Math.max(incomes.length, expenses.length) + 10}
+                >
+                    <Column name="Income" cellRenderer={incomeCellRenderer} />
                     <Column
                         name="Category"
-                        cellRenderer={() =>
-                            categoryCellRenderer(getCategories(incomes))
-                        }
+                        cellRenderer={incomeCategoryCellRenderer}
                     />
                     <Column
                         name="Dollars $"
-                        cellRenderer={() =>
-                            amountCellRenderer(getDollars(incomes))
-                        }
+                        cellRenderer={incomeAmountCellRenderer}
                     />
-                    <Column name="" />
-                    <Column
-                        name="Expenses"
-                        cellRenderer={incomeExpenseCellRenderer}
-                    />
+                    <Column name="" cellRenderer={emptyCellRenderer} />
+                    <Column name="Expense" cellRenderer={expenseCellRenderer} />
                     <Column
                         name="Category"
-                        cellRenderer={categoryCellRenderer}
+                        cellRenderer={expenseCategoryCellRenderer}
                     />
                     <Column
                         name="Dollars $"
-                        cellRenderer={amountCellRenderer}
+                        cellRenderer={expenseAmountCellRenderer}
                     />
                 </Table2>
             </div>
-            {/* <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    margin: "2%"
-                }}
-            >
-                <div style={{ height: "fit-content", margin: "1em" }}>
-                    <Table2 numRows={4}>
-                        <Column
-                            name="Summary"
-                            cellRenderer={summaryCellRendered}
-                        />
-                        <Column
-                            name="Dollars $"
-                            cellRenderer={amountCellRenderer}
-                        />
-                    </Table2>
-                </div>
-                <div style={{ height: "fit-content", margin: "1em" }}>
-                    <Table2 numRows={3}>
-                        <Column
-                            name="Category"
-                            cellRenderer={categoryCellRenderer}
-                        />
-                        <Column
-                            name="Dollars $"
-                            cellRenderer={amountCellRenderer}
-                        />
-                    </Table2>
-                </div>
-                <div style={{ height: "fit-content", margin: "1em" }}>
-                    <Table2 numRows={3}>
-                        <Column
-                            name="Category"
-                            cellRenderer={categoryCellRenderer}
-                        />
-                        <Column
-                            name="Dollars $"
-                            cellRenderer={amountCellRenderer}
-                        />
-                    </Table2>
-                </div>
-            </div> */}
+            <Summary />
         </React.Fragment>
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        incomes: state.budget.incomes
+        incomes: state.budget.incomes,
+        expenses: state.budget.expenses
     };
 };
 

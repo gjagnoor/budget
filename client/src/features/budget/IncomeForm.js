@@ -51,16 +51,16 @@ function IncomeForm({
                 hasBackdrop={true}
                 style={{ backgroundColor: "#3b7668", color: "white" }}
             >
-                <div class="bp3-dialog-header">
-                    <span class="bp3-icon-large bp3-icon-dollar"></span>
-                    <h4 class="bp3-heading">Add Income</h4>
+                <div className="bp3-dialog-header">
+                    <span className="bp3-icon-large bp3-icon-dollar"></span>
+                    <h4 className="bp3-heading">Add Income</h4>
                     <button
                         aria-label="Close"
-                        class="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
+                        className="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
                         onClick={() => setIsIncomeFormOpen(false)}
                     ></button>
                 </div>
-                <div class="bp3-dialog-body">
+                <div className="bp3-dialog-body">
                     <FormGroup label="Income Details">
                         <InputGroup
                             name="income-label"
@@ -112,11 +112,11 @@ function IncomeForm({
                         />
                     </FormGroup>
                 </div>
-                <div class="bp3-dialog-footer">
-                    <div class="bp3-dialog-footer-actions">
+                <div className="bp3-dialog-footer">
+                    <div className="bp3-dialog-footer-actions">
                         <button
                             type="submit"
-                            class="bp3-button"
+                            className="bp3-button"
                             style={{
                                 boxShadow: "none",
                                 backgroundImage: "none",

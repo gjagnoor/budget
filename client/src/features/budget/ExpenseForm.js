@@ -6,18 +6,39 @@ import {
     InputGroup,
     NumericInput,
     Button,
-    MenuItem
+    MenuItem,
+    Divider
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
+import { saveExpenseAsync } from "./budgetAPI";
 
-function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
+function ExpenseForm({
+    isExpenseFormOpen,
+    setIsExpenseFormOpen,
+    user,
+    saveExpense,
+    expenses
+}) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
+    const [amount, setAmount] = useState(0);
+    const [label, setLabel] = useState("");
     const renderCategories = (category, { handleClick }) => {
         return (
             <MenuItem key={category} onClick={handleClick} text={category} />
         );
+    };
+    const handleSubmit = async () => {
+        const expenseDetails = {
+            userID: user.ID,
+            label: label,
+            amount: amount,
+            category: category,
+            receivedOn: Date.parse(selectedDate)
+        };
+        await saveExpense(expenseDetails);
+        return;
     };
     return (
         <div>
@@ -34,22 +55,24 @@ function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
                     color: "white"
                 }}
             >
-                <div class="bp3-dialog-header">
-                    <span class="bp3-icon-large bp3-icon-dollar"></span>
-                    <h4 class="bp3-heading">Add Expense</h4>
+                <div className="bp3-dialog-header">
+                    <span className="bp3-icon-large bp3-icon-dollar"></span>
+                    <h4 className="bp3-heading">Add or Delete Expense</h4>
                     <button
                         aria-label="Close"
-                        class="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
+                        className="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
                         onClick={() => setIsExpenseFormOpen(false)}
                     ></button>
                 </div>
-                <div class="bp3-dialog-body">
+                <div className="bp3-dialog-body">
                     <FormGroup label="Expense Details">
                         <InputGroup
                             name="expense-label"
                             type="text"
                             placeholder="Enter Expense Label Here"
                             style={{ marginBottom: "1em" }}
+                            value={label}
+                            onChange={(e) => setLabel(e.target.value)}
                         />
                         <NumericInput
                             name="expense-amount"
@@ -57,6 +80,8 @@ function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
                             style={{ marginBottom: "1em" }}
                             buttonPosition="none"
                             fill={true}
+                            value={amount}
+                            onValueChange={(value) => setAmount(value)}
                         />
                         <Select
                             items={["One time", "Recurring", "Sometimes"]}
@@ -90,21 +115,57 @@ function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
                         />
                     </FormGroup>
                 </div>
-                <div class="bp3-dialog-footer">
-                    <div class="bp3-dialog-footer-actions">
+                <div className="bp3-dialog-footer">
+                    <div className="bp3-dialog-footer-actions">
                         <button
                             type="submit"
-                            class="bp3-button"
+                            className="bp3-button"
                             style={{
                                 boxShadow: "none",
                                 backgroundImage: "none",
                                 backgroundColor: "#30404d",
                                 color: "white"
                             }}
+                            onClick={() => handleSubmit()}
                         >
                             + Expense
                         </button>
                     </div>
+                </div>
+                <div className="bp3-dialog-body">
+                    <div
+                        style={{ borderBottom: "2px solid #3b7668" }}
+                        className="vertical-divider"
+                    ></div>
+                    {expenses.length
+                        ? expenses
+                              .slice()
+                              .reverse()
+                              .map((expense, i) => {
+                                  return (
+                                      <div
+                                          key={i}
+                                          style={{
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              margin: "2%"
+                                          }}
+                                      >
+                                          <p>{expense.Label}</p>
+                                          <p>
+                                              {new Date(
+                                                  expense.ReceivedOn
+                                              ).toLocaleDateString()}
+                                          </p>
+                                          <Button
+                                              icon="small-cross"
+                                              intent="danger"
+                                              minimal={true}
+                                          />
+                                      </div>
+                                  );
+                              })
+                        : null}
                 </div>
             </Dialog>
         </div>
@@ -112,11 +173,16 @@ function ExpenseForm({ isExpenseFormOpen, setIsExpenseFormOpen }) {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        user: state.user,
+        expenses: state.budget.expenses
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        saveExpense: (details) => dispatch(saveExpenseAsync(details))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);

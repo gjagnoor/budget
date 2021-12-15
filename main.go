@@ -39,6 +39,7 @@ func main () {
 	fmt.Println("database:::: ", db)
 	routes.UserRoutes(api, db)
 	routes.IncomeRoutes(api, db)
+	routes.ExpenseRoutes(api, db)
 	router.Run(":5000")
 }
 
