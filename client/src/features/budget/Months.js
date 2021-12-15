@@ -3,22 +3,9 @@ import { connect } from "react-redux";
 import { Tab, Tabs } from "@blueprintjs/core";
 import MainTable from "./MainTable";
 import { fetchExpensesAsync, fetchIncomesAsync } from "./budgetAPI";
-const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
-function Months({ user, fetchData, activeYear, activeMonth }) {
-    const [selectedTab, setSelectedTab] = useState(months[activeMonth - 1]);
+import { writeTab, months } from "./budgetSlice";
+
+function Months({ user, fetchData, activeYear, activeTab, changeTab }) {
     async function handleData(month) {
         const firstOfThisMonth = new Date(
             `${activeYear}/${months.indexOf(month) + 1}/1 00:00:00`
@@ -36,8 +23,8 @@ function Months({ user, fetchData, activeYear, activeMonth }) {
     return (
         <Tabs
             id="TabsExample"
-            selectedTabId={selectedTab}
-            onChange={setSelectedTab}
+            selectedTabId={activeTab}
+            onChange={(value) => changeTab(value)}
             renderActiveTabPanelOnly={true}
         >
             {months.map((month, i) => {
@@ -61,12 +48,14 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         activeYear: state.budget.activeYear,
-        activeMonth: state.budget.activeMonth
+        activeMonth: state.budget.activeMonth,
+        activeTab: state.budget.activeTab
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        changeTab: (tab) => dispatch(writeTab(tab)),
         fetchData: async (details) => {
             await dispatch(fetchIncomesAsync(details));
             await dispatch(fetchExpensesAsync(details));

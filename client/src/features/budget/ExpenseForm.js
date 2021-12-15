@@ -11,6 +11,7 @@ import {
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 import { saveExpenseAsync, deleteExpenseAsync } from "./budgetAPI";
+import { months } from "./budgetSlice";
 
 function ExpenseForm({
     isExpenseFormOpen,
@@ -20,7 +21,8 @@ function ExpenseForm({
     expenses,
     activeMonth,
     activeYear,
-    deleteExpense
+    deleteExpense,
+    activeTab
 }) {
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
@@ -206,7 +208,8 @@ const mapStateToProps = (state) => {
         user: state.user,
         expenses: state.budget.expenses,
         activeMonth: state.budget.activeMonth,
-        activeYear: state.budget.activeYear
+        activeYear: state.budget.activeYear,
+        activeTab: state.budget.activeTab
     };
 };
 

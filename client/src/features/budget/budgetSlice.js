@@ -7,10 +7,24 @@ import {
     deleteExpenseAsync,
     deleteIncomeAsync
 } from "./budgetAPI.js";
-
+export const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+];
 const initialState = {
     activeYear: new Date().getUTCFullYear(),
     activeMonth: new Date().getUTCMonth() + 1,
+    activeTab: months[new Date().getUTCMonth()],
     incomes: [],
     expenses: [],
     summary: {
@@ -25,7 +39,12 @@ const initialState = {
 export const budgetSlice = createSlice({
     name: "budget",
     initialState,
-    reducers: {},
+    reducers: {
+        writeTab: (state, { payload }) => {
+            state.activeTab = payload;
+            return state;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchIncomesAsync.pending, (state) => {
@@ -70,10 +89,7 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteExpenseAsync.fulfilled, (state, { payload }) => {
                 state.expenses = payload || [];
-                if (!state.expenses.length) {
-                    state.activeYear = new Date().getUTCFullYear();
-                    state.activeMonth = new Date().getUTCMonth() + 1;
-                }
+                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             })
@@ -83,16 +99,13 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
                 state.incomes = payload || [];
-                if (!state.incomes.length) {
-                    state.activeYear = new Date().getUTCFullYear();
-                    state.activeMonth = new Date().getUTCMonth() + 1;
-                }
+                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             });
     }
 });
 
-// export const { writeUser } = budgetSlice.actions;
+export const { writeTab } = budgetSlice.actions;
 
 export default budgetSlice.reducer;
