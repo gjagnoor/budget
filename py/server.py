@@ -1,3 +1,6 @@
+from os import name
+
+from google.protobuf import message
 import grpc
 import logging
 from concurrent.futures import ThreadPoolExecutor
@@ -6,8 +9,7 @@ from connection_pb2_grpc import GreeterServicer, add_GreeterServicer_to_server
 
 class GreeterServer(GreeterServicer):
     def SayHello(self, request, context):
-         resp = HelloReply("Hey there! We are connected :)")
-         return resp
+         return HelloReply(message="Hey there, %s!" % request.name)
 
 if __name__ == '__main__':
     logging.basicConfig(
