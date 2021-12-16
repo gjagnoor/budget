@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func NewStore (dataSourceName string) (*Store, error) {
+func NewStore (dataSourceName string) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres", dataSourceName)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
@@ -19,15 +19,5 @@ func NewStore (dataSourceName string) (*Store, error) {
 		return nil, fmt.Errorf("error accessing database: %w", err2)
 	}
 
-	return &Store{
-		UserStore: &UserStore{DB: db},
-		IncomeStore: &IncomeStore{DB: db},
-		ExpenseStore: &ExpenseStore{DB: db},
-	}, nil
-}
-
-type Store struct {
-	*UserStore
-	*IncomeStore
-	*ExpenseStore
+	return db, nil
 }

@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    background-color: #30404d;
+    font-family: monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: monospace;
+}
+
+.Budget-App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab {
+    color: white !important;
+    height: 2em;
+}
