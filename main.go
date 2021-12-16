@@ -112,3 +112,6 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 	})
 }
 
+// func SayHello () {
+	
+// }
