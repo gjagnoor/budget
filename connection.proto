@@ -1,6 +1,9 @@
 syntax = "proto3";
 package pb;
 
+option go_package = "github.com/gjagnoor/budget/pb";
+
+
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
