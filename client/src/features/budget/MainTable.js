@@ -4,18 +4,7 @@ import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
 import { fetchSummaryAsync } from "./budgetAPI";
 
-function MainTable({
-    incomes,
-    expenses,
-    handleData,
-    month,
-    loading,
-    fetchSummary,
-    activeMonth,
-    activeYear,
-    summary,
-    user
-}) {
+function MainTable({ incomes, expenses, handleData, month, fetchSummary }) {
     const incomeCellRenderer = (i) => (
         <Cell key={i}>{incomes[i] ? incomes[i].Label : null}</Cell>
     );
