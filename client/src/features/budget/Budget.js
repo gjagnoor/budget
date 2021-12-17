@@ -10,8 +10,14 @@ function Budget({ year, summary }) {
     const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
         <div>
-            <div className="Budget-App">
-                <ButtonGroup>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    margin: "0em 3em 0em 3em"
+                }}
+            >
+                <ButtonGroup style={{ alignSelf: "baseline" }}>
                     <Button icon="calendar"></Button>
                     <Button icon="timeline-bar-chart"></Button>
                     <Button icon="search"></Button>
@@ -25,8 +31,8 @@ function Budget({ year, summary }) {
                     ></Button>
                     <Button icon="flag"></Button>
                 </ButtonGroup>
-                <div style={{ marginTop: "2em" }}>
-                    <p style={{ color: "white" }}>{year}</p>
+                <div style={{ marginTop: "2em", alignSelf: "baseline" }}>
+                    <p style={{ color: "white" }}>Year {year}</p>
                 </div>
             </div>
             <Months />

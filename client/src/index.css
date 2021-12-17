@@ -22,3 +22,8 @@ code {
     color: white !important;
     height: 2em;
 }
+
+.this-year-at-a-glance {
+    display: flex;
+    justify-content: space-between;
+}

@@ -7,7 +7,7 @@ function Summary({ summary }) {
     return (
         <div
             style={{
-                margin: "1%"
+                margin: "0 1em 0 1em"
             }}
         >
             <Callout
@@ -16,7 +16,7 @@ function Summary({ summary }) {
                 style={{
                     backgroundColor: "#192841",
                     width: "50em",
-                    height: "20.2em",
+                    height: "19em",
                     borderRadius: "25px",
                     border: "10px solid rgba(61, 94, 121, 0.425)"
                 }}

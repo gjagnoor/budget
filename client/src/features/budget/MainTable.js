@@ -4,6 +4,7 @@ import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
 import { fetchSummaryAsync } from "./budgetAPI";
 import YearAtAGlance from "./YearAtAGlance";
+import { Callout } from "@blueprintjs/core";
 
 const colWidth = 100;
 function MainTable({
@@ -53,7 +54,9 @@ function MainTable({
             >
                 <div
                     style={{
-                        alignSelf: "baseline"
+                        alignSelf: "baseline",
+                        overflowY: "auto",
+                        height: "18em"
                     }}
                 >
                     <Table2
@@ -98,10 +101,39 @@ function MainTable({
                 <Summary />
             </div>
             <div className="this-year-at-a-glance">
-                {/*savings so far this year - integer */}
-                {/*savings at the end of this year if you keep going at this rate. - integer */}
-                {/* comparing months - biaxial bar chart */}
                 <YearAtAGlance />
+                <div>
+                    <Callout
+                        intent="primary"
+                        style={{
+                            backgroundColor: "#192841",
+                            borderRadius: "25px",
+                            border: "10px solid rgba(61, 94, 121, 0.425)"
+                        }}
+                        title={
+                            <h6 style={{ color: "#3b7668" }}>
+                                Savings so far this year
+                            </h6>
+                        }
+                    >
+                        <h4>$ 3500</h4>
+                    </Callout>
+                    <Callout
+                        intent="primary"
+                        style={{
+                            backgroundColor: "#192841",
+                            borderRadius: "25px",
+                            border: "10px solid rgba(61, 94, 121, 0.425)"
+                        }}
+                        title={
+                            <h6 style={{ color: "#3b7668" }}>
+                                Savings at the end of this year
+                            </h6>
+                        }
+                    >
+                        <h4>$ 5000</h4>
+                    </Callout>
+                </div>
             </div>
         </div>
     );
