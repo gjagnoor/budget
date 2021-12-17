@@ -23,7 +23,7 @@ function Navigation({ user, logout, saveUser }) {
     }, [saveUser]);
 
     return (
-        <React.Fragment>
+        <div>
             <Navbar
                 style={{
                     backgroundColor: "rgba(0, 0, 0, 0)",
@@ -59,7 +59,7 @@ function Navigation({ user, logout, saveUser }) {
                     )}
                 </Navbar.Group>
             </Navbar>
-        </React.Fragment>
+        </div>
     );
 }
 

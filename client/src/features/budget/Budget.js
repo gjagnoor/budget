@@ -4,12 +4,14 @@ import { Button, ButtonGroup, Callout } from "@blueprintjs/core";
 import Months from "./Months";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
+import Sidebar from "../sidebar/Sidebar";
 
 function Budget({ year, summary }) {
     const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
     const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
         <div>
+            <Sidebar />
             <div
                 style={{
                     display: "flex",
@@ -17,7 +19,7 @@ function Budget({ year, summary }) {
                     margin: "0em 3em 0em 3em"
                 }}
             >
-                <ButtonGroup style={{ alignSelf: "baseline" }}>
+                {/* <ButtonGroup style={{ alignSelf: "baseline" }}>
                     <Button icon="calendar"></Button>
                     <Button icon="timeline-bar-chart"></Button>
                     <Button icon="search"></Button>
@@ -30,9 +32,9 @@ function Budget({ year, summary }) {
                         onClick={() => setIsExpenseFormOpen(true)}
                     ></Button>
                     <Button icon="flag"></Button>
-                </ButtonGroup>
-                <div style={{ marginTop: "2em", alignSelf: "baseline" }}>
-                    <p style={{ color: "white" }}>Year {year}</p>
+                </ButtonGroup> */}
+                <div style={{ marginTop: "1em", alignSelf: "baseline" }}>
+                    <h2 style={{ color: "white" }}>Year {year}</h2>
                 </div>
             </div>
             <Months />

@@ -10,7 +10,6 @@ import {
 import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
 import Home from "./Home";
-import Navigation from "./features/navigation/Navigation";
 import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -31,22 +30,8 @@ function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
         };
         fetchData();
     }, [saveUser]);
-    // useEffect(() => {
-    //     const firstOfThisMonth = new Date(
-    //         `${activeYear}/${activeMonth}/1 00:00:00`
-    //     );
-    //     const lastOfThisMonth = new Date(
-    //         `${activeYear}/${activeMonth}/31 23:59:59`
-    //     );
-    //     fetchData({
-    //         UserID: user.ID,
-    //         InitialDate: Date.parse(firstOfThisMonth),
-    //         EndDate: Date.parse(lastOfThisMonth)
-    //     });
-    // }, []);
     return (
         <Router>
-            <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/budget" element={<Budget />} />
