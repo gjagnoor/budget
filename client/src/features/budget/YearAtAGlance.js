@@ -14,45 +14,75 @@ import {
 
 const data = [
     {
-        name: "Page A",
-        uv: 4000,
-        pv: 2400,
+        name: "Jan",
+        Income: 4000,
+        Expenses: 2400,
         amt: 2400
     },
     {
-        name: "Page B",
-        uv: 3000,
-        pv: 1398,
+        name: "Feb",
+        Income: 3000,
+        Expenses: 1398,
         amt: 2210
     },
     {
-        name: "Page C",
-        uv: 2000,
-        pv: 9800,
+        name: "Mar",
+        Income: 2000,
+        Expenses: 9800,
         amt: 2290
     },
     {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
+        name: "Apr",
+        Income: 2780,
+        Expenses: 3908,
         amt: 2000
     },
     {
-        name: "Page E",
-        uv: 1890,
-        pv: 4800,
+        name: "May",
+        Income: 1890,
+        Expenses: 4800,
         amt: 2181
     },
     {
-        name: "Page F",
-        uv: 2390,
-        pv: 3800,
+        name: "Jun",
+        Income: 2390,
+        Expenses: 3800,
         amt: 2500
     },
     {
-        name: "Page G",
-        uv: 3490,
-        pv: 4300,
+        name: "July",
+        Income: 3490,
+        Expenses: 4300,
+        amt: 2100
+    },
+    {
+        name: "Aug",
+        Income: 3490,
+        Expenses: 4300,
+        amt: 2100
+    },
+    {
+        name: "Sep",
+        Income: 3490,
+        Expenses: 4300,
+        amt: 2100
+    },
+    {
+        name: "Oct",
+        Income: 3490,
+        Expenses: 4300,
+        amt: 2100
+    },
+    {
+        name: "Nov",
+        Income: 3490,
+        Expenses: 4300,
+        amt: 2100
+    },
+    {
+        name: "Dec",
+        Income: 3490,
+        Expenses: 4300,
         amt: 2100
     }
 ];
@@ -60,7 +90,7 @@ const data = [
 function YearAtAGlance() {
     return (
         <BarChart
-            width={500}
+            width={1320}
             height={300}
             data={data}
             margin={{
@@ -76,8 +106,8 @@ function YearAtAGlance() {
             <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
             <Tooltip />
             <Legend />
-            <Bar yAxisId="left" dataKey="pv" fill="#8884d8" />
-            <Bar yAxisId="right" dataKey="uv" fill="#82ca9d" />
+            <Bar yAxisId="left" dataKey="Expenses" fill="#8884d8" />
+            <Bar yAxisId="right" dataKey="Income" fill="#82ca9d" />
         </BarChart>
     );
 }
