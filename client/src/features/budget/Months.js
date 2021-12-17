@@ -25,26 +25,31 @@ function Months({ user, fetchData, activeYear, activeTab, changeTab }) {
         return;
     }
     return (
-        <Tabs
-            id="TabsExample"
-            selectedTabId={activeTab}
-            onChange={(value) => changeTab(value)}
-            renderActiveTabPanelOnly={true}
-        >
-            {months.map((month, i) => {
-                return (
-                    <Tab
-                        key={i}
-                        id={month}
-                        title={month}
-                        className="tab"
-                        panel={
-                            <MainTable month={month} handleData={handleData} />
-                        }
-                    />
-                );
-            })}
-        </Tabs>
+        <div style={{ padding: "2%" }}>
+            <Tabs
+                id="TabsExample"
+                selectedTabId={activeTab}
+                onChange={(value) => changeTab(value)}
+                renderActiveTabPanelOnly={true}
+            >
+                {months.map((month, i) => {
+                    return (
+                        <Tab
+                            key={i}
+                            id={month}
+                            title={month}
+                            className="tab"
+                            panel={
+                                <MainTable
+                                    month={month}
+                                    handleData={handleData}
+                                />
+                            }
+                        />
+                    );
+                })}
+            </Tabs>
+        </div>
     );
 }
 

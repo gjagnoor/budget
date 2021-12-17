@@ -3,8 +3,17 @@ import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
 import { fetchSummaryAsync } from "./budgetAPI";
+import { Callout } from "@blueprintjs/core";
 
-function MainTable({ incomes, expenses, handleData, month, fetchSummary }) {
+const colWidth = 100;
+function MainTable({
+    incomes,
+    expenses,
+    handleData,
+    month,
+    fetchSummary,
+    summary
+}) {
     const incomeCellRenderer = (i) => (
         <Cell key={i}>{incomes[i] ? incomes[i].Label : null}</Cell>
     );
@@ -35,34 +44,65 @@ function MainTable({ incomes, expenses, handleData, month, fetchSummary }) {
     }, [handleData, fetchSummary]);
 
     return (
-        <React.Fragment>
-            <div>
-                <Table2
-                    numRows={Math.max(incomes.length, expenses.length) + 10}
+        <div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around"
+                }}
+            >
+                <div
+                    style={{
+                        alignSelf: "baseline"
+                    }}
                 >
-                    <Column name="Income" cellRenderer={incomeCellRenderer} />
-                    <Column
-                        name="Category"
-                        cellRenderer={incomeCategoryCellRenderer}
-                    />
-                    <Column
-                        name="Dollars $"
-                        cellRenderer={incomeAmountCellRenderer}
-                    />
-                    <Column name="" cellRenderer={emptyCellRenderer} />
-                    <Column name="Expense" cellRenderer={expenseCellRenderer} />
-                    <Column
-                        name="Category"
-                        cellRenderer={expenseCategoryCellRenderer}
-                    />
-                    <Column
-                        name="Dollars $"
-                        cellRenderer={expenseAmountCellRenderer}
-                    />
-                </Table2>
+                    <Table2
+                        numRows={Math.max(incomes.length, expenses.length) + 10}
+                        columnWidths={[
+                            colWidth,
+                            colWidth,
+                            colWidth,
+                            50,
+                            colWidth,
+                            colWidth,
+                            colWidth
+                        ]}
+                    >
+                        <Column
+                            name="Income"
+                            cellRenderer={incomeCellRenderer}
+                        />
+                        <Column
+                            name="Category"
+                            cellRenderer={incomeCategoryCellRenderer}
+                        />
+                        <Column
+                            name="Dollars $"
+                            cellRenderer={incomeAmountCellRenderer}
+                        />
+                        <Column name="" cellRenderer={emptyCellRenderer} />
+                        <Column
+                            name="Expense"
+                            cellRenderer={expenseCellRenderer}
+                        />
+                        <Column
+                            name="Category"
+                            cellRenderer={expenseCategoryCellRenderer}
+                        />
+                        <Column
+                            name="Dollars $"
+                            cellRenderer={expenseAmountCellRenderer}
+                        />
+                    </Table2>
+                </div>
+                <Summary />
             </div>
-            <Summary />
-        </React.Fragment>
+            <div className="this-year-at-a-glance">
+                {/*savings so far this year - integer */}
+                {/*savings at the end of this year if you keep going at this rate. - integer */}
+                {/* comparing months - biaxial bar chart */}
+            </div>
+        </div>
     );
 }
 

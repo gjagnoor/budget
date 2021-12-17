@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Button, ButtonGroup } from "@blueprintjs/core";
+import { Button, ButtonGroup, Callout } from "@blueprintjs/core";
 import Months from "./Months";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
 
-function Budget({ year }) {
+function Budget({ year, summary }) {
     const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
     const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
-        <React.Fragment>
+        <div>
             <div className="Budget-App">
                 <ButtonGroup>
                     <Button icon="calendar"></Button>
@@ -28,27 +28,28 @@ function Budget({ year }) {
                 <div style={{ marginTop: "2em" }}>
                     <p style={{ color: "white" }}>{year}</p>
                 </div>
-                <Months />
-                {isIncomeFormOpen ? (
-                    <IncomeForm
-                        isIncomeFormOpen={isIncomeFormOpen}
-                        setIsIncomeFormOpen={setIsIncomeFormOpen}
-                    />
-                ) : null}
-                {isExpenseFormOpen ? (
-                    <ExpenseForm
-                        isExpenseFormOpen={isExpenseFormOpen}
-                        setIsExpenseFormOpen={setIsExpenseFormOpen}
-                    />
-                ) : null}
             </div>
-        </React.Fragment>
+            <Months />
+            {isIncomeFormOpen ? (
+                <IncomeForm
+                    isIncomeFormOpen={isIncomeFormOpen}
+                    setIsIncomeFormOpen={setIsIncomeFormOpen}
+                />
+            ) : null}
+            {isExpenseFormOpen ? (
+                <ExpenseForm
+                    isExpenseFormOpen={isExpenseFormOpen}
+                    setIsExpenseFormOpen={setIsExpenseFormOpen}
+                />
+            ) : null}
+        </div>
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        year: state.budget.activeYear
+        year: state.budget.activeYear,
+        summary: state.budget.summary
     };
 };
 

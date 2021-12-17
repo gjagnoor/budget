@@ -22,6 +22,7 @@ export const months = [
     "Nov",
     "Dec"
 ];
+
 const initialState = {
     activeYear: new Date().getUTCFullYear(),
     activeMonth: new Date().getUTCMonth() + 1,
@@ -31,7 +32,8 @@ const initialState = {
     summary: {
         expenses: 0,
         income: 0,
-        month: 0
+        month: 0,
+        savingsPercentage: 40
     },
     loading: false
 };
@@ -109,7 +111,8 @@ export const budgetSlice = createSlice({
                     {
                         expenses: payload.totalExpenses,
                         incomes: payload.totalIncomes,
-                        month: payload.totalSavings
+                        month: payload.totalSavings,
+                        savingsPercentage: state.summary.savingsPercentage
                     } || {};
                 state.loading = false;
                 return state;
