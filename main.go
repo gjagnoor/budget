@@ -43,7 +43,7 @@ func main () {
 		log.Fatal(err)
 	}
 	fmt.Println("Message from Python?::: ", resp.Message)
-// ok so one is calling say hello, and the other is implementing it's say hello. It returns a response. Go is supposed to catch it on its end.
+// ok proto file isnt the problem because python files did build. its most likely the command line cmd
 
 
 	router := gin.Default()
