@@ -1,6 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const fetchSummaryAsync = createAsyncThunk(
+    "summary/fetch",
+    async (details) => {
+        const summary = await fetchSummary(details);
+        return summary;
+    }
+);
+
 export const fetchIncomesAsync = createAsyncThunk(
     "incomes/fetch",
     async (userID) => {
@@ -138,5 +146,16 @@ const deleteIncome = async (details) => {
                 EndDate: details.endDate
             });
         })
+        .catch((err) => console.error(err));
+};
+
+const fetchSummary = async (details) => {
+    return await axios
+        .get(`/api/summary`, {
+            params: {
+                ...details
+            }
+        })
+        .then((res) => res.data)
         .catch((err) => console.error(err));
 };

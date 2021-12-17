@@ -1,0 +1,50 @@
+// adding to PATH means adding it to zshrc profile for me. That will save the configuration and remember it. Won't have to run the command again each time a new terminal is opened.
+
+syntax = "proto3";
+
+option go_package = "github.com/gjagnoor/budget/pb";
+
+package pb;
+
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+
+// Above this ----- barebones connection established ----- 
+
+service Summary {
+  rpc GetSummaryThisMonth (summaryThisMonthRequest) returns (summaryThisMonthResponse) {}
+}
+
+message Income {
+  int32 amount = 1;
+}
+
+message Expense {
+  int32 amount = 1;
+}
+
+message summaryThisMonthResponse {
+  int32 totalIncomes = 1;
+  int32 totalExpenses = 2;
+  int32 totalSavings = 3;
+}
+
+message summaryThisMonthRequest {
+  repeated Income incomes = 1;
+  repeated Expense expenses = 2;
+}

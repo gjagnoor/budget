@@ -5,7 +5,8 @@ import {
     saveExpenseAsync,
     fetchExpensesAsync,
     deleteExpenseAsync,
-    deleteIncomeAsync
+    deleteIncomeAsync,
+    fetchSummaryAsync
 } from "./budgetAPI.js";
 export const months = [
     "Jan",
@@ -21,6 +22,7 @@ export const months = [
     "Nov",
     "Dec"
 ];
+
 const initialState = {
     activeYear: new Date().getUTCFullYear(),
     activeMonth: new Date().getUTCMonth() + 1,
@@ -31,7 +33,7 @@ const initialState = {
         expenses: 0,
         income: 0,
         month: 0,
-        year: 0
+        savingsPercentage: 40
     },
     loading: false
 };
@@ -52,16 +54,13 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(fetchIncomesAsync.fulfilled, (state, { payload }) => {
-                state.loading = false;
                 state.incomes = payload || [];
                 return state;
             })
             .addCase(fetchExpensesAsync.pending, (state) => {
-                state.loading = true;
                 return state;
             })
             .addCase(fetchExpensesAsync.fulfilled, (state, { payload }) => {
-                state.loading = false;
                 state.expenses = payload || [];
                 return state;
             })
@@ -100,6 +99,21 @@ export const budgetSlice = createSlice({
             .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
                 state.incomes = payload || [];
                 state.activeTab = months[state.activeMonth - 1];
+                state.loading = false;
+                return state;
+            })
+            .addCase(fetchSummaryAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(fetchSummaryAsync.fulfilled, (state, { payload }) => {
+                state.summary =
+                    {
+                        expenses: payload.totalExpenses,
+                        incomes: payload.totalIncomes,
+                        month: payload.totalSavings,
+                        savingsPercentage: state.summary.savingsPercentage
+                    } || {};
                 state.loading = false;
                 return state;
             });

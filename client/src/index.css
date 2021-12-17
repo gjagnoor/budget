@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    padding-bottom: 5%;
     background-color: #30404d;
     font-family: monospace;
     -webkit-font-smoothing: antialiased;
@@ -20,4 +21,9 @@ code {
 .tab {
     color: white !important;
     height: 2em;
+}
+
+.this-year-at-a-glance {
+    display: flex;
+    justify-content: space-between;
 }

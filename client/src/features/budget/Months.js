@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Tab, Tabs } from "@blueprintjs/core";
 import MainTable from "./MainTable";
-import { fetchExpensesAsync, fetchIncomesAsync } from "./budgetAPI";
+import {
+    fetchExpensesAsync,
+    fetchIncomesAsync,
+    fetchSummaryAsync
+} from "./budgetAPI";
 import { writeTab, months } from "./budgetSlice";
 
 function Months({ user, fetchData, activeYear, activeTab, changeTab }) {
@@ -21,26 +25,31 @@ function Months({ user, fetchData, activeYear, activeTab, changeTab }) {
         return;
     }
     return (
-        <Tabs
-            id="TabsExample"
-            selectedTabId={activeTab}
-            onChange={(value) => changeTab(value)}
-            renderActiveTabPanelOnly={true}
-        >
-            {months.map((month, i) => {
-                return (
-                    <Tab
-                        key={i}
-                        id={month}
-                        title={month}
-                        className="tab"
-                        panel={
-                            <MainTable month={month} handleData={handleData} />
-                        }
-                    />
-                );
-            })}
-        </Tabs>
+        <div style={{ padding: "2%" }}>
+            <Tabs
+                id="TabsExample"
+                selectedTabId={activeTab}
+                onChange={(value) => changeTab(value)}
+                renderActiveTabPanelOnly={true}
+            >
+                {months.map((month, i) => {
+                    return (
+                        <Tab
+                            key={i}
+                            id={month}
+                            title={month}
+                            className="tab"
+                            panel={
+                                <MainTable
+                                    month={month}
+                                    handleData={handleData}
+                                />
+                            }
+                        />
+                    );
+                })}
+            </Tabs>
+        </div>
     );
 }
 
@@ -59,6 +68,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchData: async (details) => {
             await dispatch(fetchIncomesAsync(details));
             await dispatch(fetchExpensesAsync(details));
+            await dispatch(fetchSummaryAsync(details));
             return;
         }
     };

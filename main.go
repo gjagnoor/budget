@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,20 +10,40 @@ import (
 	static "github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	database "github.com/gjagnoor/budget/db"
+	pb "github.com/gjagnoor/budget/pb"
 	"github.com/gjagnoor/budget/routes"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/google"
+	"google.golang.org/grpc"
 	postgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type Test struct {
-	Name string 
+// server is used to implement helloworld.GreeterServer
+type server struct {
+	pb.UnimplementedGreeterServer 
 }
 
 func main () {
+	addr := "localhost:9999"
+	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+	client := pb.NewGreeterClient(conn)
+	// clientMain := pb.NewSummaryClient(conn)
+    req := &pb.HelloRequest{
+         Name: "Name from Hello Request",
+    }
+
+ 	resp, err := client.SayHello(context.Background(), req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Message from Python?::: ", resp.Message)
 	router := gin.Default()
 	db := getDB()
 	database.ApplyMigrations(db)
@@ -40,6 +61,7 @@ func main () {
 	routes.UserRoutes(api, db)
 	routes.IncomeRoutes(api, db)
 	routes.ExpenseRoutes(api, db)
+	routes.SummaryRoutes(api, db, conn)
 	router.Run(":5000")
 }
 
@@ -111,4 +133,3 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		gothic.StoreInSession("user", "", c.Request, c.Writer)
 	})
 }
-

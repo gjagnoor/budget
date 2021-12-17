@@ -1,18 +1,25 @@
+// create a dirty mock of the frontend design and make it responsive later
 import React from "react";
 import { connect } from "react-redux";
 import { Callout } from "@blueprintjs/core";
 
 function Summary({ summary }) {
-    // fix the design I hate it
     return (
         <div
             style={{
-                margin: "1%"
+                margin: "0 1em 0 1em"
             }}
         >
             <Callout
                 intent="primary"
-                style={{ backgroundColor: "#192841" }}
+                className="callout"
+                style={{
+                    backgroundColor: "#192841",
+                    width: "50em",
+                    height: "19em",
+                    borderRadius: "25px",
+                    border: "10px solid rgba(61, 94, 121, 0.425)"
+                }}
                 title={
                     <h4 style={{ color: "#3b7668" }}>
                         Summary So Far [This Month]
@@ -36,8 +43,9 @@ function Summary({ summary }) {
                         }}
                     >
                         <p>Total Income</p>
-                        <p>$ {summary.income}</p>
+                        <p>$ {summary.incomes}</p>
                     </div>
+                    <hr />
                     <div
                         style={{
                             display: "flex",
@@ -47,15 +55,26 @@ function Summary({ summary }) {
                         <p>Total Savings</p>
                         <p>$ {summary.month}</p>
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            borderBottom: "1px solid white"
-                        }}
-                    >
-                        <p>Savings so far this Year</p>
-                        <p>$ {summary.year}</p>
+                    <div>
+                        <h4>
+                            Health Status -{" "}
+                            {summary.savingsPercentage >= 40 ? (
+                                <span>
+                                    Good
+                                    <span
+                                        className="bp3-icon-tick-circle"
+                                        style={{
+                                            color: "#3b7668",
+                                            marginLeft: "1%"
+                                        }}
+                                    ></span>
+                                </span>
+                            ) : summary.savingsPercentage < 10 ? (
+                                <span>Bad</span>
+                            ) : (
+                                <span>Not Good</span>
+                            )}
+                        </h4>
                     </div>
                 </div>
             </Callout>
@@ -74,5 +93,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Summary);
-
-// helper funtions
