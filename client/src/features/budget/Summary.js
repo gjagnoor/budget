@@ -46,16 +46,6 @@ function Summary({ summary }) {
                         <p>Total Savings</p>
                         <p>$ {summary.month}</p>
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            borderBottom: "1px solid white"
-                        }}
-                    >
-                        <p>Savings so far this Year</p>
-                        <p>$ {summary.year}</p>
-                    </div>
                 </div>
             </Callout>
         </div>
@@ -73,5 +63,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Summary);
-
-// helper funtions

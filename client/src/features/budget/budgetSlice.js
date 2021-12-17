@@ -31,8 +31,7 @@ const initialState = {
     summary: {
         expenses: 0,
         income: 0,
-        month: 0,
-        year: 0
+        month: 0
     },
     loading: false
 };
@@ -53,16 +52,13 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(fetchIncomesAsync.fulfilled, (state, { payload }) => {
-                state.loading = false;
                 state.incomes = payload || [];
                 return state;
             })
             .addCase(fetchExpensesAsync.pending, (state) => {
-                state.loading = true;
                 return state;
             })
             .addCase(fetchExpensesAsync.fulfilled, (state, { payload }) => {
-                state.loading = false;
                 state.expenses = payload || [];
                 return state;
             })
@@ -113,8 +109,7 @@ export const budgetSlice = createSlice({
                     {
                         expenses: payload.totalExpenses,
                         incomes: payload.totalIncomes,
-                        month: payload.totalSavings,
-                        year: state.summary.year // to change later to backend info
+                        month: payload.totalSavings
                     } || {};
                 state.loading = false;
                 return state;
