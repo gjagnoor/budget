@@ -5,7 +5,8 @@ import {
     saveExpenseAsync,
     fetchExpensesAsync,
     deleteExpenseAsync,
-    deleteIncomeAsync
+    deleteIncomeAsync,
+    fetchSummaryAsync
 } from "./budgetAPI.js";
 export const months = [
     "Jan",
@@ -100,6 +101,21 @@ export const budgetSlice = createSlice({
             .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
                 state.incomes = payload || [];
                 state.activeTab = months[state.activeMonth - 1];
+                state.loading = false;
+                return state;
+            })
+            .addCase(fetchSummaryAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(fetchSummaryAsync.fulfilled, (state, { payload }) => {
+                state.summary =
+                    {
+                        expenses: payload.totalExpenses,
+                        incomes: payload.totalIncomes,
+                        month: payload.totalSavings,
+                        year: state.summary.year // to change later to backend info
+                    } || {};
                 state.loading = false;
                 return state;
             });

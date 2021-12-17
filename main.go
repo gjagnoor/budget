@@ -34,6 +34,7 @@ func main () {
 	}
 	defer conn.Close()
 	client := pb.NewGreeterClient(conn)
+	// clientMain := pb.NewSummaryClient(conn)
     req := &pb.HelloRequest{
          Name: "Name from Hello Request",
     }
@@ -43,9 +44,6 @@ func main () {
 		log.Fatal(err)
 	}
 	fmt.Println("Message from Python?::: ", resp.Message)
-// ok proto file isnt the problem because python files did build. its most likely the command line cmd
-
-
 	router := gin.Default()
 	db := getDB()
 	database.ApplyMigrations(db)
@@ -63,6 +61,7 @@ func main () {
 	routes.UserRoutes(api, db)
 	routes.IncomeRoutes(api, db)
 	routes.ExpenseRoutes(api, db)
+	routes.SummaryRoutes(api, db, conn)
 	router.Run(":5000")
 }
 
@@ -134,7 +133,3 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		gothic.StoreInSession("user", "", c.Request, c.Writer)
 	})
 }
-
-// func SayHello () {
-	
-// }

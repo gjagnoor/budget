@@ -2,8 +2,20 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
+import { fetchSummaryAsync } from "./budgetAPI";
 
-function MainTable({ incomes, expenses, handleData, month, loading }) {
+function MainTable({
+    incomes,
+    expenses,
+    handleData,
+    month,
+    loading,
+    fetchSummary,
+    activeMonth,
+    activeYear,
+    summary,
+    user
+}) {
     const incomeCellRenderer = (i) => (
         <Cell key={i}>{incomes[i] ? incomes[i].Label : null}</Cell>
     );
@@ -29,9 +41,10 @@ function MainTable({ incomes, expenses, handleData, month, loading }) {
     );
     useEffect(() => {
         if (month) {
-            handleData(month);
+            handleData(month); // prop from months
         }
-    }, [handleData]);
+    }, [handleData, fetchSummary]);
+
     return (
         <React.Fragment>
             <div>
@@ -66,14 +79,20 @@ function MainTable({ incomes, expenses, handleData, month, loading }) {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.user.ID,
         incomes: state.budget.incomes,
         expenses: state.budget.expenses,
-        loading: state.budget.loading
+        loading: state.budget.loading,
+        activeMonth: state.budget.activeMonth,
+        activeYear: state.budget.activeYear,
+        summary: state.budget.summary
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        fetchSummary: (details) => dispatch(fetchSummaryAsync(details))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainTable);

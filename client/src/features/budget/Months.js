@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Tab, Tabs } from "@blueprintjs/core";
 import MainTable from "./MainTable";
-import { fetchExpensesAsync, fetchIncomesAsync } from "./budgetAPI";
+import {
+    fetchExpensesAsync,
+    fetchIncomesAsync,
+    fetchSummaryAsync
+} from "./budgetAPI";
 import { writeTab, months } from "./budgetSlice";
 
 function Months({ user, fetchData, activeYear, activeTab, changeTab }) {
@@ -59,6 +63,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchData: async (details) => {
             await dispatch(fetchIncomesAsync(details));
             await dispatch(fetchExpensesAsync(details));
+            await dispatch(fetchSummaryAsync(details));
             return;
         }
     };

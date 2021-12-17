@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Callout } from "@blueprintjs/core";
 
 function Summary({ summary }) {
-    // fix the design I hate it
     return (
         <div
             style={{
@@ -36,7 +35,7 @@ function Summary({ summary }) {
                         }}
                     >
                         <p>Total Income</p>
-                        <p>$ {summary.income}</p>
+                        <p>$ {summary.incomes}</p>
                     </div>
                     <div
                         style={{
