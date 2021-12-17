@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    padding-bottom: 5%;
     background-color: #30404d;
     font-family: monospace;
     -webkit-font-smoothing: antialiased;

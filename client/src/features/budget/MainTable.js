@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Column, Table2, Cell } from "@blueprintjs/table";
 import Summary from "./Summary";
 import { fetchSummaryAsync } from "./budgetAPI";
-import { Callout } from "@blueprintjs/core";
+import YearAtAGlance from "./YearAtAGlance";
 
 const colWidth = 100;
 function MainTable({
@@ -101,6 +101,7 @@ function MainTable({
                 {/*savings so far this year - integer */}
                 {/*savings at the end of this year if you keep going at this rate. - integer */}
                 {/* comparing months - biaxial bar chart */}
+                <YearAtAGlance />
             </div>
         </div>
     );
