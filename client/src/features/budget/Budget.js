@@ -5,18 +5,66 @@ import Months from "./Months";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
 import Sidebar from "../sidebar/Sidebar";
+import YearAtAGlance from "./YearAtAGlance";
 
 function Budget({ year, summary }) {
     const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
     const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
         <div>
-            <Sidebar />
             <div
                 style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    margin: "0em 3em 0em 3em"
+                    margin: "1em"
+                }}
+            >
+                <div>
+                    <h2
+                        className="bp3-ui-text bp3-text-large"
+                        style={{ color: "white" }}
+                    >
+                        Year {year}
+                    </h2>
+                </div>
+                <div>
+                    <p className="bp3-ui-text" style={{ color: "white" }}>
+                        <span
+                            className="bp3-icon-star"
+                            style={{ color: "#3b7668" }}
+                        >
+                            {" "}
+                        </span>
+                        {year} Goal - $ 5000
+                    </p>
+                </div>
+                <div>
+                    <p
+                        className="bp3-ui-text bp3-text-small"
+                        style={{ color: "white" }}
+                    >
+                        Health Status - Good{" "}
+                        <span
+                            className="bp3-icon-tick"
+                            style={{ color: "#3b7668" }}
+                        ></span>
+                    </p>
+                    <p
+                        className="bp3-ui-text bp3-text-small"
+                        style={{ color: "white" }}
+                    >
+                        Delta - Good{" "}
+                        <span
+                            style={{ color: "#3b7668" }}
+                            className="bp3-icon-delta"
+                        ></span>
+                    </p>
+                </div>
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between"
                 }}
             >
                 {/* <ButtonGroup style={{ alignSelf: "baseline" }}>
@@ -33,11 +81,10 @@ function Budget({ year, summary }) {
                     ></Button>
                     <Button icon="flag"></Button>
                 </ButtonGroup> */}
-                <div style={{ marginTop: "1em", alignSelf: "baseline" }}>
-                    <h2 style={{ color: "white" }}>Year {year}</h2>
-                </div>
+                <YearAtAGlance />
+                <Sidebar />
             </div>
-            <Months />
+            {/* <Months /> */}
             {isIncomeFormOpen ? (
                 <IncomeForm
                     isIncomeFormOpen={isIncomeFormOpen}

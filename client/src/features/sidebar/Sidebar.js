@@ -3,15 +3,14 @@ import { connect } from "react-redux";
 import { Drawer, Button, Position, Callout, Divider } from "@blueprintjs/core";
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 
-function Home() {
+function Sidebar() {
     return (
-        <div className="drawer">
-            <Drawer
-                isOpen={true}
-                position="right"
-                size="30px"
-                canOutsideClickClose={false}
-                hasBackdrop={false}
+        <div>
+            <nav
+                style={{
+                    backgroundColor: "white",
+                    display: "flex"
+                }}
             >
                 <div
                     style={{
@@ -24,6 +23,18 @@ function Home() {
                 >
                     <h5>$$$</h5>
                     <Divider />
+                    <Popover2
+                        content={<h1>Popover!</h1>}
+                        position={Position.RIGHT}
+                    >
+                        <Tooltip2
+                            content="Resolution" // target savings and goals for next year
+                            position={Position.RIGHT}
+                            openOnTargetFocus={false}
+                        >
+                            <Button icon="clean" minimal={true}></Button>
+                        </Tooltip2>
+                    </Popover2>
                     <Popover2
                         content={<h1>Popover!</h1>}
                         position={Position.RIGHT}
@@ -100,7 +111,7 @@ function Home() {
                         </Tooltip2>
                     </Popover2>
                 </div>
-            </Drawer>
+            </nav>
         </div>
     );
 }
@@ -113,4 +124,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

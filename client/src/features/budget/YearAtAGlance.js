@@ -1,3 +1,4 @@
+import { Callout } from "@blueprintjs/core";
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
@@ -8,106 +9,131 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend
+    Legend,
+    Line,
+    ComposedChart
 } from "recharts";
-// Visually a simple bar chart makes more sense to me. The blocks align with the axis data points completely.
+import Goals from "./Goals";
+import Spotlights from "./Spotlights";
+
+const yearlySavingGoal = 5000;
+
 const data = [
     {
         name: "Jan",
         Income: 4000,
         Expenses: 2400,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Feb",
         Income: 3000,
         Expenses: 1398,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12 // technically this should be difference / 12
     },
     {
         name: "Mar",
         Income: 2000,
         Expenses: 9800,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Apr",
         Income: 2780,
         Expenses: 3908,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "May",
         Income: 1890,
         Expenses: 4800,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Jun",
         Income: 2390,
         Expenses: 3800,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "July",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Aug",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Sep",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Oct",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Nov",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     },
     {
         name: "Dec",
         Income: 3490,
         Expenses: 4300,
-        Savings: 2400
+        Savings: 2400,
+        Goal: yearlySavingGoal / 12
     }
 ];
 
 function YearAtAGlance() {
     return (
-        <BarChart
-            width={1200}
-            height={300}
-            data={data}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-            }}
-        >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="Expenses" fill="#8884d8" />
-            <Bar dataKey="Income" fill="#82ca9d" />
-            <Bar dataKey="Savings" fill="#3b7668" />
-        </BarChart>
+        <div>
+            <Goals />
+            <Spotlights />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <ComposedChart
+                    width={1400}
+                    height={400}
+                    data={data}
+                    margin={{
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 20
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" scale="band" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Income" barSize={20} fill="#3b7668" />
+                    <Bar dataKey="Expenses" barSize={20} fill="#8884d8" />
+                    <Bar dataKey="Savings" barSize={20} fill="#82ca9d" />
+                    <Line type="monotone" dataKey="Goal" stroke="#ff7300" />
+                </ComposedChart>
+            </div>
+        </div>
     );
 }
 
