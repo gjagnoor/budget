@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Drawer, Button, Position, Callout, Divider } from "@blueprintjs/core";
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
-import { setIsExpenseFormOpen, setIsIncomeFormOpen } from "../appSlice";
+import {
+    setIsExpenseFormOpen,
+    setIsIncomeFormOpen,
+    setShowDataTable
+} from "../appSlice";
 
 function Sidebar({ writeExpenseFormOpen }) {
     const state = useSelector((state) => state);
@@ -65,18 +69,17 @@ function Sidebar({ writeExpenseFormOpen }) {
                             <Button icon="search" minimal={true}></Button>
                         </Tooltip2>
                     </Popover2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content="Income + Expenses [L]"
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="Income + Expenses [L]"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="array" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button
+                            icon="array"
+                            minimal={true}
+                            onClick={() => dispatch(setShowDataTable(true))}
+                        ></Button>
+                    </Tooltip2>
                     <Tooltip2
                         content="+ Income"
                         position={Position.RIGHT}

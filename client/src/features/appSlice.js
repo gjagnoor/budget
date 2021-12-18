@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isExpenseFormOpen: false,
-    isIncomeFormOpen: false
+    isIncomeFormOpen: false,
+    showDataTable: false
 };
 
 export const appSlice = createSlice({
@@ -16,11 +17,16 @@ export const appSlice = createSlice({
         setIsIncomeFormOpen: (state, { payload }) => {
             state.isIncomeFormOpen = payload;
             return state;
+        },
+        setShowDataTable: (state, { payload }) => {
+            state.showDataTable = payload;
+            return state;
         }
     },
     extraReducers: (builder) => {}
 });
 
-export const { setIsExpenseFormOpen, setIsIncomeFormOpen } = appSlice.actions;
+export const { setIsExpenseFormOpen, setIsIncomeFormOpen, setShowDataTable } =
+    appSlice.actions;
 
 export default appSlice.reducer;
