@@ -88,7 +88,6 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteExpenseAsync.fulfilled, (state, { payload }) => {
                 state.expenses = payload || [];
-                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             })
@@ -98,7 +97,6 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
                 state.incomes = payload || [];
-                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             })

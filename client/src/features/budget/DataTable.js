@@ -8,10 +8,52 @@ import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowDataTable } from "../appSlice";
 import { Button, Dialog } from "@blueprintjs/core";
+import { deleteExpenseAsync, deleteIncomeAsync } from "./budgetAPI";
 
 export default function DataTable() {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    const handleDeleteIncome = async (income) => {
+        const firstOfThisMonth = Date.parse(
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
+            )
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
+            )
+        );
+        const deleteDetails = {
+            userID: state.user.ID,
+            incomeID: income.ID,
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
+        };
+        dispatch(deleteIncomeAsync(deleteDetails));
+        return;
+    };
+    const handleDeleteExpense = async (expense) => {
+        const firstOfThisMonth = Date.parse(
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
+            )
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
+            )
+        );
+        const deleteDetails = {
+            userID: state.user.ID,
+            expenseID: expense.ID,
+            initialDate: firstOfThisMonth,
+            endDate: lastOfThisMonth
+        };
+        dispatch(deleteExpenseAsync(deleteDetails));
+        return;
+    };
+    console.log(state.budget.incomes);
     return (
         <React.Fragment>
             <Dialog
@@ -65,6 +107,9 @@ export default function DataTable() {
                                                 minimal={true}
                                                 intent="danger"
                                                 icon="small-cross"
+                                                onClick={() =>
+                                                    handleDeleteIncome(row)
+                                                }
                                             ></Button>
                                         </TableCell>
                                         <TableCell>{row.Label}</TableCell>
@@ -114,6 +159,9 @@ export default function DataTable() {
                                                 minimal={true}
                                                 intent="danger"
                                                 icon="small-cross"
+                                                onClick={() =>
+                                                    handleDeleteExpense(row)
+                                                }
                                             ></Button>
                                         </TableCell>
                                         <TableCell>{row.Label}</TableCell>
