@@ -28,14 +28,15 @@ func GoalsRoutes (api *gin.RouterGroup, db *gorm.DB) {
 		c.JSON(http.StatusOK, true)
 	})
 
-	api.DELETE("/goals", func (c *gin.Context) {
+	api.DELETE("/goal", func (c *gin.Context) {
 		type request struct {
 			UserID string
-			ExpenseID string
+			GoalID string
+			Year int32
 		}
 		var requestBody request
 		c.BindQuery(&requestBody)
-		database.DeleteGoals(requestBody.UserID, requestBody.ExpenseID, db)
+		database.DeleteGoal(requestBody.UserID, requestBody.GoalID, db)
 		c.JSON(http.StatusOK, true)
 	})
 }

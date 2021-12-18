@@ -35,7 +35,7 @@ func CreateGoals(goals GoalInput, db *gorm.DB) (error) {
 	return nil
 }
 
-func DeleteGoals(userID string, goalID string, db *gorm.DB) (error) {
+func DeleteGoal(userID string, goalID string, db *gorm.DB) (error) {
 	var goal string
 	db.Raw("DELETE FROM goals WHERE user_id = ? AND id = ?", userID, goalID).Scan(&goal)
 	return nil

@@ -6,7 +6,10 @@ import {
     fetchExpensesAsync,
     deleteExpenseAsync,
     deleteIncomeAsync,
-    fetchSummaryAsync
+    fetchSummaryAsync,
+    fetchGoalsAsync,
+    saveGoalsAsync,
+    deleteGoalAsync
 } from "./budgetAPI.js";
 export const months = [
     "Jan",
@@ -29,6 +32,7 @@ const initialState = {
     activeTab: months[new Date().getUTCMonth()],
     incomes: [],
     expenses: [],
+    goals: [],
     summary: {
         expenses: 0,
         income: 0,
@@ -112,6 +116,33 @@ export const budgetSlice = createSlice({
                         month: payload.totalSavings,
                         savingsPercentage: state.summary.savingsPercentage
                     } || {};
+                state.loading = false;
+                return state;
+            })
+            .addCase(fetchGoalsAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(fetchGoalsAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(saveGoalsAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(saveGoalsAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(deleteGoalAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(deleteGoalAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
                 state.loading = false;
                 return state;
             });

@@ -73,6 +73,14 @@ export const deleteIncomeAsync = createAsyncThunk(
     }
 );
 
+export const deleteGoalAsync = createAsyncThunk(
+    "goal/delete",
+    async (details) => {
+        const goals = await deleteGoal(details);
+        return goals;
+    }
+);
+
 // find a better way to fetch incomes => instead of query params
 const fetchIncomes = async (details) => {
     return await axios
@@ -103,7 +111,7 @@ const saveGoals = async (details) => {
         .post("/api/goals", details)
         .then(async (res) => {
             return await fetchGoals({
-                UserID: details.userID,
+                UserID: details.UserID,
                 Year: details.Year
             });
         })
@@ -183,6 +191,23 @@ const deleteIncome = async (details) => {
                 UserID: details.userID,
                 InitialDate: details.initialDate,
                 EndDate: details.endDate
+            });
+        })
+        .catch((err) => console.error(err));
+};
+
+const deleteGoal = async (details) => {
+    return await axios
+        .delete("/api/goal", {
+            params: {
+                UserID: details.UserID,
+                GoalID: details.GoalID
+            }
+        })
+        .then(async (res) => {
+            return await fetchGoals({
+                UserID: details.UserID,
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));

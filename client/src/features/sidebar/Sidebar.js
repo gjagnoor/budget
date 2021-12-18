@@ -6,7 +6,8 @@ import {
     setIsExpenseFormOpen,
     setIsIncomeFormOpen,
     setShowDataTable,
-    writeIsGoalsFormOpen
+    writeIsGoalsFormOpen,
+    setShowGoalsRender
 } from "../appSlice";
 
 function Sidebar({ writeExpenseFormOpen }) {
@@ -47,7 +48,11 @@ function Sidebar({ writeExpenseFormOpen }) {
                         position={Position.RIGHT}
                         openOnTargetFocus={false}
                     >
-                        <Button icon="locate" minimal={true}></Button>
+                        <Button
+                            icon="locate"
+                            minimal={true}
+                            onClick={() => dispatch(setShowGoalsRender(true))}
+                        ></Button>
                     </Tooltip2>
                     <Tooltip2
                         content="Cumulative Summary [Y]"

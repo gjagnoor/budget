@@ -4,7 +4,8 @@ const initialState = {
     isExpenseFormOpen: false,
     isIncomeFormOpen: false,
     showDataTable: false,
-    isGoalsFormOpen: false
+    isGoalsFormOpen: false,
+    showGoalsRender: false
 };
 
 export const appSlice = createSlice({
@@ -26,6 +27,10 @@ export const appSlice = createSlice({
         writeIsGoalsFormOpen: (state, { payload }) => {
             state.isGoalsFormOpen = payload;
             return state;
+        },
+        setShowGoalsRender: (state, { payload }) => {
+            state.showGoalsRender = payload;
+            return state;
         }
     },
     extraReducers: (builder) => {}
@@ -35,7 +40,8 @@ export const {
     setIsExpenseFormOpen,
     setIsIncomeFormOpen,
     setShowDataTable,
-    writeIsGoalsFormOpen
+    writeIsGoalsFormOpen,
+    setShowGoalsRender
 } = appSlice.actions;
 
 export default appSlice.reducer;

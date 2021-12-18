@@ -6,6 +6,7 @@ import Sidebar from "../sidebar/Sidebar";
 import YearAtAGlance from "./YearAtAGlance";
 import DataTable from "./DataTable.js";
 import GoalsForm from "./GoalsForm.js";
+import GoalsRender from "./GoalsRender.js";
 
 export default function Budget() {
     const state = useSelector((state) => state);
@@ -73,6 +74,7 @@ export default function Budget() {
             <ExpenseForm />
             <DataTable />
             <GoalsForm />
+            <GoalsRender />
         </div>
     );
 }

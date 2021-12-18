@@ -48,7 +48,12 @@ function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
         dispatch(fetchIncomesAsync(details));
         dispatch(fetchExpensesAsync(details));
         dispatch(fetchSummaryAsync(details));
-        dispatch(fetchGoalsAsync(details));
+        dispatch(
+            fetchGoalsAsync({
+                UserID: state.user.ID,
+                Year: state.budget.activeYear
+            })
+        );
         return;
     }
     return (
