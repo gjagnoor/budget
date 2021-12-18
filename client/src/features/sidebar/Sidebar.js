@@ -30,33 +30,30 @@ function Sidebar({ writeExpenseFormOpen }) {
                 >
                     <h5>$$$</h5>
                     <Divider />
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content="Resolution" // target savings and goals for next year
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="Resolution" // target savings and goals for next year
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="clean" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                        <Button icon="clean" minimal={true}></Button>
+                    </Tooltip2>
+                    <Tooltip2
+                        content="Manage Goals" // target savings and goals for next year
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="Cumulative Summary [Y]"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button
-                                icon="timeline-bar-chart"
-                                minimal={true}
-                            ></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button icon="locate" minimal={true}></Button>
+                    </Tooltip2>
+                    <Tooltip2
+                        content="Cumulative Summary [Y]"
+                        position={Position.RIGHT}
+                        openOnTargetFocus={false}
+                    >
+                        <Button
+                            icon="timeline-bar-chart"
+                            minimal={true}
+                        ></Button>
+                    </Tooltip2>
                     <Tooltip2
                         content="Outlook - coming soon"
                         position={Position.RIGHT}
