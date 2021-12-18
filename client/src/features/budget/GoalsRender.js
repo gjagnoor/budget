@@ -33,7 +33,7 @@ export default function GoalsRender() {
                 enforceFocus={true}
                 canOutsideClickClose={true}
                 isCloseButtonShown={true}
-                title={`Manage Goals + Expenses [${state.budget.activeYear}]`}
+                title={`Manage Goals [${state.budget.activeYear}]`}
                 hasBackdrop={true}
                 style={{
                     backgroundColor: "#192841",
