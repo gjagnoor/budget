@@ -8,8 +8,6 @@ import Sidebar from "../sidebar/Sidebar";
 import YearAtAGlance from "./YearAtAGlance";
 
 function Budget({ year, summary }) {
-    const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
-    const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
     return (
         <div>
             <div
@@ -67,36 +65,11 @@ function Budget({ year, summary }) {
                     justifyContent: "space-between"
                 }}
             >
-                {/* <ButtonGroup style={{ alignSelf: "baseline" }}>
-                    <Button icon="calendar"></Button>
-                    <Button icon="timeline-bar-chart"></Button>
-                    <Button icon="search"></Button>
-                    <Button
-                        icon="bank-account"
-                        onClick={() => setIsIncomeFormOpen(true)}
-                    ></Button>
-                    <Button
-                        icon="dollar"
-                        onClick={() => setIsExpenseFormOpen(true)}
-                    ></Button>
-                    <Button icon="flag"></Button>
-                </ButtonGroup> */}
                 <YearAtAGlance />
                 <Sidebar />
             </div>
-            {/* <Months /> */}
-            {isIncomeFormOpen ? (
-                <IncomeForm
-                    isIncomeFormOpen={isIncomeFormOpen}
-                    setIsIncomeFormOpen={setIsIncomeFormOpen}
-                />
-            ) : null}
-            {isExpenseFormOpen ? (
-                <ExpenseForm
-                    isExpenseFormOpen={isExpenseFormOpen}
-                    setIsExpenseFormOpen={setIsExpenseFormOpen}
-                />
-            ) : null}
+            <IncomeForm />
+            <ExpenseForm />
         </div>
     );
 }
@@ -113,5 +86,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Budget);
-
-// helper funtions

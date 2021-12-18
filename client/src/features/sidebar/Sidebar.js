@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Drawer, Button, Position, Callout, Divider } from "@blueprintjs/core";
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
+import { setIsExpenseFormOpen } from "../appSlice";
 
-function Sidebar() {
+function Sidebar({ writeExpenseFormOpen }) {
     return (
         <div>
             <nav
@@ -86,18 +87,17 @@ function Sidebar() {
                             <Button icon="bank-account" minimal={true}></Button>
                         </Tooltip2>
                     </Popover2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content="+ Expense"
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="+ Expense"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="dollar" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button
+                            icon="dollar"
+                            minimal={true}
+                            onClick={() => writeExpenseFormOpen(true)}
+                        ></Button>
+                    </Tooltip2>
                     <Popover2
                         content={<h1>Popover!</h1>}
                         position={Position.RIGHT}
@@ -121,7 +121,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        writeExpenseFormOpen: (bool) => dispatch(setIsExpenseFormOpen(bool))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
