@@ -5,6 +5,7 @@ import ExpenseForm from "./ExpenseForm";
 import Sidebar from "../sidebar/Sidebar";
 import YearAtAGlance from "./YearAtAGlance";
 import DataTable from "./DataTable.js";
+import GoalsForm from "./GoalsForm.js";
 
 export default function Budget() {
     const state = useSelector((state) => state);
@@ -71,6 +72,7 @@ export default function Budget() {
             <IncomeForm />
             <ExpenseForm />
             <DataTable />
+            <GoalsForm />
         </div>
     );
 }

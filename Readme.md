@@ -1,1 +1,8 @@
-My application looks nothing like an application I'm terrible at design man. lmao.
+tonight ->
+
+-   add goals [frontend and backend]
+-   manage goals [frontend and backend]
+
+TOMORROW ->
+
+-   this year at a glance

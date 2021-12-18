@@ -5,7 +5,8 @@ import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import {
     setIsExpenseFormOpen,
     setIsIncomeFormOpen,
-    setShowDataTable
+    setShowDataTable,
+    writeIsGoalsFormOpen
 } from "../appSlice";
 
 function Sidebar({ writeExpenseFormOpen }) {
@@ -35,7 +36,11 @@ function Sidebar({ writeExpenseFormOpen }) {
                         position={Position.RIGHT}
                         openOnTargetFocus={false}
                     >
-                        <Button icon="clean" minimal={true}></Button>
+                        <Button
+                            icon="clean"
+                            minimal={true}
+                            onClick={() => dispatch(writeIsGoalsFormOpen(true))}
+                        ></Button>
                     </Tooltip2>
                     <Tooltip2
                         content="Manage Goals" // target savings and goals for next year
