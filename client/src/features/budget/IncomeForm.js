@@ -10,7 +10,7 @@ import {
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
-import { saveIncomeAsync, deleteIncomeAsync } from "./budgetAPI.js";
+import { saveIncomeAsync } from "./budgetAPI.js";
 import { setIsIncomeFormOpen } from "../appSlice.js";
 
 export default function IncomeForm() {
@@ -46,26 +46,6 @@ export default function IncomeForm() {
             endDate: lastOfThisMonth
         };
         dispatch(saveIncomeAsync(incomeDetails));
-        return;
-    };
-    const handleDelete = async (income) => {
-        const firstOfThisMonth = Date.parse(
-            new Date(
-                `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
-            )
-        );
-        const lastOfThisMonth = Date.parse(
-            new Date(
-                `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
-            )
-        );
-        const deleteDetails = {
-            userID: state.user.ID,
-            incomeID: income.ID,
-            initialDate: firstOfThisMonth,
-            endDate: lastOfThisMonth
-        };
-        await dispatch(deleteIncomeAsync(deleteDetails));
         return;
     };
     return (

@@ -11,17 +11,13 @@ import {
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 import { saveExpenseAsync, deleteExpenseAsync } from "./budgetAPI";
-import { months } from "./budgetSlice";
 import { setIsExpenseFormOpen } from "../appSlice";
 
 function ExpenseForm({
     user,
     saveExpense,
-    expenses,
     activeMonth,
     activeYear,
-    deleteExpense,
-    activeTab,
     app,
     writeIsExpenseFormOpen
 }) {
@@ -51,22 +47,6 @@ function ExpenseForm({
             endDate: lastOfThisMonth
         };
         await saveExpense(expenseDetails);
-        return;
-    };
-    const handleDelete = async (expense) => {
-        const firstOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
-        );
-        const lastOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
-        );
-        const deleteDetails = {
-            userID: user.ID,
-            expenseID: expense.ID,
-            initialDate: firstOfThisMonth,
-            endDate: lastOfThisMonth
-        };
-        await deleteExpense(deleteDetails);
         return;
     };
     return (
