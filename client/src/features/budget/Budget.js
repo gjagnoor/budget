@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Button, ButtonGroup, Callout } from "@blueprintjs/core";
-import Months from "./Months";
+import React from "react";
+import { useSelector } from "react-redux";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
 import Sidebar from "../sidebar/Sidebar";
 import YearAtAGlance from "./YearAtAGlance";
 
-function Budget({ year, summary }) {
+export default function Budget() {
+    const budget = useSelector((state) => state.budget);
     return (
         <div>
             <div
@@ -22,7 +21,7 @@ function Budget({ year, summary }) {
                         className="bp3-ui-text bp3-text-large"
                         style={{ color: "white" }}
                     >
-                        Year {year}
+                        Year {budget.activeYear}
                     </h2>
                 </div>
                 <div>
@@ -33,7 +32,7 @@ function Budget({ year, summary }) {
                         >
                             {" "}
                         </span>
-                        {year} Goal - $ 5000
+                        {budget.activeYear} Goal - $ 5000
                     </p>
                 </div>
                 <div>
@@ -73,16 +72,3 @@ function Budget({ year, summary }) {
         </div>
     );
 }
-
-const mapStateToProps = (state) => {
-    return {
-        year: state.budget.activeYear,
-        summary: state.budget.summary
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Budget);

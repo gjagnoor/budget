@@ -69,7 +69,6 @@ function ExpenseForm({
         await deleteExpense(deleteDetails);
         return;
     };
-    console.log("open?: ", app.isExpenseFormOpen);
     return (
         <React.Fragment>
             <div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     Dialog,
     FormGroup,
@@ -11,17 +11,11 @@ import {
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 import { saveIncomeAsync, deleteIncomeAsync } from "./budgetAPI.js";
+import { setIsIncomeFormOpen } from "../appSlice.js";
 
-function IncomeForm({
-    isIncomeFormOpen,
-    setIsIncomeFormOpen,
-    saveIncome,
-    user,
-    activeMonth,
-    activeYear,
-    deleteIncome,
-    incomes
-}) {
+export default function IncomeForm() {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [category, setSelectedCategory] = useState("Select a Category");
     const [selectedDate, setDate] = useState(new Date());
     const [amount, setAmount] = useState(0);
@@ -32,18 +26,18 @@ function IncomeForm({
             <MenuItem key={category} onClick={handleClick} text={category} />
         );
     };
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         let firstOfThisMonth = new Date(
-            `${activeYear}/${activeMonth}/1 00:00:00`
+            `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
         );
 
         let lastOfThisMonth = new Date(
-            `${activeYear}/${activeMonth}/31 23:59:59`
+            `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
         );
         firstOfThisMonth = Date.parse(firstOfThisMonth);
         lastOfThisMonth = Date.parse(lastOfThisMonth);
         const incomeDetails = {
-            userID: user.ID,
+            userID: state.user.ID,
             label: label,
             amount: amount,
             category: category,
@@ -51,29 +45,33 @@ function IncomeForm({
             initialDate: firstOfThisMonth,
             endDate: lastOfThisMonth
         };
-        await saveIncome(incomeDetails);
+        dispatch(saveIncomeAsync(incomeDetails));
         return;
     };
     const handleDelete = async (income) => {
         const firstOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
+            )
         );
         const lastOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
+            new Date(
+                `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
+            )
         );
         const deleteDetails = {
-            userID: user.ID,
+            userID: state.user.ID,
             incomeID: income.ID,
             initialDate: firstOfThisMonth,
             endDate: lastOfThisMonth
         };
-        await deleteIncome(deleteDetails);
+        await dispatch(deleteIncomeAsync(deleteDetails));
         return;
     };
     return (
         <div>
             <Dialog
-                isOpen={isIncomeFormOpen}
+                isOpen={state.app.isIncomeFormOpen}
                 onClose={() => setIsIncomeFormOpen(false)}
                 usePortal={true}
                 autoFocus={true}
@@ -88,7 +86,7 @@ function IncomeForm({
                     <button
                         aria-label="Close"
                         className="bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross"
-                        onClick={() => setIsIncomeFormOpen(false)}
+                        onClick={() => dispatch(setIsIncomeFormOpen(false))}
                     ></button>
                 </div>
                 <div className="bp3-dialog-body">
@@ -165,8 +163,8 @@ function IncomeForm({
                         style={{ borderBottom: "2px solid #3b7668" }}
                         className="vertical-divider"
                     ></div>
-                    {incomes.length
-                        ? incomes
+                    {state.budget.incomes.length
+                        ? state.budget.incomes
                               .slice()
                               .reverse()
                               .map((income, i) => {
@@ -202,21 +200,3 @@ function IncomeForm({
         </div>
     );
 }
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.user,
-        activeYear: state.budget.activeYear,
-        activeMonth: state.budget.activeMonth,
-        incomes: state.budget.incomes
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        saveIncome: (details) => dispatch(saveIncomeAsync(details)),
-        deleteIncome: (details) => dispatch(deleteIncomeAsync(details))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(IncomeForm);

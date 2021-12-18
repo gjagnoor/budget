@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Drawer, Button, Position, Callout, Divider } from "@blueprintjs/core";
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
-import { setIsExpenseFormOpen } from "../appSlice";
+import { setIsExpenseFormOpen, setIsIncomeFormOpen } from "../appSlice";
 
 function Sidebar({ writeExpenseFormOpen }) {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     return (
         <div>
             <nav
@@ -75,18 +77,17 @@ function Sidebar({ writeExpenseFormOpen }) {
                             <Button icon="array" minimal={true}></Button>
                         </Tooltip2>
                     </Popover2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content="+ Income"
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="+ Income"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="bank-account" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button
+                            icon="bank-account"
+                            minimal={true}
+                            onClick={() => dispatch(setIsIncomeFormOpen(true))}
+                        ></Button>
+                    </Tooltip2>
                     <Tooltip2
                         content="+ Expense"
                         position={Position.RIGHT}
@@ -95,7 +96,7 @@ function Sidebar({ writeExpenseFormOpen }) {
                         <Button
                             icon="dollar"
                             minimal={true}
-                            onClick={() => writeExpenseFormOpen(true)}
+                            onClick={() => dispatch(setIsExpenseFormOpen(true))}
                         ></Button>
                     </Tooltip2>
                     <Popover2
