@@ -11,7 +11,11 @@ import {
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
-import { saveExpenseAsync, deleteExpenseAsync } from "./budgetAPI";
+import {
+    saveExpenseAsync,
+    deleteExpenseAsync,
+    saveGoalsAsync
+} from "./budgetAPI";
 import { setIsExpenseFormOpen, writeIsGoalsFormOpen } from "../appSlice";
 
 function ExpenseForm() {
@@ -22,12 +26,21 @@ function ExpenseForm() {
     const dispatch = useDispatch();
 
     function handleSubmit() {
+        const firstOfThisMonth = Date.parse(
+            new Date(`${state.budget.activeYear}/1/1 00:00:00`)
+        );
+        const lastOfThisMonth = Date.parse(
+            new Date(`${state.budget.activeYear}/12/31 23:59:59`)
+        );
         const details = {
             UserID: state.user.ID,
             Year: state.budget.activeYear,
             MainGoal: amount,
-            SubGoals: otherGoals
+            SubGoals: otherGoals,
+            InitialDate: firstOfThisMonth,
+            EndDate: lastOfThisMonth
         };
+        dispatch(saveGoalsAsync(details));
         return;
     }
     function handleOtherGoals() {

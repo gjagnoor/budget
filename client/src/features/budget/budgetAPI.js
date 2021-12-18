@@ -25,6 +25,14 @@ export const fetchExpensesAsync = createAsyncThunk(
     }
 );
 
+export const fetchGoalsAsync = createAsyncThunk(
+    "goals/fetch",
+    async (details) => {
+        const goals = await fetchGoals(details);
+        return goals;
+    }
+);
+
 export const saveIncomeAsync = createAsyncThunk(
     "income/create",
     async (incomeDetails) => {
@@ -38,6 +46,14 @@ export const saveExpenseAsync = createAsyncThunk(
     async (expenseDetails) => {
         const createdBoolean = await saveExpense(expenseDetails);
         return createdBoolean;
+    }
+);
+
+export const saveGoalsAsync = createAsyncThunk(
+    "goals/create",
+    async (details) => {
+        const goals = await saveGoals(details);
+        return goals;
     }
 );
 
@@ -79,6 +95,30 @@ const saveIncome = async (details) => {
                 EndDate: details.endDate
             });
         })
+        .catch((err) => console.error(err));
+};
+
+const saveGoals = async (details) => {
+    return await axios
+        .post("/api/goals", details)
+        .then(async (res) => {
+            return await fetchGoals({
+                UserID: details.userID,
+                InitialDate: details.initialDate,
+                EndDate: details.endDate
+            });
+        })
+        .catch((err) => console.error(err));
+};
+
+const fetchGoals = async (details) => {
+    return await axios
+        .get(`/api/goals`, {
+            params: {
+                ...details
+            }
+        })
+        .then((res) => res.data)
         .catch((err) => console.error(err));
 };
 

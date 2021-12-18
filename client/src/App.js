@@ -6,7 +6,8 @@ import { logoutAsync } from "./features/user/userAPI";
 import {
     fetchIncomesAsync,
     fetchExpensesAsync,
-    fetchSummaryAsync
+    fetchSummaryAsync,
+    fetchGoalsAsync
 } from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
@@ -47,6 +48,7 @@ function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
         dispatch(fetchIncomesAsync(details));
         dispatch(fetchExpensesAsync(details));
         dispatch(fetchSummaryAsync(details));
+        dispatch(fetchGoalsAsync(details));
         return;
     }
     return (
