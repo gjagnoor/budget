@@ -57,18 +57,13 @@ function Sidebar({ writeExpenseFormOpen }) {
                             ></Button>
                         </Tooltip2>
                     </Popover2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content="Outlook - coming soon"
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content="Outlook"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="search" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button icon="search" minimal={true}></Button>
+                    </Tooltip2>
                     <Tooltip2
                         content="Income + Expenses [L]"
                         position={Position.RIGHT}

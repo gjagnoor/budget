@@ -64,7 +64,7 @@ export default function DataTable() {
                 enforceFocus={true}
                 canOutsideClickClose={true}
                 isCloseButtonShown={true}
-                title="Manage Income + Expenses"
+                title={`Manage Income + Expenses [${state.budget.activeYear}]`}
                 hasBackdrop={true}
                 style={{
                     backgroundColor: "#192841",
@@ -78,26 +78,36 @@ export default function DataTable() {
                 <div style={{ height: "inherit", width: "auto", margin: "3%" }}>
                     <TableContainer
                         style={{
-                            backgroundColor: "white",
-                            color: "black"
+                            color: "white"
                         }}
                     >
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell></TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        style={{
+                                            color: "#3b7668"
+                                        }}
+                                    >
                                         Label
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        style={{
+                                            color: "#3b7668"
+                                        }}
+                                    >
                                         Date
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody
                                 style={{
-                                    color: "black",
-                                    backgroundColor: "white"
+                                    color: "white"
                                 }}
                             >
                                 {state.budget.incomes.map((row) => (
@@ -112,8 +122,18 @@ export default function DataTable() {
                                                 }
                                             ></Button>
                                         </TableCell>
-                                        <TableCell>{row.Label}</TableCell>
-                                        <TableCell>
+                                        <TableCell
+                                            style={{
+                                                color: "white"
+                                            }}
+                                        >
+                                            {row.Label}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                color: "white"
+                                            }}
+                                        >
                                             {new Date(
                                                 row.ReceivedOn
                                             ).toLocaleDateString()}
@@ -130,26 +150,36 @@ export default function DataTable() {
                 <div style={{ height: "inherit", width: "auto", margin: "3%" }}>
                     <TableContainer
                         style={{
-                            backgroundColor: "white",
-                            color: "black"
+                            color: "white"
                         }}
                     >
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell></TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        style={{
+                                            color: "#3b7668"
+                                        }}
+                                    >
                                         Label
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        style={{
+                                            color: "#3b7668"
+                                        }}
+                                    >
                                         Date
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody
                                 style={{
-                                    color: "black",
-                                    backgroundColor: "white"
+                                    color: "white"
                                 }}
                             >
                                 {state.budget.expenses.map((row) => (
@@ -164,8 +194,18 @@ export default function DataTable() {
                                                 }
                                             ></Button>
                                         </TableCell>
-                                        <TableCell>{row.Label}</TableCell>
-                                        <TableCell>
+                                        <TableCell
+                                            style={{
+                                                color: "white"
+                                            }}
+                                        >
+                                            {row.Label}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                color: "white"
+                                            }}
+                                        >
                                             {new Date(
                                                 row.ReceivedOn
                                             ).toLocaleDateString()}
@@ -181,4 +221,4 @@ export default function DataTable() {
     );
 }
 
-// Do I want to give users the ability to edit past data [from years past?] - there is really no reason to. They should be able to edit current years data only. Everything else should be used for insights.
+// Do I want to give users the ability to edit past data [from years past?] - there is really no reason to. They should be able to edit current years data only. Everything else should be used for insights. Performance seems to have improved overall as well with the new design [of the application]
