@@ -158,44 +158,6 @@ export default function IncomeForm() {
                         </button>
                     </div>
                 </div>
-                <div className="bp3-dialog-body">
-                    <div
-                        style={{ borderBottom: "2px solid #3b7668" }}
-                        className="vertical-divider"
-                    ></div>
-                    {state.budget.incomes.length
-                        ? state.budget.incomes
-                              .slice()
-                              .reverse()
-                              .map((income, i) => {
-                                  return (
-                                      <div
-                                          key={i}
-                                          style={{
-                                              display: "flex",
-                                              justifyContent: "space-between",
-                                              margin: "2%"
-                                          }}
-                                      >
-                                          <p>{income.Label}</p>
-                                          <p>
-                                              {new Date(
-                                                  income.ReceivedOn
-                                              ).toLocaleDateString()}
-                                          </p>
-                                          <Button
-                                              icon="small-cross"
-                                              intent="danger"
-                                              minimal={true}
-                                              onClick={() =>
-                                                  handleDelete(income)
-                                              }
-                                          />
-                                      </div>
-                                  );
-                              })
-                        : null}
-                </div>
             </Dialog>
         </div>
     );

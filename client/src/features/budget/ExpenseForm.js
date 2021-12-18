@@ -162,45 +162,6 @@ function ExpenseForm({
                             </button>
                         </div>
                     </div>
-                    <div className="bp3-dialog-body">
-                        <div
-                            style={{ borderBottom: "2px solid #3b7668" }}
-                            className="vertical-divider"
-                        ></div>
-                        {expenses.length
-                            ? expenses
-                                  .slice()
-                                  .reverse()
-                                  .map((expense, i) => {
-                                      return (
-                                          <div
-                                              key={i}
-                                              style={{
-                                                  display: "flex",
-                                                  justifyContent:
-                                                      "space-between",
-                                                  margin: "2%"
-                                              }}
-                                          >
-                                              <p>{expense.Label}</p>
-                                              <p>
-                                                  {new Date(
-                                                      expense.ReceivedOn
-                                                  ).toLocaleDateString()}
-                                              </p>
-                                              <Button
-                                                  icon="small-cross"
-                                                  intent="danger"
-                                                  minimal={true}
-                                                  onClick={() =>
-                                                      handleDelete(expense)
-                                                  }
-                                              />
-                                          </div>
-                                      );
-                                  })
-                            : null}
-                    </div>
                 </Dialog>
             </div>
         </React.Fragment>
