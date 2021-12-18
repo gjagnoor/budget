@@ -104,8 +104,7 @@ const saveGoals = async (details) => {
         .then(async (res) => {
             return await fetchGoals({
                 UserID: details.userID,
-                InitialDate: details.initialDate,
-                EndDate: details.endDate
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));

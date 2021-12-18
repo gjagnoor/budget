@@ -39,45 +39,4 @@ func ExpenseRoutes (api *gin.RouterGroup, db *gorm.DB) {
 		database.DeleteExpense(requestBody.UserID, requestBody.ExpenseID, db)
 		c.JSON(http.StatusOK, true)
 	})
-	// 	templ := template.Must(template.New("").Parse(templates.ExpensesListHTML))
-
-	// 	expenses, err := postgres.GetExpenses(userID, db)
-
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	templ.Execute(res, data{Expenses: expenses})	
-	// })
-
-	// r.Get("/expense", func(res http.ResponseWriter, req *http.Request) {
-	// 	type data struct {
-	// 		Expense postgres.Expense
-	// 	}
-	// 	templ := template.Must(template.New("").Parse(templates.ExpenseListHTML))
-
-	// 	decoder := json.NewDecoder(req.Body)
-	// 	var expenseID uuid.UUID
-	// 	err := decoder.Decode(&expenseID)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	expense, err := postgres.GetExpense(expenseID, db)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	templ.Execute(res, data{Expense: expense})	
-	// })
-
-
-	// r.Delete("/expense", func(w http.ResponseWriter, r *http.Request) {
-	// 	decoder := json.NewDecoder(r.Body)
-	// 	var expenseID uuid.UUID
-	// 	err := decoder.Decode(&expenseID)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	postgres.DeleteIncome(expenseID, db)
-	// 	w.Write([]byte ("deleted user"))
-	// })
 }

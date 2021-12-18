@@ -11,6 +11,7 @@ type User struct {
 	Email string 
 	Income []Income
 	Expense []Expense
+	Goal []Goal
 }
 
 type Income struct {
@@ -33,8 +34,19 @@ type Expense struct {
 	UserID string
 }
 
+type Goal struct {
+	gorm.Model
+	ID uuid.UUID
+	Year int32
+	Label string
+	Amount int32
+	ReceivedOn int64
+	Category string
+	UserID string
+}
+
 func ApplyMigrations (db *gorm.DB) {
-	db.AutoMigrate(&User{}, &Income{}, &Expense{})
+	db.AutoMigrate(&User{}, &Income{}, &Expense{}, &Goal{})
 }
 
 func dropTables (db *gorm.DB) {

@@ -31,29 +31,3 @@ func DeleteExpense(userID string, expenseID string, db *gorm.DB) (error) {
 	db.Raw("DELETE FROM expenses WHERE user_id = ? AND id = ?", userID, expenseID).Scan(&expense)
 	return nil
 }
-
-
-
-// func GetExpense(id uuid.UUID, db *sqlx.DB) (Expense, error) {
-// 	var expense Expense
-// 	err := db.Get(
-// 		&expense,
-// 		`SELECT * FROM expenses WHERE id = $1`,
-// 		id,
-// 	)
-// 	if err != nil {
-// 		return Expense{}, fmt.Errorf("error getting Expense: %w", err)
-// 	}
-// 	return expense, nil
-// }
-
-
-// func DeleteExpense(id uuid.UUID, db *sqlx.DB) error {
-// 	_, err := db.Exec(`DELETE from expenses WHERE id = $1`, id)
-
-// 	if err != nil {
-// 		return fmt.Errorf("error deleting Expense: %w", err)
-// 	}
-
-// 	return nil
-// }

@@ -62,6 +62,7 @@ func main () {
 	routes.IncomeRoutes(api, db)
 	routes.ExpenseRoutes(api, db)
 	routes.SummaryRoutes(api, db, conn)
+	routes.GoalsRoutes(api, db)
 	router.Run(":5000")
 }
 
