@@ -13,12 +13,11 @@ func ExpenseRoutes (api *gin.RouterGroup, db *gorm.DB) {
 	api.GET("/expenses", func (c *gin.Context) {
 		type request struct {
 			UserID string
-			InitialDate int
-			EndDate int
+			Year int32
 		}
 		var requestBody request
 		c.BindQuery(&requestBody)
-		expenses := database.GetExpenses(requestBody.UserID, requestBody.InitialDate, requestBody.EndDate, db)
+		expenses := database.GetExpenses(requestBody.UserID, requestBody.Year, db)
 		c.JSON(http.StatusOK, expenses)
 	})
 

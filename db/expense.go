@@ -7,10 +7,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetExpenses(userID string, initialDate int, endDate int, db *gorm.DB) ([]Expense) {
+func GetExpenses(userID string, year int32, db *gorm.DB) ([]Expense) {
 	var expenses []Expense
-	fmt.Println("initial Date; ", initialDate)
-	db.Raw("SELECT * FROM expenses WHERE user_id = ? AND received_on BETWEEN ? AND ?", userID, initialDate, endDate).Scan(&expenses)
+	db.Raw("SELECT * FROM expenses WHERE user_id = ? AND Year = ?", userID, year).Scan(&expenses)
 	return expenses
 }
 
