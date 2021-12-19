@@ -19,33 +19,39 @@ class SummaryServer(SummaryServicer):
         totalIncomes = sum(incomes);
         totalExpenses = sum(expenses);
         totalSavings = totalIncomes - totalExpenses;
-        totalExpensesByNextYear = self.getFutureExpenses(request.expenses);
-        totalIncomesByNextYear = self.getFutureIncome(request.incomes);
+        totalExpensesByNextYear = self.getFutureExpenses(request.expenses, totalExpenses);
+        totalIncomesByNextYear = self.getFutureIncome(request.incomes, totalIncomes);
         totalSavingsByNextYear = totalIncomesByNextYear - totalExpensesByNextYear;
         healthStatus = self.getHealthStatus(totalIncomes, totalExpenses);
         delta = self.getDelta(request.goal, totalSavingsByNextYear);
         goalAchieved = self.getGoalAchieved(request.goal, totalSavings);
         return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomesByNextYear=totalIncomesByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
-    def getFutureExpenses(self, expenses):
-        presentMonthExpenses = [expense.amount if expense.month == date.today().month else 0 for expense in expenses];
-        presentMonthExpenses = sum(presentMonthExpenses)
-        pastMonthsExpenses = [expense.amount if expense.month < date.today().month else 0 for expense in expenses];
-        pastMonthsExpenses = sum(pastMonthsExpenses)
-        if pastMonthsExpenses <= 0:
-            pastMonthsExpenses = 1
-        rateOfGrowth = pow((presentMonthExpenses/pastMonthsExpenses),(1/(date.today().month-1)));
-        decExpenses = pow(pastMonthsExpenses * (1 + rateOfGrowth),(12 - date.today().month))
-        return round(decExpenses);
-    def getFutureIncome(self, incomes):
-        presentMonthIncome = [income.amount if income.month == date.today().month else 0 for income in incomes];
-        presentMonthIncome = sum(presentMonthIncome)
-        pastMonthsIncome = [income.amount if income.month < date.today().month else 0 for income in incomes];
-        pastMonthsIncome = sum(pastMonthsIncome)
-        if pastMonthsIncome <= 0:
-            pastMonthsIncome = 1
-        rateOfGrowth = pow((presentMonthIncome/pastMonthsIncome), (1/(date.today().month-1)));
-        decIncome = pow(pastMonthsIncome * (1 + rateOfGrowth),(12 - date.today().month))
-        return round(decIncome);
+    def getFutureExpenses(self, expenses, expensestodate):
+        if date.today().month == 12 or date.today().month == 1:
+            return expensestodate
+        else:
+            presentMonthExpenses = [expense.amount if expense.month == date.today().month else 0 for expense in expenses];
+            presentMonthExpenses = sum(presentMonthExpenses)
+            pastMonthsExpenses = [expense.amount if expense.month < date.today().month else 0 for expense in expenses];
+            pastMonthsExpenses = sum(pastMonthsExpenses)
+            if pastMonthsExpenses <= 0:
+                pastMonthsExpenses = 1
+            rateOfGrowth = pow((presentMonthExpenses/pastMonthsExpenses),(1/(date.today().month-1)));
+            decExpenses = pow(pastMonthsExpenses * (1 + rateOfGrowth),(12 - date.today().month)) #it's raised to the power of 0 here hence 1
+            return round(decExpenses);
+    def getFutureIncome(self, incomes, incomestodate):
+        if date.today().month == 12 or date.today().month == 1:
+            return incomestodate
+        else:
+            presentMonthIncome = [income.amount if income.month == date.today().month else 0 for income in incomes];
+            presentMonthIncome = sum(presentMonthIncome)
+            pastMonthsIncome = [income.amount if income.month < date.today().month else 0 for income in incomes];
+            pastMonthsIncome = sum(pastMonthsIncome)
+            if pastMonthsIncome <= 0:
+                pastMonthsIncome = 1
+            rateOfGrowth = pow((presentMonthIncome/pastMonthsIncome), (1/(date.today().month-1)));
+            decIncome = pow(pastMonthsIncome * (1 + rateOfGrowth),(12 - date.today().month))
+            return round(decIncome);
     def getHealthStatus(self, incomes, expenses): # should save atleast 40% of savings
         savings = incomes - expenses;
         if (savings / incomes) < 0.4:
