@@ -31,7 +31,6 @@ function App({ loading, saveUser, user }) {
                 .then(async (res) => {
                     const userID = res.data.split("\n")[0];
                     await saveUser(userID || "");
-                    console.log("userID", userID);
                 })
                 .catch((err) => console.error(err));
         };
@@ -55,14 +54,12 @@ function App({ loading, saveUser, user }) {
         dispatch(fetchGoalsAsync(details));
         return;
     }
+    console.log("userID", user.ID);
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route
-                    path="/budget"
-                    element={state.user.ID ? <Budget /> : <Navigate to="/" />}
-                />
+                <Route path="/budget" element={<Budget />} />
             </Routes>
             {loading ? (
                 <Backdrop

@@ -135,7 +135,7 @@ export default function DataTable() {
                                             }}
                                         >
                                             {new Date(
-                                                row.ReceivedOn
+                                                row.CreatedAt
                                             ).toLocaleDateString()}
                                         </TableCell>
                                     </TableRow>
@@ -207,7 +207,7 @@ export default function DataTable() {
                                             }}
                                         >
                                             {new Date(
-                                                row.ReceivedOn
+                                                row.CreatedAt
                                             ).toLocaleDateString()}
                                         </TableCell>
                                     </TableRow>
