@@ -34,12 +34,17 @@ const initialState = {
     incomes: [],
     expenses: [],
     goals: [],
-    summary: {
-        expenses: 0,
-        income: 0,
-        month: 0,
-        savingsPercentage: 40
+    summaryByYear: {
+        totalExpenses: 0,
+        totalIncome: 0,
+        totalSavings: 0,
+        expensesByNextYear: 0,
+        savingsByNextYear: 0,
+        healthStatus: "Good", // [bad]
+        delta: "Good", // [bad]
+        goalAchieved: 0
     },
+    summaryByMonths: [],
     loading: false
 };
 
