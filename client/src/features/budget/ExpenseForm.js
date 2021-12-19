@@ -38,7 +38,7 @@ function ExpenseForm({
             Amount: amount,
             Category: category,
             Year: selectedDate.getUTCFullYear(),
-            Month: selectedDate.getUTCMonth(),
+            Month: selectedDate.getUTCMonth() + 1,
             Week: currentWeekNumber(selectedDate)
         };
         await saveExpense(expenseDetails);
