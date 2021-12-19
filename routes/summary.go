@@ -10,15 +10,14 @@ import (
 )
 
 func SummaryRoutes (api *gin.RouterGroup, db *gorm.DB, conn *grpc.ClientConn) {
-	api.GET("/summary", func (c *gin.Context) {
+	api.GET("/summaryByYear", func (c *gin.Context) {
 		type request struct {
 			UserID string
-			InitialDate int
-			EndDate int
+			Year int32
 		}
 		var requestBody request
 		c.BindQuery(&requestBody)
-		summary := database.GetSummary(requestBody.UserID, requestBody.InitialDate, requestBody.EndDate, db, conn)
-		c.JSON(http.StatusOK, summary)
+		summaryThisYear := database.GetSummaryByYear(requestBody.UserID, requestBody.Year, db, conn)
+		c.JSON(http.StatusOK, summaryThisYear)
 	})
 }
