@@ -20,7 +20,9 @@ type Income struct {
 	Label string
 	Amount int32
 	Category string
-	ReceivedOn int64
+	Year int32
+	Month int32
+	Week int32
 	UserID string
 }
 
@@ -30,7 +32,9 @@ type Expense struct {
 	Label string
 	Amount int32
 	Category string
-	ReceivedOn int64 // change to added on
+	Year int32
+	Month int32
+	Week int32
 	UserID string
 }
 
@@ -40,7 +44,6 @@ type Goal struct {
 	Year int32
 	Label string
 	Amount int32
-	ReceivedOn int64
 	Category string
 	Completed bool
 	UserID string
@@ -54,4 +57,5 @@ func dropTables (db *gorm.DB) {
 	db.Migrator().DropTable(&User{})
 	db.Migrator().DropTable(&Income{})
 	db.Migrator().DropTable(&Expense{})
+	db.Migrator().DropTable(&Goal{})
 } 
