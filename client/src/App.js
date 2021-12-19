@@ -1,52 +1,63 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { logoutAsync } from "./features/user/userAPI";
 import {
     fetchIncomesAsync,
-    fetchExpensesAsync
+    fetchExpensesAsync,
+    fetchSummaryAsync,
+    fetchGoalsAsync
 } from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
 import Home from "./Home";
-import Navigation from "./features/navigation/Navigation";
 import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     useEffect(() => {
         const fetchData = async () => {
-            setTimeout(() => {
-                console.log("I am running");
-            }, 5000);
             await axios
                 .get("/api/currentUser")
                 .then(async (res) => {
                     const userID = res.data.split("\n")[0];
                     await saveUser(userID || "");
+                    handleData();
                 })
                 .catch((err) => console.error(err));
         };
         fetchData();
-    }, [saveUser]);
-    // useEffect(() => {
-    //     const firstOfThisMonth = new Date(
-    //         `${activeYear}/${activeMonth}/1 00:00:00`
-    //     );
-    //     const lastOfThisMonth = new Date(
-    //         `${activeYear}/${activeMonth}/31 23:59:59`
-    //     );
-    //     fetchData({
-    //         UserID: user.ID,
-    //         InitialDate: Date.parse(firstOfThisMonth),
-    //         EndDate: Date.parse(lastOfThisMonth)
-    //     });
-    // }, []);
+    }, [user]);
+
+    function handleData() {
+        const firstOfThisMonth = new Date(
+            `${state.budget.activeYear}/${1}/1 00:00:00`
+        );
+        const lastOfThisMonth = new Date(
+            `${state.budget.activeYear}/${12}/31 23:59:59`
+        );
+        const details = {
+            UserID: state.user.ID,
+            InitialDate: Date.parse(firstOfThisMonth),
+            EndDate: Date.parse(lastOfThisMonth)
+        };
+        dispatch(fetchIncomesAsync(details));
+        dispatch(fetchExpensesAsync(details));
+        dispatch(fetchSummaryAsync(details));
+        dispatch(
+            fetchGoalsAsync({
+                UserID: state.user.ID,
+                Year: state.budget.activeYear
+            })
+        );
+        return;
+    }
     return (
         <Router>
-            <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/budget" element={<Budget />} />

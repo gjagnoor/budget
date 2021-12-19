@@ -6,7 +6,11 @@ import {
     fetchExpensesAsync,
     deleteExpenseAsync,
     deleteIncomeAsync,
-    fetchSummaryAsync
+    fetchSummaryAsync,
+    fetchGoalsAsync,
+    saveGoalsAsync,
+    deleteGoalAsync,
+    updateGoalAsync
 } from "./budgetAPI.js";
 export const months = [
     "Jan",
@@ -29,12 +33,18 @@ const initialState = {
     activeTab: months[new Date().getUTCMonth()],
     incomes: [],
     expenses: [],
-    summary: {
-        expenses: 0,
-        income: 0,
-        month: 0,
-        savingsPercentage: 40
+    goals: [],
+    summaryByYear: {
+        totalExpenses: 0,
+        totalIncome: 0,
+        totalSavings: 0,
+        expensesByNextYear: 0,
+        savingsByNextYear: 0,
+        healthStatus: "Good", // [bad]
+        delta: "Good", // [bad]
+        goalAchieved: 0
     },
+    summaryByMonths: [],
     loading: false
 };
 
@@ -88,7 +98,6 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteExpenseAsync.fulfilled, (state, { payload }) => {
                 state.expenses = payload || [];
-                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             })
@@ -98,7 +107,6 @@ export const budgetSlice = createSlice({
             })
             .addCase(deleteIncomeAsync.fulfilled, (state, { payload }) => {
                 state.incomes = payload || [];
-                state.activeTab = months[state.activeMonth - 1];
                 state.loading = false;
                 return state;
             })
@@ -111,9 +119,44 @@ export const budgetSlice = createSlice({
                     {
                         expenses: payload.totalExpenses,
                         incomes: payload.totalIncomes,
-                        month: payload.totalSavings,
-                        savingsPercentage: state.summary.savingsPercentage
+                        month: payload.totalSavings
                     } || {};
+                state.loading = false;
+                return state;
+            })
+            .addCase(fetchGoalsAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(fetchGoalsAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(saveGoalsAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(saveGoalsAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(deleteGoalAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(deleteGoalAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(updateGoalAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(updateGoalAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
                 state.loading = false;
                 return state;
             });

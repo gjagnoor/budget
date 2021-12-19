@@ -1,68 +1,80 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Button, ButtonGroup, Callout } from "@blueprintjs/core";
-import Months from "./Months";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
+import Sidebar from "../sidebar/Sidebar";
+import YearAtAGlance from "./YearAtAGlance";
+import DataTable from "./DataTable.js";
+import GoalsForm from "./GoalsForm.js";
+import GoalsRender from "./GoalsRender.js";
 
-function Budget({ year, summary }) {
-    const [isIncomeFormOpen, setIsIncomeFormOpen] = useState(false);
-    const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
+export default function Budget() {
+    const state = useSelector((state) => state);
     return (
         <div>
             <div
                 style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    margin: "0em 3em 0em 3em"
+                    margin: "1em"
                 }}
             >
-                <ButtonGroup style={{ alignSelf: "baseline" }}>
-                    <Button icon="calendar"></Button>
-                    <Button icon="timeline-bar-chart"></Button>
-                    <Button icon="search"></Button>
-                    <Button
-                        icon="bank-account"
-                        onClick={() => setIsIncomeFormOpen(true)}
-                    ></Button>
-                    <Button
-                        icon="dollar"
-                        onClick={() => setIsExpenseFormOpen(true)}
-                    ></Button>
-                    <Button icon="flag"></Button>
-                </ButtonGroup>
-                <div style={{ marginTop: "2em", alignSelf: "baseline" }}>
-                    <p style={{ color: "white" }}>Year {year}</p>
+                <div>
+                    <h2
+                        className="bp3-ui-text bp3-text-large"
+                        style={{ color: "white" }}
+                    >
+                        Year {state.budget.activeYear}
+                    </h2>
+                </div>
+                <div>
+                    <p className="bp3-ui-text" style={{ color: "white" }}>
+                        <span
+                            className="bp3-icon-star"
+                            style={{ color: "#3b7668" }}
+                        >
+                            {" "}
+                        </span>
+                        {state.budget.activeYear} Goal - $ 5000
+                    </p>
+                </div>
+                <div>
+                    <p
+                        className="bp3-ui-text bp3-text-small"
+                        style={{ color: "white" }}
+                    >
+                        Health Status - Good{" "}
+                        <span
+                            className="bp3-icon-tick"
+                            style={{ color: "#3b7668" }}
+                        ></span>
+                    </p>
+                    <p
+                        className="bp3-ui-text bp3-text-small"
+                        style={{ color: "white" }}
+                    >
+                        Delta - Good{" "}
+                        <span
+                            style={{ color: "#3b7668" }}
+                            className="bp3-icon-delta"
+                        ></span>
+                    </p>
                 </div>
             </div>
-            <Months />
-            {isIncomeFormOpen ? (
-                <IncomeForm
-                    isIncomeFormOpen={isIncomeFormOpen}
-                    setIsIncomeFormOpen={setIsIncomeFormOpen}
-                />
-            ) : null}
-            {isExpenseFormOpen ? (
-                <ExpenseForm
-                    isExpenseFormOpen={isExpenseFormOpen}
-                    setIsExpenseFormOpen={setIsExpenseFormOpen}
-                />
-            ) : null}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}
+            >
+                <YearAtAGlance />
+                <Sidebar />
+            </div>
+            <IncomeForm />
+            <ExpenseForm />
+            <DataTable />
+            <GoalsForm />
+            <GoalsRender />
         </div>
     );
 }
-
-const mapStateToProps = (state) => {
-    return {
-        year: state.budget.activeYear,
-        summary: state.budget.summary
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Budget);
-
-// helper funtions
