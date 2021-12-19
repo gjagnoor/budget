@@ -33,7 +33,7 @@ function GoalsDisplay() {
                                 </Button>
                             );
                         })}{" "}
-                    ]
+                    <br />]
                 </p>
             </Card>
         </React.Fragment>

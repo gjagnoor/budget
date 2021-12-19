@@ -126,7 +126,7 @@ function YearAtAGlance() {
                     }}
                 >
                     <ComposedChart
-                        width={500}
+                        width={550}
                         height={560}
                         data={data}
                         margin={{
