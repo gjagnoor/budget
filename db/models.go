@@ -19,7 +19,6 @@ type Income struct {
 	ID uuid.UUID
 	Label string
 	Amount int32
-	Category string
 	Year int32
 	Month int32
 	Week int32
@@ -31,7 +30,6 @@ type Expense struct {
 	ID uuid.UUID
 	Label string
 	Amount int32
-	Category string
 	Year int32
 	Month int32
 	Week int32

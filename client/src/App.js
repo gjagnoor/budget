@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { connect, useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate
+} from "react-router-dom";
 import { logoutAsync } from "./features/user/userAPI";
 import {
     fetchIncomesAsync,
@@ -26,11 +31,17 @@ function App({ loading, saveUser, user }) {
                 .then(async (res) => {
                     const userID = res.data.split("\n")[0];
                     await saveUser(userID || "");
-                    handleData();
+                    console.log("userID", userID);
                 })
                 .catch((err) => console.error(err));
         };
         fetchData();
+    }, [user]);
+
+    useEffect(() => {
+        if (user.ID) {
+            handleData();
+        }
     }, [user]);
 
     function handleData() {
@@ -48,7 +59,10 @@ function App({ loading, saveUser, user }) {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/budget" element={<Budget />} />
+                <Route
+                    path="/budget"
+                    element={state.user.ID ? <Budget /> : <Navigate to="/" />}
+                />
             </Routes>
             {loading ? (
                 <Backdrop

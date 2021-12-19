@@ -9,6 +9,7 @@ import {
     writeIsGoalsFormOpen,
     setShowGoalsRender
 } from "../appSlice";
+import { logoutAsync } from "../user/userAPI";
 
 function Sidebar({ writeExpenseFormOpen }) {
     const state = useSelector((state) => state);
@@ -104,18 +105,17 @@ function Sidebar({ writeExpenseFormOpen }) {
                             onClick={() => dispatch(setIsExpenseFormOpen(true))}
                         ></Button>
                     </Tooltip2>
-                    <Popover2
-                        content={<h1>Popover!</h1>}
+                    <Tooltip2
+                        content=" <= Sign Out"
                         position={Position.RIGHT}
+                        openOnTargetFocus={false}
                     >
-                        <Tooltip2
-                            content=" <= Sign Out"
-                            position={Position.RIGHT}
-                            openOnTargetFocus={false}
-                        >
-                            <Button icon="log-out" minimal={true}></Button>
-                        </Tooltip2>
-                    </Popover2>
+                        <Button
+                            icon="log-out"
+                            minimal={true}
+                            onClick={() => dispatch(logoutAsync())}
+                        ></Button>
+                    </Tooltip2>
                 </div>
             </nav>
         </div>

@@ -104,7 +104,11 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		if err != nil {
 			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		}
-		c.JSON(http.StatusFound, user)
+		if user == "" {
+			c.JSON(http.StatusNotFound, user)
+		} else {
+			c.JSON(http.StatusFound, user)
+		}
 	})
 
 	api.GET("/google/redirect", func(c *gin.Context) {
@@ -116,7 +120,7 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		gothic.StoreInSession("user", user.UserID, c.Request, c.Writer)
 		existingUser := database.GetUser(user.UserID, db)
 		boolean, err := strconv.ParseBool(existingUser.Email)
-		if err != nil && boolean != true {
+		if err != nil && !boolean {
 			var newUser database.User
 			newUser.ID = user.UserID
 			newUser.Email = user.Email

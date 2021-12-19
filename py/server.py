@@ -26,30 +26,34 @@ class SummaryServer(SummaryServicer):
         delta = self.getDelta(request.goal, totalSavingsByNextYear);
         goalAchieved = self.getGoalAchieved(request.goal, totalSavings);
         return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomeByNextYear=totalIncomeByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
-    def getFutureExpenses(expenses):
+    def getFutureExpenses(self, expenses):
         presentMonthExpenses = [expense.amount for expense in expenses if expense.Month == datetime.month];
+        presentMonthExpenses = sum(presentMonthExpenses)
         pastMonthsExpenses = [expense.amount for expense in expenses if expense.Month < datetime.month];
+        pastMonthsExpenses = sum(pastMonthsExpenses)
         rateOfGrowth = (presentMonthExpenses/pastMonthsExpenses)**(1/(datetime.month-1));
-        decExpenses = pastMonthsExpenses(1 + rateOfGrowth)**(12 - datetime.month)
+        decExpenses = pow(pastMonthsExpenses(1 + rateOfGrowth),(12 - datetime.month))
         return decExpenses;
-    def getFutureIncome(incomes):
+    def getFutureIncome(self, incomes):
         presentMonthIncome = [income.amount for income in incomes if income.Month == datetime.month];
+        presentMonthIncome = sum(presentMonthIncome)
         pastMonthsIncome = [income.amount for income in incomes if income.Month < datetime.month];
-        rateOfGrowth = (presentMonthIncome/pastMonthsIncome)**(1/(datetime.month-1));
+        pastMonthsIncome = sum(pastMonthsIncome)
+        rateOfGrowth = pow((presentMonthIncome/pastMonthsIncome), (1/(datetime.month-1)));
         decIncome = pastMonthsIncome(1 + rateOfGrowth)**(12 - datetime.month)
         return decIncome;
-    def getHealthStatus(incomes, expenses): # should save atleast 40% of savings
+    def getHealthStatus(self, incomes, expenses): # should save atleast 40% of savings
         savings = incomes - expenses;
         if (savings / incomes) < 0.4:
             return "Bad";
         else:
             return "Good";
-    def getDelta(goal, futureSavings): # their savings rate should help meet their goal 
+    def getDelta(self, goal, futureSavings): # their savings rate should help meet their goal 
         if goal.Amount > futureSavings:
             return "Bad";
         else:
             return "Good";
-    def getGoalAchieved(goal, totalSavings):
+    def getGoalAchieved(self, goal, totalSavings):
         diff = goal.Amount - totalSavings;
         percentage = (diff / goal.Amount) * 100;
         return percentage;
