@@ -54,7 +54,7 @@ function App({ loading, saveUser, user }) {
         dispatch(fetchGoalsAsync(details));
         return;
     }
-    console.log("userID", user.ID);
+    console.log("userID", user.ID, state.budget.summary);
     return (
         <Router>
             <Routes>

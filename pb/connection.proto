@@ -32,14 +32,20 @@ service Summary {
 
 message Income {
   int32 amount = 1;
+  int32 year = 2;
+  int32 month = 3;
 }
 
 message Expense {
   int32 amount = 1;
+  int32 year = 2;
+  int32 month = 3;
 }
 
 message Goal {
   int32 goal = 1;
+  int32 year = 2;
+  int32 month = 3;
 }
 
 message summaryThisYearResponse {

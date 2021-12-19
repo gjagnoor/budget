@@ -1,5 +1,5 @@
 from os import name
-from datetime import datetime
+from datetime import datetime, date
 from google.protobuf import message
 import grpc
 import logging
@@ -20,28 +20,32 @@ class SummaryServer(SummaryServicer):
         totalExpenses = sum(expenses);
         totalSavings = totalIncomes - totalExpenses;
         totalExpensesByNextYear = self.getFutureExpenses(request.expenses);
-        totalIncomeByNextYear = self.getFutureIncome(request.incomes, request.expenses);
-        totalSavingsByNextYear = totalIncomeByNextYear - totalExpensesByNextYear;
+        totalIncomesByNextYear = self.getFutureIncome(request.incomes);
+        totalSavingsByNextYear = totalIncomesByNextYear - totalExpensesByNextYear;
         healthStatus = self.getHealthStatus(totalIncomes, totalExpenses);
         delta = self.getDelta(request.goal, totalSavingsByNextYear);
         goalAchieved = self.getGoalAchieved(request.goal, totalSavings);
-        return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomeByNextYear=totalIncomeByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
+        return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomesByNextYear=totalIncomesByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
     def getFutureExpenses(self, expenses):
-        presentMonthExpenses = [expense.amount for expense in expenses if expense.Month == datetime.month];
+        presentMonthExpenses = [expense.amount if expense.month == date.today().month else 0 for expense in expenses];
         presentMonthExpenses = sum(presentMonthExpenses)
-        pastMonthsExpenses = [expense.amount for expense in expenses if expense.Month < datetime.month];
+        pastMonthsExpenses = [expense.amount if expense.month < date.today().month else 0 for expense in expenses];
         pastMonthsExpenses = sum(pastMonthsExpenses)
-        rateOfGrowth = (presentMonthExpenses/pastMonthsExpenses)**(1/(datetime.month-1));
-        decExpenses = pow(pastMonthsExpenses(1 + rateOfGrowth),(12 - datetime.month))
-        return decExpenses;
+        if pastMonthsExpenses <= 0:
+            pastMonthsExpenses = 1
+        rateOfGrowth = pow((presentMonthExpenses/pastMonthsExpenses),(1/(date.today().month-1)));
+        decExpenses = pow(pastMonthsExpenses * (1 + rateOfGrowth),(12 - date.today().month))
+        return round(decExpenses);
     def getFutureIncome(self, incomes):
-        presentMonthIncome = [income.amount for income in incomes if income.Month == datetime.month];
+        presentMonthIncome = [income.amount if income.month == date.today().month else 0 for income in incomes];
         presentMonthIncome = sum(presentMonthIncome)
-        pastMonthsIncome = [income.amount for income in incomes if income.Month < datetime.month];
+        pastMonthsIncome = [income.amount if income.month < date.today().month else 0 for income in incomes];
         pastMonthsIncome = sum(pastMonthsIncome)
-        rateOfGrowth = pow((presentMonthIncome/pastMonthsIncome), (1/(datetime.month-1)));
-        decIncome = pastMonthsIncome(1 + rateOfGrowth)**(12 - datetime.month)
-        return decIncome;
+        if pastMonthsIncome <= 0:
+            pastMonthsIncome = 1
+        rateOfGrowth = pow((presentMonthIncome/pastMonthsIncome), (1/(date.today().month-1)));
+        decIncome = pow(pastMonthsIncome * (1 + rateOfGrowth),(12 - date.today().month))
+        return round(decIncome);
     def getHealthStatus(self, incomes, expenses): # should save atleast 40% of savings
         savings = incomes - expenses;
         if (savings / incomes) < 0.4:
@@ -49,14 +53,19 @@ class SummaryServer(SummaryServicer):
         else:
             return "Good";
     def getDelta(self, goal, futureSavings): # their savings rate should help meet their goal 
-        if goal.Amount > futureSavings:
+        if hasattr(goal, "amount") == False:
+            return "";
+        elif goal.amount > futureSavings:
             return "Bad";
         else:
             return "Good";
     def getGoalAchieved(self, goal, totalSavings):
-        diff = goal.Amount - totalSavings;
-        percentage = (diff / goal.Amount) * 100;
-        return percentage;
+        if hasattr(goal, "amount") == False:
+            return 0;
+        else:
+            diff = goal.amount - totalSavings;
+            percentage = (diff / goal.amount) * 100;
+            return round(percentage);
 
 if __name__ == '__main__':
     logging.basicConfig(
