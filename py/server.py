@@ -22,7 +22,10 @@ class SummaryServer(SummaryServicer):
         totalExpensesByNextYear = self.getFutureExpenses(request.expenses);
         totalIncomeByNextYear = self.getFutureIncome(request.incomes, request.expenses);
         totalSavingsByNextYear = totalIncomeByNextYear - totalExpensesByNextYear;
-        return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomeByNextYear=totalIncomeByNextYear, totalSavingsByNextYear=totalSavingsByNextYear);
+        healthStatus = self.getHealthStatus(totalIncomes, totalExpenses);
+        delta = self.getDelta(request.goal, totalSavingsByNextYear);
+        goalAchieved = self.getGoalAchieved(request.goal, totalSavings);
+        return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomeByNextYear=totalIncomeByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
     def getFutureExpenses(expenses):
         presentMonthExpenses = [expense.amount for expense in expenses if expense.Month == datetime.month];
         pastMonthsExpenses = [expense.amount for expense in expenses if expense.Month < datetime.month];
@@ -35,8 +38,21 @@ class SummaryServer(SummaryServicer):
         rateOfGrowth = (presentMonthIncome/pastMonthsIncome)**(1/(datetime.month-1));
         decIncome = pastMonthsIncome(1 + rateOfGrowth)**(12 - datetime.month)
         return decIncome;
-
-
+    def getHealthStatus(incomes, expenses): # should save atleast 40% of savings
+        savings = incomes - expenses;
+        if (savings / incomes) < 0.4:
+            return "Bad";
+        else:
+            return "Good";
+    def getDelta(goal, futureSavings): # their savings rate should help meet their goal 
+        if goal.Amount > futureSavings:
+            return "Bad";
+        else:
+            return "Good";
+    def getGoalAchieved(goal, totalSavings):
+        diff = goal.Amount - totalSavings;
+        percentage = (diff / goal.Amount) * 100;
+        return percentage;
 
 if __name__ == '__main__':
     logging.basicConfig(

@@ -35,7 +35,12 @@ export default function Budget() {
                         >
                             {" "}
                         </span>
-                        {state.budget.activeYear} Goal - $ 5000
+                        {state.budget.activeYear} Goal - ${" "}
+                        {state.budget.goals.length
+                            ? state.budget.goals.filter(
+                                  (goal) => goal.Category === "main"
+                              )[0].Amount
+                            : 0}
                     </p>
                 </div>
                 <div>

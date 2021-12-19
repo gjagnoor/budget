@@ -38,13 +38,24 @@ message Expense {
   int32 amount = 1;
 }
 
+message Goal {
+  int32 goal = 1;
+}
+
 message summaryThisYearResponse {
   int32 totalIncomes = 1;
   int32 totalExpenses = 2;
   int32 totalSavings = 3;
+  int32 totalIncomesByNextYear = 4;
+  int32 totalExpensesByNextYear = 5;
+  int32 totalSavingsByNextYear = 6;
+  string healthStatus = 7;
+  string delta = 8;
+  int32 goalAchieved = 9;
 }
 
 message summaryThisYearRequest {
   repeated Income incomes = 1;
   repeated Expense expenses = 2;
+  Goal goal = 3;
 }

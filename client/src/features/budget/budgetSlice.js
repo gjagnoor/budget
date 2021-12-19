@@ -12,6 +12,7 @@ import {
     deleteGoalAsync,
     updateGoalAsync
 } from "./budgetAPI.js";
+
 export const months = [
     "Jan",
     "Feb",
@@ -35,15 +36,15 @@ const initialState = {
     expenses: [],
     goals: [],
     summaryByYear: {
-        totalExpenses: 0, // done
-        totalIncome: 0, // done
-        totalSavings: 0, // done
-        expensesByNextYear: 0, // done
-        incomeByNextYear: 0, // done
-        savingsByNextYear: 0, // done
-        healthStatus: "Good", // [bad] // to do
-        delta: "Good", // [bad] // to do
-        goalAchieved: 0 // to do
+        totalExpenses: 0,
+        totalIncome: 0,
+        totalSavings: 0,
+        expensesByNextYear: 0,
+        incomeByNextYear: 0,
+        savingsByNextYear: 0,
+        healthStatus: "",
+        delta: "",
+        goalAchieved: 0
     },
     summaryByMonths: [],
     loading: false
