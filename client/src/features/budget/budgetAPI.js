@@ -41,6 +41,14 @@ export const saveIncomeAsync = createAsyncThunk(
     }
 );
 
+export const updateGoalAsync = createAsyncThunk(
+    "goal/update",
+    async (details) => {
+        const createdBoolean = await updateGoal(details);
+        return createdBoolean;
+    }
+);
+
 export const saveExpenseAsync = createAsyncThunk(
     "expense/create",
     async (expenseDetails) => {
@@ -109,6 +117,18 @@ const saveIncome = async (details) => {
 const saveGoals = async (details) => {
     return await axios
         .post("/api/goals", details)
+        .then(async (res) => {
+            return await fetchGoals({
+                UserID: details.UserID,
+                Year: details.Year
+            });
+        })
+        .catch((err) => console.error(err));
+};
+
+const updateGoal = async (details) => {
+    return await axios
+        .put("/api/goal", details)
         .then(async (res) => {
             return await fetchGoals({
                 UserID: details.UserID,

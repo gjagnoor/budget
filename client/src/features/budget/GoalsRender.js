@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,9 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowGoalsRender } from "../appSlice";
 import { Button, Dialog } from "@blueprintjs/core";
-import { deleteGoalAsync } from "./budgetAPI";
+import { deleteGoalAsync, updateGoalAsync } from "./budgetAPI";
 
 export default function GoalsRender() {
+    const [selected, setSelected] = useState({
+        ID: "",
+        Completed: false
+    });
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const handleDeleteGoal = async (goal) => {
@@ -20,6 +24,20 @@ export default function GoalsRender() {
             Year: state.budget.activeYear
         };
         dispatch(deleteGoalAsync(deleteDetails));
+        return;
+    };
+    const handleUpdate = async (goal) => {
+        const details = {
+            UserID: state.user.ID,
+            Year: state.budget.activeYear,
+            ...goal
+        };
+        console.log(details);
+        dispatch(updateGoalAsync(details));
+        setSelected({
+            ID: "",
+            Completed: false
+        });
         return;
     };
     console.log("goals", state.budget.goals);
@@ -54,6 +72,7 @@ export default function GoalsRender() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell></TableCell>
+                                    <TableCell></TableCell>
                                     <TableCell
                                         component="th"
                                         scope="row"
@@ -80,6 +99,23 @@ export default function GoalsRender() {
                                                     handleDeleteGoal(row)
                                                 }
                                             ></Button>
+                                        </TableCell>
+                                        <TableCell>
+                                            <input
+                                                type="checkbox"
+                                                name="completed"
+                                                checked={
+                                                    row.Completed ||
+                                                    selected.Completed
+                                                }
+                                                onChange={(e) =>
+                                                    handleUpdate({
+                                                        ID: row.ID,
+                                                        Completed:
+                                                            !row.Completed
+                                                    })
+                                                }
+                                            />
                                         </TableCell>
                                         <TableCell
                                             style={{

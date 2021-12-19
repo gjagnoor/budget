@@ -28,6 +28,13 @@ func GoalsRoutes (api *gin.RouterGroup, db *gorm.DB) {
 		c.JSON(http.StatusOK, true)
 	})
 
+	api.PUT("/goal", func (c *gin.Context) {
+		var requestBody database.UpdateGoalInput
+		c.BindJSON(&requestBody)
+		database.UpdateGoal(requestBody, db)
+		c.JSON(http.StatusOK, true)
+	})
+
 	api.DELETE("/goal", func (c *gin.Context) {
 		type request struct {
 			UserID string

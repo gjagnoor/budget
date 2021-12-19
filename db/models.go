@@ -42,6 +42,7 @@ type Goal struct {
 	Amount int32
 	ReceivedOn int64
 	Category string
+	Completed bool
 	UserID string
 }
 

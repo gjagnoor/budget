@@ -9,7 +9,8 @@ import {
     fetchSummaryAsync,
     fetchGoalsAsync,
     saveGoalsAsync,
-    deleteGoalAsync
+    deleteGoalAsync,
+    updateGoalAsync
 } from "./budgetAPI.js";
 export const months = [
     "Jan",
@@ -142,6 +143,15 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(deleteGoalAsync.fulfilled, (state, { payload }) => {
+                state.goals = payload || [];
+                state.loading = false;
+                return state;
+            })
+            .addCase(updateGoalAsync.pending, (state, { payload }) => {
+                state.loading = true;
+                return state;
+            })
+            .addCase(updateGoalAsync.fulfilled, (state, { payload }) => {
                 state.goals = payload || [];
                 state.loading = false;
                 return state;
