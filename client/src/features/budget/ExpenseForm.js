@@ -12,6 +12,7 @@ import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 import { saveExpenseAsync, deleteExpenseAsync } from "./budgetAPI";
 import { setIsExpenseFormOpen } from "../appSlice";
+import currentWeekNumber from "current-week-number";
 
 function ExpenseForm({
     user,
@@ -31,20 +32,14 @@ function ExpenseForm({
         );
     };
     const handleSubmit = async () => {
-        const firstOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/1 00:00:00`)
-        );
-        const lastOfThisMonth = Date.parse(
-            new Date(`${activeYear}/${activeMonth}/31 23:59:59`)
-        );
         const expenseDetails = {
-            userID: user.ID,
-            label: label,
-            amount: amount,
-            category: category,
-            receivedOn: Date.parse(selectedDate),
-            initialDate: firstOfThisMonth,
-            endDate: lastOfThisMonth
+            UserID: user.ID,
+            Label: label,
+            Amount: amount,
+            Category: category,
+            Year: selectedDate.getUTCFullYear(),
+            Month: selectedDate.getUTCMonth(),
+            Week: currentWeekNumber(selectedDate)
         };
         await saveExpense(expenseDetails);
         return;

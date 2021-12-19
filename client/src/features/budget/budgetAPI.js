@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchSummaryAsync = createAsyncThunk(
-    "summary/fetch",
+export const fetchSummaryByYearAsync = createAsyncThunk(
+    "summaryByYear/fetch",
     async (details) => {
-        const summary = await fetchSummary(details);
+        const summary = await fetchSummaryByYear(details);
         return summary;
     }
 );
@@ -106,9 +106,8 @@ const saveIncome = async (details) => {
         .post("/api/income", details)
         .then(async (res) => {
             return await fetchIncomes({
-                UserID: details.userID,
-                InitialDate: details.initialDate,
-                EndDate: details.endDate
+                UserID: details.UserID,
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));
@@ -163,18 +162,11 @@ const fetchExpenses = async (details) => {
 
 const saveExpense = async (details) => {
     return await axios
-        .post("/api/expense", {
-            userID: details.userID,
-            label: details.label,
-            amount: details.amount,
-            category: details.category,
-            receivedOn: details.receivedOn
-        })
+        .post("/api/expense", details)
         .then(async (res) => {
             return await fetchExpenses({
-                UserID: details.userID,
-                InitialDate: details.initialDate,
-                EndDate: details.endDate
+                UserID: details.UserID,
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));
@@ -184,15 +176,14 @@ const deleteExpense = async (details) => {
     return await axios
         .delete("/api/expense", {
             params: {
-                UserID: details.userID,
-                ExpenseID: details.expenseID
+                UserID: details.UserID,
+                ExpenseID: details.ExpenseID
             }
         })
         .then(async (res) => {
             return await fetchExpenses({
                 UserID: details.userID,
-                InitialDate: details.initialDate,
-                EndDate: details.endDate
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));
@@ -202,15 +193,14 @@ const deleteIncome = async (details) => {
     return await axios
         .delete("/api/income", {
             params: {
-                UserID: details.userID,
-                IncomeID: details.incomeID
+                UserID: details.UserID,
+                IncomeID: details.IncomeID
             }
         })
         .then(async (res) => {
             return await fetchIncomes({
-                UserID: details.userID,
-                InitialDate: details.initialDate,
-                EndDate: details.endDate
+                UserID: details.UserID,
+                Year: details.Year
             });
         })
         .catch((err) => console.error(err));
@@ -233,9 +223,9 @@ const deleteGoal = async (details) => {
         .catch((err) => console.error(err));
 };
 
-const fetchSummary = async (details) => {
+const fetchSummaryByYear = async (details) => {
     return await axios
-        .get(`/api/summary`, {
+        .get(`/api/summaryByYear`, {
             params: {
                 ...details
             }

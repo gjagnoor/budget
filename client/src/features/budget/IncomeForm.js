@@ -12,6 +12,7 @@ import { Select } from "@blueprintjs/select";
 import { DateInput } from "@blueprintjs/datetime";
 import { saveIncomeAsync } from "./budgetAPI.js";
 import { setIsIncomeFormOpen } from "../appSlice.js";
+import currentWeekNumber from "current-week-number";
 
 export default function IncomeForm() {
     const state = useSelector((state) => state);
@@ -27,23 +28,14 @@ export default function IncomeForm() {
         );
     };
     const handleSubmit = () => {
-        let firstOfThisMonth = new Date(
-            `${state.budget.activeYear}/${state.budget.activeMonth}/1 00:00:00`
-        );
-
-        let lastOfThisMonth = new Date(
-            `${state.budget.activeYear}/${state.budget.activeMonth}/31 23:59:59`
-        );
-        firstOfThisMonth = Date.parse(firstOfThisMonth);
-        lastOfThisMonth = Date.parse(lastOfThisMonth);
         const incomeDetails = {
-            userID: state.user.ID,
-            label: label,
-            amount: amount,
-            category: category,
-            receivedOn: Date.parse(selectedDate),
-            initialDate: firstOfThisMonth,
-            endDate: lastOfThisMonth
+            UserID: state.user.ID,
+            Label: label,
+            Amount: amount,
+            Category: category,
+            Year: selectedDate.getUTCFullYear(),
+            Month: selectedDate.getUTCMonth(),
+            Week: currentWeekNumber(selectedDate)
         };
         dispatch(saveIncomeAsync(incomeDetails));
         return;
