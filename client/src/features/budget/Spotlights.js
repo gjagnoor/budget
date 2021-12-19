@@ -10,8 +10,6 @@ export const colorScheme = [
     "#394B59" // dark
 ];
 
-const margin = 9;
-
 function Spotlights() {
     const state = useSelector((state) => state);
     return (
@@ -39,7 +37,7 @@ function Spotlights() {
                             Total Expenses so far This Year
                         </a>
                     </h5>
-                    <p style={{ fontSize: "3em" }}>
+                    <p style={{ fontSize: "400%" }}>
                         $ {state.budget.summaryByYear.totalExpenses}
                     </p>
                 </Card>
@@ -59,7 +57,7 @@ function Spotlights() {
                             Total Expenses by next Year
                         </a>
                     </h5>
-                    <p style={{ fontSize: "3em" }}>
+                    <p style={{ fontSize: "400%" }}>
                         $ {state.budget.summaryByYear.expensesByNextYear}{" "}
                     </p>
                 </Card>
@@ -87,7 +85,7 @@ function Spotlights() {
                             Total Savings so far This Year
                         </a>
                     </h5>
-                    <p style={{ fontSize: "3em" }}>
+                    <p style={{ fontSize: "400%" }}>
                         $ {state.budget.summaryByYear.totalSavings}
                     </p>
                 </Card>
@@ -107,7 +105,7 @@ function Spotlights() {
                             Total Savings by next Year
                         </a>
                     </h5>
-                    <p style={{ fontSize: "3em" }}>
+                    <p style={{ fontSize: "400%" }}>
                         $ {state.budget.summaryByYear.savingsByNextYear}
                     </p>
                 </Card>
