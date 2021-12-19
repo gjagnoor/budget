@@ -1,6 +1,6 @@
 import { Callout } from "@blueprintjs/core";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
 import { Icon, IconSize } from "@blueprintjs/core";
 
@@ -10,6 +10,7 @@ export const colorScheme = [
 ];
 
 function Goals() {
+    const state = useSelector((state) => state);
     return (
         <React.Fragment>
             <div
@@ -26,7 +27,7 @@ function Goals() {
                     />
                 </Badge>
                 {/* if you save more than the target it will show the new difference with a + -- called an error budget [now you can start researching, experimenting and taking risks] */}
-                <Badge badgeContent="+$2000" color="success">
+                <Badge badgeContent={`+$2000`} color="success">
                     <Icon icon="chart" size="20px" style={{ color: "white" }} />
                 </Badge>
             </div>

@@ -119,8 +119,7 @@ export const budgetSlice = createSlice({
                     {
                         expenses: payload.totalExpenses,
                         incomes: payload.totalIncomes,
-                        month: payload.totalSavings,
-                        savingsPercentage: state.summary.savingsPercentage
+                        month: payload.totalSavings
                     } || {};
                 state.loading = false;
                 return state;

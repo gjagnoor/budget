@@ -1,6 +1,6 @@
 import { Callout } from "@blueprintjs/core";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 export const colorScheme = [
     "#182026", // dark
@@ -8,6 +8,7 @@ export const colorScheme = [
 ];
 
 function Spotlights() {
+    const state = useSelector((state) => state);
     return (
         <React.Fragment>
             <div
@@ -37,7 +38,7 @@ function Spotlights() {
                         className="bp3-ui-text bp3-text-small"
                         style={{ color: "white" }}
                     >
-                        $ 5000
+                        $ {state.budget.summaryByYear.totalExpenses}
                     </p>
                 </Callout>
                 <Callout
@@ -61,7 +62,7 @@ function Spotlights() {
                         className="bp3-ui-text bp3-text-small"
                         style={{ color: "white" }}
                     >
-                        $ 5000
+                        $ {state.budget.summaryByYear.expensesByNextYear}
                     </h2>
                 </Callout>
                 <Callout
@@ -84,7 +85,7 @@ function Spotlights() {
                         className="bp3-ui-text bp3-text-small"
                         style={{ color: "white" }}
                     >
-                        $ 3500
+                        $ {state.budget.summaryByYear.totalSavings}
                     </h4>
                 </Callout>
                 <Callout
@@ -106,7 +107,7 @@ function Spotlights() {
                         className="bp3-ui-text bp3-text-small"
                         style={{ color: "white" }}
                     >
-                        $ 5000
+                        $ {state.budget.summaryByYear.savingsByNextYear}
                     </h4>
                 </Callout>
             </div>
