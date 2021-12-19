@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Drawer, Button, Position, Callout, Divider } from "@blueprintjs/core";
+import { Button, Position, Divider } from "@blueprintjs/core";
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import {
     setIsExpenseFormOpen,
@@ -33,7 +33,7 @@ function Sidebar({ writeExpenseFormOpen }) {
                     <h5>$$$</h5>
                     <Divider />
                     <Tooltip2
-                        content="Resolution" // target savings and goals for next year
+                        content="Resolution"
                         position={Position.RIGHT}
                         openOnTargetFocus={false}
                     >
@@ -44,7 +44,7 @@ function Sidebar({ writeExpenseFormOpen }) {
                         ></Button>
                     </Tooltip2>
                     <Tooltip2
-                        content="Manage Goals" // target savings and goals for next year
+                        content="Manage Goals"
                         position={Position.RIGHT}
                         openOnTargetFocus={false}
                     >
