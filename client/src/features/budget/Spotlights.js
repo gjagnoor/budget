@@ -1,11 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Callout } from "@blueprintjs/core";
 import React from "react";
 import { connect, useSelector } from "react-redux";
+import { Button, Card, Elevation } from "@blueprintjs/core";
+import Goals from "./Goals";
 
 export const colorScheme = [
     "#182026", // dark
     "#394B59" // dark
 ];
+
+const margin = 9;
 
 function Spotlights() {
     const state = useSelector((state) => state);
@@ -15,102 +20,99 @@ function Spotlights() {
                 style={{
                     display: "flex",
                     justifyContent: "space-around",
-                    padding: "1em"
+                    margin: `1em`
                 }}
             >
-                <Callout
-                    icon="asterisk"
-                    intent="danger"
-                    style={{
-                        backgroundColor: "#394B59",
-                        margin: "2em"
-                    }}
-                    title={
-                        <h6
-                            className="bp3-ui-text bp3-text-small"
-                            style={{ color: "white" }}
+                <Card
+                    interactive={true}
+                    elevation={Elevation.FOUR}
+                    style={{ margin: "3%" }}
+                >
+                    <h5>
+                        <a
+                            href="#"
+                            style={{
+                                textDecoration: "none",
+                                whiteSpace: "nowrap"
+                            }}
                         >
                             Total Expenses so far This Year
-                        </h6>
-                    }
-                >
-                    <p
-                        className="bp3-ui-text bp3-text-small"
-                        style={{ color: "white" }}
-                    >
+                        </a>
+                    </h5>
+                    <p style={{ fontSize: "3em" }}>
                         $ {state.budget.summaryByYear.totalExpenses}
                     </p>
-                </Callout>
-                <Callout
-                    icon="asterisk"
-                    intent="danger"
-                    style={{
-                        backgroundColor: "#182026",
-                        borderRadius: "25px",
-                        margin: "2em"
-                    }}
-                    title={
-                        <h6
-                            className="bp3-ui-text bp3-text-small"
-                            style={{ color: "white" }}
-                        >
-                            Total Expenses by Next Year
-                        </h6>
-                    }
+                </Card>
+                <Card
+                    interactive={true}
+                    elevation={Elevation.FOUR}
+                    style={{ margin: "3%" }}
                 >
-                    <h2
-                        className="bp3-ui-text bp3-text-small"
-                        style={{ color: "white" }}
-                    >
-                        $ {state.budget.summaryByYear.expensesByNextYear}
-                    </h2>
-                </Callout>
-                <Callout
-                    intent="success"
-                    style={{
-                        backgroundColor: "#394B59",
-                        borderRadius: "25px",
-                        margin: "2em"
-                    }}
-                    title={
-                        <h6
-                            className="bp3-ui-text bp3-text-small"
-                            style={{ color: "white" }}
+                    <h5>
+                        <a
+                            href="#"
+                            style={{
+                                textDecoration: "none",
+                                whiteSpace: "nowrap"
+                            }}
                         >
-                            Savings so far this year
-                        </h6>
-                    }
-                >
-                    <h4
-                        className="bp3-ui-text bp3-text-small"
-                        style={{ color: "white" }}
-                    >
-                        $ {state.budget.summaryByYear.totalSavings}
-                    </h4>
-                </Callout>
-                <Callout
-                    intent="success"
-                    style={{
-                        backgroundColor: "#182026",
-                        margin: "2em"
-                    }}
-                    title={
-                        <h6
-                            className="bp3-ui-text bp3-text-small"
-                            style={{ color: "white" }}
-                        >
-                            Savings by next year
-                        </h6>
-                    }
-                >
-                    <h4
-                        className="bp3-ui-text bp3-text-small"
-                        style={{ color: "white" }}
-                    >
-                        $ {state.budget.summaryByYear.savingsByNextYear}
-                    </h4>
-                </Callout>
+                            Total Expenses by next Year
+                        </a>
+                    </h5>
+                    <p style={{ fontSize: "3em" }}>
+                        $ {state.budget.summaryByYear.expensesByNextYear}{" "}
+                    </p>
+                </Card>
             </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    margin: "3em"
+                }}
+            >
+                <Card
+                    interactive={true}
+                    elevation={Elevation.FOUR}
+                    style={{ margin: "3%" }}
+                >
+                    <h5>
+                        <a
+                            href="#"
+                            style={{
+                                textDecoration: "none",
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            Total Savings so far This Year
+                        </a>
+                    </h5>
+                    <p style={{ fontSize: "3em" }}>
+                        $ {state.budget.summaryByYear.totalSavings}
+                    </p>
+                </Card>
+                <Card
+                    interactive={true}
+                    elevation={Elevation.FOUR}
+                    style={{ margin: "3%" }}
+                >
+                    <h5>
+                        <a
+                            href="#"
+                            style={{
+                                textDecoration: "none",
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            Total Savings by next Year
+                        </a>
+                    </h5>
+                    <p style={{ fontSize: "3em" }}>
+                        $ {state.budget.summaryByYear.savingsByNextYear}
+                    </p>
+                </Card>
+            </div>
+            <Goals />
         </React.Fragment>
     );
 }

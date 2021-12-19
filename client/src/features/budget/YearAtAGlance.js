@@ -108,30 +108,45 @@ const data = [
 function YearAtAGlance() {
     return (
         <div>
-            <Goals />
-            <Spotlights />
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <ComposedChart
-                    width={1400}
-                    height={400}
-                    data={data}
-                    margin={{
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 20
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    margin: "2%"
+                }}
+            >
+                <div style={{ margin: "2%" }}>
+                    <Spotlights />
+                </div>
+                <div
+                    style={{
+                        backgroundColor: "white",
+                        borderRadius: "25px",
+                        padding: "2%"
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" scale="band" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="Income" barSize={20} fill="#3b7668" />
-                    <Bar dataKey="Expenses" barSize={20} fill="#8884d8" />
-                    <Bar dataKey="Savings" barSize={20} fill="#82ca9d" />
-                    <Line type="monotone" dataKey="Goal" stroke="#ff7300" />
-                </ComposedChart>
+                    <ComposedChart
+                        width={700}
+                        height={500}
+                        data={data}
+                        margin={{
+                            top: 20,
+                            right: 20,
+                            bottom: 20,
+                            left: 20
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" scale="band" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Income" barSize={20} fill="#3b7668" />
+                        <Bar dataKey="Expenses" barSize={20} fill="#8884d8" />
+                        <Bar dataKey="Savings" barSize={20} fill="#82ca9d" />
+                        <Line type="monotone" dataKey="Goal" stroke="#ff7300" />
+                    </ComposedChart>
+                </div>
             </div>
         </div>
     );
