@@ -14,6 +14,7 @@ import {
     ComposedChart
 } from "recharts";
 import Goals from "./Goals";
+import GoalsDisplay from "./GoalsDisplay";
 import Spotlights from "./Spotlights";
 
 const yearlySavingGoal = 5000;
@@ -111,11 +112,10 @@ function YearAtAGlance() {
             <div
                 style={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    margin: "2%"
+                    justifyContent: "space-between"
                 }}
             >
-                <div style={{ margin: "2%" }}>
+                <div>
                     <Spotlights />
                 </div>
                 <div
@@ -126,8 +126,8 @@ function YearAtAGlance() {
                     }}
                 >
                     <ComposedChart
-                        width={700}
-                        height={500}
+                        width={500}
+                        height={560}
                         data={data}
                         margin={{
                             top: 20,
@@ -146,6 +146,9 @@ function YearAtAGlance() {
                         <Bar dataKey="Savings" barSize={20} fill="#82ca9d" />
                         <Line type="monotone" dataKey="Goal" stroke="#ff7300" />
                     </ComposedChart>
+                </div>
+                <div>
+                    <GoalsDisplay />
                 </div>
             </div>
         </div>
