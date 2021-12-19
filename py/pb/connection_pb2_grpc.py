@@ -111,10 +111,10 @@ class SummaryStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetSummaryThisMonth = channel.unary_unary(
-                '/pb.Summary/GetSummaryThisMonth',
-                request_serializer=pb_dot_connection__pb2.summaryThisMonthRequest.SerializeToString,
-                response_deserializer=pb_dot_connection__pb2.summaryThisMonthResponse.FromString,
+        self.GetSummaryThisYear = channel.unary_unary(
+                '/pb.Summary/GetSummaryThisYear',
+                request_serializer=pb_dot_connection__pb2.summaryThisYearRequest.SerializeToString,
+                response_deserializer=pb_dot_connection__pb2.summaryThisYearResponse.FromString,
                 )
 
 
@@ -123,7 +123,7 @@ class SummaryServicer(object):
 
     """
 
-    def GetSummaryThisMonth(self, request, context):
+    def GetSummaryThisYear(self, request, context):
         """Missing associated documentation comment in .proto file"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -132,10 +132,10 @@ class SummaryServicer(object):
 
 def add_SummaryServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetSummaryThisMonth': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetSummaryThisMonth,
-                    request_deserializer=pb_dot_connection__pb2.summaryThisMonthRequest.FromString,
-                    response_serializer=pb_dot_connection__pb2.summaryThisMonthResponse.SerializeToString,
+            'GetSummaryThisYear': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSummaryThisYear,
+                    request_deserializer=pb_dot_connection__pb2.summaryThisYearRequest.FromString,
+                    response_serializer=pb_dot_connection__pb2.summaryThisYearResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -150,7 +150,7 @@ class Summary(object):
     """
 
     @staticmethod
-    def GetSummaryThisMonth(request,
+    def GetSummaryThisYear(request,
             target,
             options=(),
             channel_credentials=None,
@@ -159,8 +159,8 @@ class Summary(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/pb.Summary/GetSummaryThisMonth',
-            pb_dot_connection__pb2.summaryThisMonthRequest.SerializeToString,
-            pb_dot_connection__pb2.summaryThisMonthResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/pb.Summary/GetSummaryThisYear',
+            pb_dot_connection__pb2.summaryThisYearRequest.SerializeToString,
+            pb_dot_connection__pb2.summaryThisYearResponse.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -142,7 +142,7 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SummaryClient interface {
-	GetSummaryThisMonth(ctx context.Context, in *SummaryThisMonthRequest, opts ...grpc.CallOption) (*SummaryThisMonthResponse, error)
+	GetSummaryThisYear(ctx context.Context, in *SummaryThisYearRequest, opts ...grpc.CallOption) (*SummaryThisYearResponse, error)
 }
 
 type summaryClient struct {
@@ -153,9 +153,9 @@ func NewSummaryClient(cc grpc.ClientConnInterface) SummaryClient {
 	return &summaryClient{cc}
 }
 
-func (c *summaryClient) GetSummaryThisMonth(ctx context.Context, in *SummaryThisMonthRequest, opts ...grpc.CallOption) (*SummaryThisMonthResponse, error) {
-	out := new(SummaryThisMonthResponse)
-	err := c.cc.Invoke(ctx, "/pb.Summary/GetSummaryThisMonth", in, out, opts...)
+func (c *summaryClient) GetSummaryThisYear(ctx context.Context, in *SummaryThisYearRequest, opts ...grpc.CallOption) (*SummaryThisYearResponse, error) {
+	out := new(SummaryThisYearResponse)
+	err := c.cc.Invoke(ctx, "/pb.Summary/GetSummaryThisYear", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +166,7 @@ func (c *summaryClient) GetSummaryThisMonth(ctx context.Context, in *SummaryThis
 // All implementations must embed UnimplementedSummaryServer
 // for forward compatibility
 type SummaryServer interface {
-	GetSummaryThisMonth(context.Context, *SummaryThisMonthRequest) (*SummaryThisMonthResponse, error)
+	GetSummaryThisYear(context.Context, *SummaryThisYearRequest) (*SummaryThisYearResponse, error)
 	mustEmbedUnimplementedSummaryServer()
 }
 
@@ -174,8 +174,8 @@ type SummaryServer interface {
 type UnimplementedSummaryServer struct {
 }
 
-func (UnimplementedSummaryServer) GetSummaryThisMonth(context.Context, *SummaryThisMonthRequest) (*SummaryThisMonthResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSummaryThisMonth not implemented")
+func (UnimplementedSummaryServer) GetSummaryThisYear(context.Context, *SummaryThisYearRequest) (*SummaryThisYearResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSummaryThisYear not implemented")
 }
 func (UnimplementedSummaryServer) mustEmbedUnimplementedSummaryServer() {}
 
@@ -190,20 +190,20 @@ func RegisterSummaryServer(s grpc.ServiceRegistrar, srv SummaryServer) {
 	s.RegisterService(&Summary_ServiceDesc, srv)
 }
 
-func _Summary_GetSummaryThisMonth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SummaryThisMonthRequest)
+func _Summary_GetSummaryThisYear_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SummaryThisYearRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SummaryServer).GetSummaryThisMonth(ctx, in)
+		return srv.(SummaryServer).GetSummaryThisYear(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.Summary/GetSummaryThisMonth",
+		FullMethod: "/pb.Summary/GetSummaryThisYear",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SummaryServer).GetSummaryThisMonth(ctx, req.(*SummaryThisMonthRequest))
+		return srv.(SummaryServer).GetSummaryThisYear(ctx, req.(*SummaryThisYearRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -216,8 +216,8 @@ var Summary_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SummaryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetSummaryThisMonth",
-			Handler:    _Summary_GetSummaryThisMonth_Handler,
+			MethodName: "GetSummaryThisYear",
+			Handler:    _Summary_GetSummaryThisYear_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

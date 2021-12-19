@@ -27,7 +27,7 @@ message HelloReply {
 // Above this ----- barebones connection established ----- 
 
 service Summary {
-  rpc GetSummaryThisMonth (summaryThisMonthRequest) returns (summaryThisMonthResponse) {}
+  rpc GetSummaryThisYear (summaryThisYearRequest) returns (summaryThisYearResponse) {}
 }
 
 message Income {
@@ -38,13 +38,13 @@ message Expense {
   int32 amount = 1;
 }
 
-message summaryThisMonthResponse {
+message summaryThisYearResponse {
   int32 totalIncomes = 1;
   int32 totalExpenses = 2;
   int32 totalSavings = 3;
 }
 
-message summaryThisMonthRequest {
+message summaryThisYearRequest {
   repeated Income incomes = 1;
   repeated Expense expenses = 2;
 }
