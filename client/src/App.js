@@ -6,7 +6,7 @@ import { logoutAsync } from "./features/user/userAPI";
 import {
     fetchIncomesAsync,
     fetchExpensesAsync,
-    fetchSummaryAsync,
+    fetchSummaryByYearAsync,
     fetchGoalsAsync
 } from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
@@ -16,7 +16,7 @@ import Budget from "./features/budget/Budget";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
+function App({ loading, saveUser, user }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -34,26 +34,14 @@ function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
     }, [user]);
 
     function handleData() {
-        const firstOfThisMonth = new Date(
-            `${state.budget.activeYear}/${1}/1 00:00:00`
-        );
-        const lastOfThisMonth = new Date(
-            `${state.budget.activeYear}/${12}/31 23:59:59`
-        );
         const details = {
             UserID: state.user.ID,
-            InitialDate: Date.parse(firstOfThisMonth),
-            EndDate: Date.parse(lastOfThisMonth)
+            Year: state.budget.activeYear
         };
         dispatch(fetchIncomesAsync(details));
         dispatch(fetchExpensesAsync(details));
-        dispatch(fetchSummaryAsync(details));
-        dispatch(
-            fetchGoalsAsync({
-                UserID: state.user.ID,
-                Year: state.budget.activeYear
-            })
-        );
+        dispatch(fetchSummaryByYearAsync(details));
+        dispatch(fetchGoalsAsync(details));
         return;
     }
     return (
@@ -80,20 +68,14 @@ function App({ loading, saveUser, user, fetchData, activeMonth, activeYear }) {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        loading: state.budget.loading,
-        activeMonth: state.budget.activeMonth,
-        activeYear: state.budget.activeYear
+        loading: state.budget.loading
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         logout: () => dispatch(logoutAsync()),
-        saveUser: (user) => dispatch(writeUser(user)),
-        fetchData: (details) => {
-            dispatch(fetchIncomesAsync(details));
-            dispatch(fetchExpensesAsync(details));
-        }
+        saveUser: (user) => dispatch(writeUser(user))
     };
 };
 
