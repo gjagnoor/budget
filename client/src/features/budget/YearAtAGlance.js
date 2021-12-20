@@ -1,6 +1,6 @@
 import { Callout } from "@blueprintjs/core";
 import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import {
     BarChart,
     Bar,
@@ -107,6 +107,7 @@ const data = [
 ];
 
 function YearAtAGlance() {
+    const state = useSelector((state) => state);
     return (
         <div>
             <div
@@ -128,7 +129,7 @@ function YearAtAGlance() {
                     <ComposedChart
                         width={670}
                         height={560}
-                        data={data}
+                        data={state.budget.summaryByMonths}
                         margin={{
                             top: 20,
                             right: 20,
@@ -137,14 +138,34 @@ function YearAtAGlance() {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" scale="band" />
+                        <XAxis dataKey="month" scale="band" />
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="Income" barSize={20} fill="#3b7668" />
-                        <Bar dataKey="Expenses" barSize={20} fill="#8884d8" />
-                        <Bar dataKey="Savings" barSize={20} fill="#82ca9d" />
-                        <Line type="monotone" dataKey="Goal" stroke="#ff7300" />
+                        <Bar
+                            dataKey="totalIncomes"
+                            barSize={5}
+                            fill="#3b7668"
+                        />
+                        <Bar
+                            dataKey="totalExpenses"
+                            barSize={5}
+                            fill="#8884d8"
+                        />
+                        <Bar
+                            dataKey="totalSavings"
+                            barSize={5}
+                            fill="#82ca9d"
+                        />
+                        {state.budget.goals.filter(
+                            (goal) => goal.Category === "main"
+                        )[0] ? (
+                            <Line
+                                type="monotone"
+                                dataKey="goal"
+                                stroke="#ff7300"
+                            />
+                        ) : null}
                     </ComposedChart>
                 </div>
                 <div>
