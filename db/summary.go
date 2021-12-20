@@ -33,7 +33,7 @@ func GetSummaryByYear(userID string, year int32, db *gorm.DB, conn *grpc.ClientC
 	}
 }
 
-func GetSummaryByMonths(userID string, year int32, db *gorm.DB, conn *grpc.ClientConn) (Summary *pb.SummaryThisYearResponse) {
+func GetSummaryByMonths(userID string, year int32, db *gorm.DB, conn *grpc.ClientConn) (Summary *pb.SummaryByMonthsResponse) {
 	var incomes []*pb.Income
 	var expenses []*pb.Expense
 	var goal *pb.Goal
@@ -41,18 +41,20 @@ func GetSummaryByMonths(userID string, year int32, db *gorm.DB, conn *grpc.Clien
 	db.Raw("SELECT * FROM expenses WHERE user_id = ? AND year = ?", userID, year).Scan(&expenses)
 	db.Raw("SELECT * FROM goals WHERE user_id = ? AND year = ? AND category = 'main'", userID, year).Scan(&goal)
 	if len(incomes) > 0 && len(expenses) > 0 {
-		req := &pb.SummaryThisYearRequest{
+		req := &pb.SummaryByMonthsRequest{
 			Incomes: incomes,
 			Expenses: expenses,
-			Goal: goal,
+			MainGoal: goal,
 		}
 		client := pb.NewSummaryClient(conn)
 		summary, err := client.GetSummaryByMonths(context.Background(), req)
 		if err != nil {
 			log.Fatal(err)
 		}
+		
 		return summary
 	} else {
 		return nil
 	}
 }
+

@@ -12,6 +12,7 @@ import {
     fetchIncomesAsync,
     fetchExpensesAsync,
     fetchSummaryByYearAsync,
+    fetchSummaryByMonthsAsync,
     fetchGoalsAsync
 } from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
@@ -51,10 +52,11 @@ function App({ loading, saveUser, user }) {
         dispatch(fetchIncomesAsync(details));
         dispatch(fetchExpensesAsync(details));
         dispatch(fetchSummaryByYearAsync(details));
+        dispatch(fetchSummaryByMonthsAsync(details));
         dispatch(fetchGoalsAsync(details));
         return;
     }
-    console.log("userID", user.ID, state.budget.summary);
+    console.log("userID", user.ID, state.budget.summaryByMonths);
     return (
         <Router>
             <Routes>

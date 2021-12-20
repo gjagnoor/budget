@@ -7,6 +7,7 @@ import {
     deleteExpenseAsync,
     deleteIncomeAsync,
     fetchSummaryByYearAsync,
+    fetchSummaryByMonthsAsync,
     fetchGoalsAsync,
     saveGoalsAsync,
     deleteGoalAsync,
@@ -117,9 +118,24 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(
+                fetchSummaryByMonthsAsync.pending,
+                (state, { payload }) => {
+                    state.loading = true;
+                    return state;
+                }
+            )
+            .addCase(
                 fetchSummaryByYearAsync.fulfilled,
                 (state, { payload }) => {
-                    state.summary = payload || {};
+                    state.summaryByYear = payload || {};
+                    state.loading = false;
+                    return state;
+                }
+            )
+            .addCase(
+                fetchSummaryByMonthsAsync.fulfilled,
+                (state, { payload }) => {
+                    state.summaryByMonths = JSON.parse(payload).months || {};
                     state.loading = false;
                     return state;
                 }

@@ -9,6 +9,14 @@ export const fetchSummaryByYearAsync = createAsyncThunk(
     }
 );
 
+export const fetchSummaryByMonthsAsync = createAsyncThunk(
+    "summaryByMonths/fetch",
+    async (details) => {
+        const summary = await fetchSummaryByMonths(details);
+        return summary;
+    }
+);
+
 export const fetchIncomesAsync = createAsyncThunk(
     "incomes/fetch",
     async (userID) => {
@@ -226,6 +234,17 @@ const deleteGoal = async (details) => {
 const fetchSummaryByYear = async (details) => {
     return await axios
         .get(`/api/summaryByYear`, {
+            params: {
+                ...details
+            }
+        })
+        .then((res) => res.data)
+        .catch((err) => console.error(err));
+};
+
+const fetchSummaryByMonths = async (details) => {
+    return await axios
+        .get(`/api/summaryByMonths`, {
             params: {
                 ...details
             }

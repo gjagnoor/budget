@@ -12,10 +12,11 @@ class GreeterServer(GreeterServicer):
     def SayHello(self, request, context):
          return HelloReply(message="Hey there, %s!" % request.name)
 
-class SummaryByMonthsServer(SummaryServicer):
-    def GetSummaryByMonths(self, request, context):
-         monthsData = self.getMonthsData(request.incomes, request.expenses, request.goal)
-         return summaryByMonthsResponse(months = monthsData)
+class SummaryThisYearServer(SummaryServicer):
+    def GetSummaryByMonths (self, request, context):
+        monthsData = self.getMonthsData(request.incomes, request.expenses, request.mainGoal)
+        print(monthsData)
+        return summaryByMonthsResponse(months = monthsData)
     def getMonthsData (self, incomes, expenses, mainGoal):
         months = {
             1: "Jan",
@@ -31,30 +32,27 @@ class SummaryByMonthsServer(SummaryServicer):
             11: "Nov",
             12: "Dec"
         }
-        months = []
+        months_ = []
         totalIncomes = [income.amount for income in incomes]
         totalIncomes = sum(totalIncomes)
         totalExpenses = [expense.amount for expense in expenses]
         totalExpenses = sum(totalExpenses)
         totalSavingsSoFar = totalIncomes - totalExpenses
-        for month in range(1, 12):
+        for month in range(1, 13, 1):
             monthData = {}
             totalIncomes = [income.amount if income.month == month else 0 for income in incomes]
             totalIncomes = sum(totalIncomes)
             totalExpenses = [expense.amount if expense.month == month else 0 for expense in expenses]
             totalExpenses = sum(totalExpenses)
             totalSavings = totalIncomes - totalExpenses
-            goal = (mainGoal.amount - totalSavingsSoFar) / (13 - month)
-            monthData.name = months[month]
-            monthData.totalIncomes = totalIncomes
-            monthData.totalExpenses = totalExpenses
-            monthData.totalSavings = totalSavings
-            monthData.goal = goal
-            months.append(monthData)
-        return months;
-
-
-class SummaryThisYearServer(SummaryServicer):
+            goal = round((mainGoal.amount - totalSavingsSoFar) / (13 - month))
+            monthData["month"] = months[month]
+            monthData["totalIncomes"] = totalIncomes 
+            monthData["totalExpenses"] = totalExpenses 
+            monthData["totalSavings"] = totalSavings
+            monthData["goal"] = goal
+            months_.append(monthData)
+        return months_;
     def GetSummaryThisYear(self, request, context):
         incomes = [income.amount for income in request.incomes]; # for this year
         expenses = [expense.amount for expense in request.expenses]; # for this year
@@ -110,6 +108,8 @@ class SummaryThisYearServer(SummaryServicer):
     def getGoalAchieved(self, goal, totalSavings):
         if hasattr(goal, "amount") == False:
             return 0;
+        elif goal.amount == 0:
+            return 0;
         else:
             diff = goal.amount - totalSavings;
             percentage = (diff / goal.amount) * 100;
@@ -123,7 +123,6 @@ if __name__ == '__main__':
     server = grpc.server(ThreadPoolExecutor())
     add_GreeterServicer_to_server(GreeterServer(), server)
     add_SummaryServicer_to_server(SummaryThisYearServer(), server)
-    add_SummaryServicer_to_server(SummaryByMonthsServer(), server)
     port = 9999
     server.add_insecure_port(f'[::]:{port}')
     server.start()
