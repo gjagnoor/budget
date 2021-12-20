@@ -125,8 +125,10 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 			newUser.ID = user.UserID
 			newUser.Email = user.Email
 			db.Create(&newUser)
-		} 
-		http.Redirect(c.Writer, c.Request, "http://localhost:3000/budget", http.StatusFound)
+			http.Redirect(c.Writer, c.Request, "http://localhost:3000/budget", http.StatusFound)
+		} else {
+			http.Redirect(c.Writer, c.Request, "http://localhost:3000/budget", http.StatusFound)
+		}
 	})
 
 	api.GET("/google/auth", func(c *gin.Context) {

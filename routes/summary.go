@@ -33,11 +33,15 @@ func SummaryRoutes (api *gin.RouterGroup, db *gorm.DB, conn *grpc.ClientConn) {
 		var requestBody request
 		c.BindQuery(&requestBody)
 		summaryByMonths := database.GetSummaryByMonths(requestBody.UserID, requestBody.Year, db, conn)
-		marshalled, err2 := ProtobufToJSON(c.Writer, summaryByMonths)
-		if err2 != nil {
-			log.Fatal(err2)
+		if summaryByMonths != nil {
+			marshalled, err2 := ProtobufToJSON(c.Writer, summaryByMonths)
+			if err2 != nil {
+				log.Fatal(err2)
+			}
+			c.JSON(http.StatusOK, marshalled)
+		} else {
+			c.JSON(http.StatusOK, summaryByMonths)
 		}
-		c.JSON(http.StatusOK, marshalled)
 	})
 }
 

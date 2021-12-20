@@ -8,13 +8,6 @@ import {
     Navigate
 } from "react-router-dom";
 import { logoutAsync } from "./features/user/userAPI";
-import {
-    fetchIncomesAsync,
-    fetchExpensesAsync,
-    fetchSummaryByYearAsync,
-    fetchSummaryByMonthsAsync,
-    fetchGoalsAsync
-} from "./features/budget/budgetAPI.js";
 import { writeUser } from "./features/user/userSlice";
 import axios from "axios";
 import Home from "./Home";
@@ -37,26 +30,6 @@ function App({ loading, saveUser, user }) {
         };
         fetchData();
     }, [user]);
-
-    useEffect(() => {
-        if (user.ID) {
-            handleData();
-        }
-    }, [user]);
-
-    function handleData() {
-        const details = {
-            UserID: state.user.ID,
-            Year: state.budget.activeYear
-        };
-        dispatch(fetchIncomesAsync(details));
-        dispatch(fetchExpensesAsync(details));
-        dispatch(fetchSummaryByYearAsync(details));
-        dispatch(fetchSummaryByMonthsAsync(details));
-        dispatch(fetchGoalsAsync(details));
-        return;
-    }
-    console.log("userID", user.ID, state.budget.summaryByMonths);
     return (
         <Router>
             <Routes>

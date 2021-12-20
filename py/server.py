@@ -45,6 +45,7 @@ class SummaryThisYearServer(SummaryServicer):
             totalExpenses = [expense.amount if expense.month == month else 0 for expense in expenses]
             totalExpenses = sum(totalExpenses)
             totalSavings = totalIncomes - totalExpenses
+            # my seed data just doesn't make any sense
             goal = round((mainGoal.amount - totalSavingsSoFar) / (13 - month))
             monthData["month"] = months[month]
             monthData["totalIncomes"] = totalIncomes 

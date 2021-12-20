@@ -135,7 +135,9 @@ export const budgetSlice = createSlice({
             .addCase(
                 fetchSummaryByMonthsAsync.fulfilled,
                 (state, { payload }) => {
-                    state.summaryByMonths = JSON.parse(payload).months || {};
+                    state.summaryByMonths = payload
+                        ? JSON.parse(payload).months
+                        : null;
                     state.loading = false;
                     return state;
                 }

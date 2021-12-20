@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import IncomeForm from "./IncomeForm.js";
 import ExpenseForm from "./ExpenseForm";
 import Sidebar from "../sidebar/Sidebar";
@@ -8,9 +8,35 @@ import DataTable from "./DataTable.js";
 import GoalsForm from "./GoalsForm.js";
 import GoalsRender from "./GoalsRender.js";
 import { Navigate } from "react-router-dom";
+import {
+    fetchIncomesAsync,
+    fetchExpensesAsync,
+    fetchSummaryByYearAsync,
+    fetchSummaryByMonthsAsync,
+    fetchGoalsAsync
+} from "./budgetAPI.js";
 
 export default function Budget() {
     const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+
+    function handleData() {
+        const details = {
+            UserID: state.user.ID,
+            Year: state.budget.activeYear
+        };
+        // need a loading screen that does what's needed before you try to render stuff.
+        dispatch(fetchIncomesAsync(details));
+        dispatch(fetchExpensesAsync(details));
+        dispatch(fetchSummaryByYearAsync(details));
+        dispatch(fetchSummaryByMonthsAsync(details));
+        dispatch(fetchGoalsAsync(details));
+        return;
+    }
+
+    useEffect(() => {
+        handleData();
+    }, []);
     return (
         <React.Fragment>
             {state.user.ID ? (

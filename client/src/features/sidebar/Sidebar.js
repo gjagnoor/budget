@@ -110,11 +110,13 @@ function Sidebar({ writeExpenseFormOpen }) {
                         position={Position.RIGHT}
                         openOnTargetFocus={false}
                     >
-                        <Button
-                            icon="log-out"
-                            minimal={true}
-                            onClick={() => dispatch(logoutAsync())}
-                        ></Button>
+                        <a href="/">
+                            <Button
+                                icon="log-out"
+                                minimal={true}
+                                onClick={() => dispatch(logoutAsync())}
+                            ></Button>
+                        </a>
                     </Tooltip2>
                 </div>
             </nav>
