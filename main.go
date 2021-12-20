@@ -118,6 +118,7 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 			return
     	}
 		gothic.StoreInSession("user", user.UserID, c.Request, c.Writer)
+		// find or create
 		existingUser := database.GetUser(user.UserID, db)
 		boolean, err := strconv.ParseBool(existingUser.Email)
 		if err != nil && !boolean {

@@ -30,6 +30,7 @@ function App({ loading, saveUser, user }) {
         };
         fetchData();
     }, [user]);
+    console.log("session storage: ", window.sessionStorage.getItem("user"));
     return (
         <Router>
             <Routes>
