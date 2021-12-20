@@ -4,7 +4,7 @@ from google.protobuf import message
 import grpc
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from pb.connection_pb2 import HelloReply, summaryThisYearResponse
+from pb.connection_pb2 import HelloReply, summaryThisYearResponse, summaryByMonthsResponse
 from pb.connection_pb2_grpc import GreeterServicer, add_GreeterServicer_to_server
 from pb.connection_pb2_grpc import SummaryServicer, add_SummaryServicer_to_server
 
@@ -12,7 +12,49 @@ class GreeterServer(GreeterServicer):
     def SayHello(self, request, context):
          return HelloReply(message="Hey there, %s!" % request.name)
 
-class SummaryServer(SummaryServicer):
+class SummaryByMonthsServer(SummaryServicer):
+    def GetSummaryByMonths(self, request, context):
+         monthsData = self.getMonthsData(request.incomes, request.expenses, request.goal)
+         return summaryByMonthsResponse(months = monthsData)
+    def getMonthsData (self, incomes, expenses, mainGoal):
+        months = {
+            1: "Jan",
+            2: "Feb",
+            3: "Mar",
+            4: "Apr",
+            5: "May",
+            6: "Jun",
+            7: "Jul",
+            8: "Aug",
+            9: "Sep",
+            10: "Oct",
+            11: "Nov",
+            12: "Dec"
+        }
+        months = []
+        totalIncomes = [income.amount for income in incomes]
+        totalIncomes = sum(totalIncomes)
+        totalExpenses = [expense.amount for expense in expenses]
+        totalExpenses = sum(totalExpenses)
+        totalSavingsSoFar = totalIncomes - totalExpenses
+        for month in range(1, 12):
+            monthData = {}
+            totalIncomes = [income.amount if income.month == month else 0 for income in incomes]
+            totalIncomes = sum(totalIncomes)
+            totalExpenses = [expense.amount if expense.month == month else 0 for expense in expenses]
+            totalExpenses = sum(totalExpenses)
+            totalSavings = totalIncomes - totalExpenses
+            goal = (mainGoal.amount - totalSavingsSoFar) / (13 - month)
+            monthData.name = months[month]
+            monthData.totalIncomes = totalIncomes
+            monthData.totalExpenses = totalExpenses
+            monthData.totalSavings = totalSavings
+            monthData.goal = goal
+            months.append(monthData)
+        return months;
+
+
+class SummaryThisYearServer(SummaryServicer):
     def GetSummaryThisYear(self, request, context):
         incomes = [income.amount for income in request.incomes]; # for this year
         expenses = [expense.amount for expense in request.expenses]; # for this year
@@ -80,7 +122,8 @@ if __name__ == '__main__':
     )
     server = grpc.server(ThreadPoolExecutor())
     add_GreeterServicer_to_server(GreeterServer(), server)
-    add_SummaryServicer_to_server(SummaryServer(), server)
+    add_SummaryServicer_to_server(SummaryThisYearServer(), server)
+    add_SummaryServicer_to_server(SummaryByMonthsServer(), server)
     port = 9999
     server.add_insecure_port(f'[::]:{port}')
     server.start()

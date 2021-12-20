@@ -116,6 +116,11 @@ class SummaryStub(object):
                 request_serializer=pb_dot_connection__pb2.summaryThisYearRequest.SerializeToString,
                 response_deserializer=pb_dot_connection__pb2.summaryThisYearResponse.FromString,
                 )
+        self.GetSummaryByMonths = channel.unary_unary(
+                '/pb.Summary/GetSummaryByMonths',
+                request_serializer=pb_dot_connection__pb2.summaryByMonthsRequest.SerializeToString,
+                response_deserializer=pb_dot_connection__pb2.summaryByMonthsResponse.FromString,
+                )
 
 
 class SummaryServicer(object):
@@ -129,6 +134,12 @@ class SummaryServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetSummaryByMonths(self, request, context):
+        """Missing associated documentation comment in .proto file"""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SummaryServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -136,6 +147,11 @@ def add_SummaryServicer_to_server(servicer, server):
                     servicer.GetSummaryThisYear,
                     request_deserializer=pb_dot_connection__pb2.summaryThisYearRequest.FromString,
                     response_serializer=pb_dot_connection__pb2.summaryThisYearResponse.SerializeToString,
+            ),
+            'GetSummaryByMonths': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSummaryByMonths,
+                    request_deserializer=pb_dot_connection__pb2.summaryByMonthsRequest.FromString,
+                    response_serializer=pb_dot_connection__pb2.summaryByMonthsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -162,5 +178,21 @@ class Summary(object):
         return grpc.experimental.unary_unary(request, target, '/pb.Summary/GetSummaryThisYear',
             pb_dot_connection__pb2.summaryThisYearRequest.SerializeToString,
             pb_dot_connection__pb2.summaryThisYearResponse.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSummaryByMonths(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/pb.Summary/GetSummaryByMonths',
+            pb_dot_connection__pb2.summaryByMonthsRequest.SerializeToString,
+            pb_dot_connection__pb2.summaryByMonthsResponse.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)

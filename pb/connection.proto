@@ -28,6 +28,7 @@ message HelloReply {
 
 service Summary {
   rpc GetSummaryThisYear (summaryThisYearRequest) returns (summaryThisYearResponse) {}
+  rpc GetSummaryByMonths (summaryByMonthsRequest) returns (summaryByMonthsResponse) {}
 }
 
 message Income {
@@ -43,7 +44,7 @@ message Expense {
 }
 
 message Goal {
-  int32 goal = 1;
+  int32 amount = 1;
   int32 year = 2;
   int32 month = 3;
 }
@@ -64,4 +65,24 @@ message summaryThisYearRequest {
   repeated Income incomes = 1;
   repeated Expense expenses = 2;
   Goal goal = 3;
+}
+
+// ----- ------
+
+message month {
+  string month = 1;
+  int32 totalIncomes = 2;
+  int32 totalExpenses = 3;
+  int32 totalSavings = 4;
+  int32 goal = 5;
+}
+
+message summaryByMonthsResponse {
+  repeated month months = 1;
+}
+
+message summaryByMonthsRequest {
+  repeated Income incomes = 1;
+  repeated Expense expenses = 2;
+  Goal mainGoal = 3;
 }

@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pb',
   syntax='proto3',
   serialized_options=b'Z\035github.com/gjagnoor/budget/pb',
-  serialized_pb=b'\n\x13pb/connection.proto\x12\x02pb\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"5\n\x06Income\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"6\n\x07\x45xpense\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"1\n\x04Goal\x12\x0c\n\x04goal\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"\xf8\x01\n\x17summaryThisYearResponse\x12\x14\n\x0ctotalIncomes\x18\x01 \x01(\x05\x12\x15\n\rtotalExpenses\x18\x02 \x01(\x05\x12\x14\n\x0ctotalSavings\x18\x03 \x01(\x05\x12\x1e\n\x16totalIncomesByNextYear\x18\x04 \x01(\x05\x12\x1f\n\x17totalExpensesByNextYear\x18\x05 \x01(\x05\x12\x1e\n\x16totalSavingsByNextYear\x18\x06 \x01(\x05\x12\x14\n\x0chealthStatus\x18\x07 \x01(\t\x12\r\n\x05\x64\x65lta\x18\x08 \x01(\t\x12\x14\n\x0cgoalAchieved\x18\t \x01(\x05\"l\n\x16summaryThisYearRequest\x12\x1b\n\x07incomes\x18\x01 \x03(\x0b\x32\n.pb.Income\x12\x1d\n\x08\x65xpenses\x18\x02 \x03(\x0b\x32\x0b.pb.Expense\x12\x16\n\x04goal\x18\x03 \x01(\x0b\x32\x08.pb.Goal2n\n\x07Greeter\x12.\n\x08SayHello\x12\x10.pb.HelloRequest\x1a\x0e.pb.HelloReply\"\x00\x12\x33\n\rSayHelloAgain\x12\x10.pb.HelloRequest\x1a\x0e.pb.HelloReply\"\x00\x32Z\n\x07Summary\x12O\n\x12GetSummaryThisYear\x12\x1a.pb.summaryThisYearRequest\x1a\x1b.pb.summaryThisYearResponse\"\x00\x42\x1fZ\x1dgithub.com/gjagnoor/budget/pbb\x06proto3'
+  serialized_pb=b'\n\x13pb/connection.proto\x12\x02pb\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"5\n\x06Income\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"6\n\x07\x45xpense\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"3\n\x04Goal\x12\x0e\n\x06\x61mount\x18\x01 \x01(\x05\x12\x0c\n\x04year\x18\x02 \x01(\x05\x12\r\n\x05month\x18\x03 \x01(\x05\"\xf8\x01\n\x17summaryThisYearResponse\x12\x14\n\x0ctotalIncomes\x18\x01 \x01(\x05\x12\x15\n\rtotalExpenses\x18\x02 \x01(\x05\x12\x14\n\x0ctotalSavings\x18\x03 \x01(\x05\x12\x1e\n\x16totalIncomesByNextYear\x18\x04 \x01(\x05\x12\x1f\n\x17totalExpensesByNextYear\x18\x05 \x01(\x05\x12\x1e\n\x16totalSavingsByNextYear\x18\x06 \x01(\x05\x12\x14\n\x0chealthStatus\x18\x07 \x01(\t\x12\r\n\x05\x64\x65lta\x18\x08 \x01(\t\x12\x14\n\x0cgoalAchieved\x18\t \x01(\x05\"l\n\x16summaryThisYearRequest\x12\x1b\n\x07incomes\x18\x01 \x03(\x0b\x32\n.pb.Income\x12\x1d\n\x08\x65xpenses\x18\x02 \x03(\x0b\x32\x0b.pb.Expense\x12\x16\n\x04goal\x18\x03 \x01(\x0b\x32\x08.pb.Goal\"y\n\x17summaryByMonthsResponse\x12\r\n\x05month\x18\x01 \x01(\t\x12\x14\n\x0ctotalIncomes\x18\x02 \x01(\x05\x12\x15\n\rtotalExpenses\x18\x03 \x01(\x05\x12\x14\n\x0ctotalSavings\x18\x04 \x01(\x05\x12\x0c\n\x04goal\x18\x05 \x01(\x05\"p\n\x16summaryByMonthsRequest\x12\x1b\n\x07incomes\x18\x01 \x03(\x0b\x32\n.pb.Income\x12\x1d\n\x08\x65xpenses\x18\x02 \x03(\x0b\x32\x0b.pb.Expense\x12\x1a\n\x08mainGoal\x18\x03 \x01(\x0b\x32\x08.pb.Goal2n\n\x07Greeter\x12.\n\x08SayHello\x12\x10.pb.HelloRequest\x1a\x0e.pb.HelloReply\"\x00\x12\x33\n\rSayHelloAgain\x12\x10.pb.HelloRequest\x1a\x0e.pb.HelloReply\"\x00\x32\xab\x01\n\x07Summary\x12O\n\x12GetSummaryThisYear\x12\x1a.pb.summaryThisYearRequest\x1a\x1b.pb.summaryThisYearResponse\"\x00\x12O\n\x12GetSummaryByMonths\x12\x1a.pb.summaryByMonthsRequest\x1a\x1b.pb.summaryByMonthsResponse\"\x00\x42\x1fZ\x1dgithub.com/gjagnoor/budget/pbb\x06proto3'
 )
 
 
@@ -184,7 +184,7 @@ _GOAL = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='goal', full_name='pb.Goal.goal', index=0,
+      name='amount', full_name='pb.Goal.amount', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -217,7 +217,7 @@ _GOAL = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=199,
-  serialized_end=248,
+  serialized_end=250,
 )
 
 
@@ -303,8 +303,8 @@ _SUMMARYTHISYEARRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=251,
-  serialized_end=499,
+  serialized_start=253,
+  serialized_end=501,
 )
 
 
@@ -348,13 +348,120 @@ _SUMMARYTHISYEARREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=501,
-  serialized_end=609,
+  serialized_start=503,
+  serialized_end=611,
+)
+
+
+_SUMMARYBYMONTHSRESPONSE = _descriptor.Descriptor(
+  name='summaryByMonthsResponse',
+  full_name='pb.summaryByMonthsResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='month', full_name='pb.summaryByMonthsResponse.month', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='totalIncomes', full_name='pb.summaryByMonthsResponse.totalIncomes', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='totalExpenses', full_name='pb.summaryByMonthsResponse.totalExpenses', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='totalSavings', full_name='pb.summaryByMonthsResponse.totalSavings', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='goal', full_name='pb.summaryByMonthsResponse.goal', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=613,
+  serialized_end=734,
+)
+
+
+_SUMMARYBYMONTHSREQUEST = _descriptor.Descriptor(
+  name='summaryByMonthsRequest',
+  full_name='pb.summaryByMonthsRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='incomes', full_name='pb.summaryByMonthsRequest.incomes', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='expenses', full_name='pb.summaryByMonthsRequest.expenses', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mainGoal', full_name='pb.summaryByMonthsRequest.mainGoal', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=736,
+  serialized_end=848,
 )
 
 _SUMMARYTHISYEARREQUEST.fields_by_name['incomes'].message_type = _INCOME
 _SUMMARYTHISYEARREQUEST.fields_by_name['expenses'].message_type = _EXPENSE
 _SUMMARYTHISYEARREQUEST.fields_by_name['goal'].message_type = _GOAL
+_SUMMARYBYMONTHSREQUEST.fields_by_name['incomes'].message_type = _INCOME
+_SUMMARYBYMONTHSREQUEST.fields_by_name['expenses'].message_type = _EXPENSE
+_SUMMARYBYMONTHSREQUEST.fields_by_name['mainGoal'].message_type = _GOAL
 DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
 DESCRIPTOR.message_types_by_name['HelloReply'] = _HELLOREPLY
 DESCRIPTOR.message_types_by_name['Income'] = _INCOME
@@ -362,6 +469,8 @@ DESCRIPTOR.message_types_by_name['Expense'] = _EXPENSE
 DESCRIPTOR.message_types_by_name['Goal'] = _GOAL
 DESCRIPTOR.message_types_by_name['summaryThisYearResponse'] = _SUMMARYTHISYEARRESPONSE
 DESCRIPTOR.message_types_by_name['summaryThisYearRequest'] = _SUMMARYTHISYEARREQUEST
+DESCRIPTOR.message_types_by_name['summaryByMonthsResponse'] = _SUMMARYBYMONTHSRESPONSE
+DESCRIPTOR.message_types_by_name['summaryByMonthsRequest'] = _SUMMARYBYMONTHSREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), {
@@ -413,6 +522,20 @@ summaryThisYearRequest = _reflection.GeneratedProtocolMessageType('summaryThisYe
   })
 _sym_db.RegisterMessage(summaryThisYearRequest)
 
+summaryByMonthsResponse = _reflection.GeneratedProtocolMessageType('summaryByMonthsResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SUMMARYBYMONTHSRESPONSE,
+  '__module__' : 'pb.connection_pb2'
+  # @@protoc_insertion_point(class_scope:pb.summaryByMonthsResponse)
+  })
+_sym_db.RegisterMessage(summaryByMonthsResponse)
+
+summaryByMonthsRequest = _reflection.GeneratedProtocolMessageType('summaryByMonthsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _SUMMARYBYMONTHSREQUEST,
+  '__module__' : 'pb.connection_pb2'
+  # @@protoc_insertion_point(class_scope:pb.summaryByMonthsRequest)
+  })
+_sym_db.RegisterMessage(summaryByMonthsRequest)
+
 
 DESCRIPTOR._options = None
 
@@ -422,8 +545,8 @@ _GREETER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=611,
-  serialized_end=721,
+  serialized_start=850,
+  serialized_end=960,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',
@@ -455,8 +578,8 @@ _SUMMARY = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   serialized_options=None,
-  serialized_start=723,
-  serialized_end=813,
+  serialized_start=963,
+  serialized_end=1134,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetSummaryThisYear',
@@ -465,6 +588,15 @@ _SUMMARY = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_SUMMARYTHISYEARREQUEST,
     output_type=_SUMMARYTHISYEARRESPONSE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetSummaryByMonths',
+    full_name='pb.Summary.GetSummaryByMonths',
+    index=1,
+    containing_service=None,
+    input_type=_SUMMARYBYMONTHSREQUEST,
+    output_type=_SUMMARYBYMONTHSRESPONSE,
     serialized_options=None,
   ),
 ])
