@@ -111,7 +111,7 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		}
 	})
 
-	api.GET("/google/redirect", func(c *gin.Context) {
+	api.GET("/google/redirect", func(c *gin.Context) { // after redirect
 		user, err := gothic.CompleteUserAuth(c.Writer, c.Request)
 		if err != nil {
 			fmt.Fprintln(c.Writer, err)
@@ -133,7 +133,7 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 	})
 
 	api.GET("/google/auth", func(c *gin.Context) {
-		gothic.BeginAuthHandler(c.Writer, c.Request)
+		gothic.BeginAuthHandler(c.Writer, c.Request) // get request and secret
 	})
 
 	api.GET("/google/auth/logout", func(c *gin.Context) {
