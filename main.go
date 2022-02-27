@@ -63,7 +63,7 @@ func main () {
 	routes.ExpenseRoutes(api, db)
 	routes.SummaryRoutes(api, db, conn)
 	routes.GoalsRoutes(api, db)
-	router.Run(":5000")
+	router.Run(":8000")
 }
 
 func getDB() *gorm.DB {
@@ -92,7 +92,7 @@ func auth (api *gin.RouterGroup, db *gorm.DB) {
 		google.New(
 			"118805002905-bjr0bae1580mln36vq3vu1rb9cnlafgb.apps.googleusercontent.com", 
 			"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", 
-			"http://localhost:5000/api/google/redirect", 
+			"http://localhost:8000/api/google/redirect", 
 			"email", 
 			"profile",
 		),

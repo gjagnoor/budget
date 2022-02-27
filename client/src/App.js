@@ -23,6 +23,7 @@ function App({ loading, saveUser, user }) {
             await axios
                 .get("/api/currentUser")
                 .then(async (res) => {
+                    console.log("RESSS:::", res);
                     const userID = res.data.split("\n")[0];
                     await saveUser(userID || "");
                 })

@@ -52,7 +52,7 @@ function Navigation({ user, logout, saveUser }) {
                     ) : (
                         <a
                             className="bp3-button bp3-minimal"
-                            href="http://localhost:5000/api/google/auth?provider=google"
+                            href="http://localhost:8000/api/google/auth?provider=google"
                         >
                             Login Or SignUp
                         </a>
