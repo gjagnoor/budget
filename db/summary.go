@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/gjagnoor/budget/pb"
@@ -40,7 +41,8 @@ func GetSummaryByMonths(userID string, year int32, db *gorm.DB, conn *grpc.Clien
 	db.Raw("SELECT * FROM incomes WHERE user_id = ? AND year = ?", userID, year).Scan(&incomes)
 	db.Raw("SELECT * FROM expenses WHERE user_id = ? AND year = ?", userID, year).Scan(&expenses)
 	db.Raw("SELECT * FROM goals WHERE user_id = ? AND year = ? AND category = 'main'", userID, year).Scan(&goal)
-	if len(incomes) > 0 && len(expenses) > 0 {
+	fmt.Println(incomes, expenses, goal)
+	if len(incomes) > 0 || len(expenses) > 0 {
 		req := &pb.SummaryByMonthsRequest{
 			Incomes: incomes,
 			Expenses: expenses,
@@ -50,10 +52,10 @@ func GetSummaryByMonths(userID string, year int32, db *gorm.DB, conn *grpc.Clien
 		summary, err := client.GetSummaryByMonths(context.Background(), req)
 		if err != nil {
 			log.Fatal(err)
-		}
-		
+		}		
 		return summary
 	} else {
+		fmt.Println("inside here")
 		return nil
 	}
 }

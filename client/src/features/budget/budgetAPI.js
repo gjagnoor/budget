@@ -113,10 +113,20 @@ const saveIncome = async (details) => {
     return await axios
         .post("/api/income", details)
         .then(async (res) => {
-            return await fetchIncomes({
+            let incomes = await fetchIncomes({
                 UserID: details.UserID,
                 Year: details.Year
             });
+            let summaryByMonths = await fetchSummaryByMonths({
+                UserID: details.UserID,
+                Year: details.Year
+            });
+            let result = {
+                incomes,
+                summaryByMonths
+            };
+            console.log(result);
+            return result;
         })
         .catch((err) => console.error(err));
 };
@@ -249,6 +259,25 @@ const fetchSummaryByMonths = async (details) => {
                 ...details
             }
         })
-        .then((res) => res.data)
+        .then((res) => {
+            let data = res.data;
+            console.log("data ====>", data);
+            data = data.months.map((point) => {
+                if (!point.totalIncomes) {
+                    point.totalIncomes = 0;
+                }
+
+                if (!point.totalSavings) {
+                    point.totalSavings = 0;
+                }
+
+                if (!point.totalExpenses) {
+                    point.totalExpenses = 0;
+                }
+                return point;
+            });
+            console.log("data ===> ", data);
+            return data;
+        })
         .catch((err) => console.error(err));
 };

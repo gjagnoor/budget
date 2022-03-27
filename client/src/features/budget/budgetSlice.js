@@ -82,7 +82,9 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(saveIncomeAsync.fulfilled, (state, { payload }) => {
-                state.incomes = payload || [];
+                console.log("payload ===> ", payload);
+                state.incomes = payload.incomes || [];
+                state.summaryByMonths = payload.summaryByMonths || [];
                 state.loading = false;
                 return state;
             })
@@ -135,9 +137,8 @@ export const budgetSlice = createSlice({
             .addCase(
                 fetchSummaryByMonthsAsync.fulfilled,
                 (state, { payload }) => {
-                    state.summaryByMonths = payload
-                        ? JSON.parse(payload).months
-                        : null;
+                    console.log("summary by months =-=>", payload);
+                    state.summaryByMonths = payload;
                     state.loading = false;
                     return state;
                 }

@@ -1,14 +1,11 @@
 package routes
 
 import (
-	"io"
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	database "github.com/gjagnoor/budget/db"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -33,24 +30,12 @@ func SummaryRoutes (api *gin.RouterGroup, db *gorm.DB, conn *grpc.ClientConn) {
 		var requestBody request
 		c.BindQuery(&requestBody)
 		summaryByMonths := database.GetSummaryByMonths(requestBody.UserID, requestBody.Year, db, conn)
-		if summaryByMonths != nil {
-			marshalled, err2 := ProtobufToJSON(c.Writer, summaryByMonths)
-			if err2 != nil {
-				log.Fatal(err2)
-			}
-			c.JSON(http.StatusOK, marshalled)
+		fmt.Println("summarybymonths ===>", summaryByMonths)
+		if summaryByMonths != nil {	
+			c.JSON(http.StatusOK, summaryByMonths)
 		} else {
+			fmt.Println("summary ===> ", summaryByMonths)
 			c.JSON(http.StatusOK, summaryByMonths)
 		}
 	})
-}
-
-func ProtobufToJSON(w io.Writer, message proto.Message) (string, error) {
-    marshaler := jsonpb.Marshaler{
-        EnumsAsInts:  false,
-        EmitDefaults: true,
-        Indent:       "  ",
-        OrigName:     true,
-    }
-    return marshaler.MarshalToString(message)
 }

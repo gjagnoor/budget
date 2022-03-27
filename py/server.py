@@ -14,6 +14,7 @@ class GreeterServer(GreeterServicer):
 
 class SummaryThisYearServer(SummaryServicer):
     def GetSummaryByMonths (self, request, context):
+        print("hellooo")
         monthsData = self.getMonthsData(request.incomes, request.expenses, request.mainGoal)
         print(monthsData)
         return summaryByMonthsResponse(months = monthsData)
@@ -32,6 +33,7 @@ class SummaryThisYearServer(SummaryServicer):
             11: "Nov",
             12: "Dec"
         }
+        print("hello")
         months_ = []
         totalIncomes = [income.amount for income in incomes]
         totalIncomes = sum(totalIncomes)

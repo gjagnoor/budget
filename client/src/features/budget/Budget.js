@@ -35,8 +35,11 @@ export default function Budget() {
     }
 
     useEffect(() => {
-        handleData();
-    }, []);
+        if (state.user.ID) {
+            handleData();
+        }
+    }, [state.user.ID]);
+    console.log("state =====>", state);
     return (
         <React.Fragment>
             {state.user.ID ? (
