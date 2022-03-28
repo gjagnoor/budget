@@ -123,19 +123,13 @@ function YearAtAGlance() {
                     style={{
                         backgroundColor: "white",
                         borderRadius: "25px",
-                        padding: "2%"
+                        padding: "1%"
                     }}
                 >
                     <ComposedChart
                         width={800}
                         height={560}
                         data={state.budget.summaryByMonths}
-                        margin={{
-                            top: 20,
-                            right: 20,
-                            bottom: 20,
-                            left: 20
-                        }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" scale="band" />

@@ -98,8 +98,10 @@ class SummaryThisYearServer(SummaryServicer):
             decIncome = pow(pastMonthsIncome * (1 + rateOfGrowth),(12 - date.today().month))
             return round(decIncome);
     def getHealthStatus(self, incomes, expenses): # should save atleast 40% of savings
-        savings = incomes - expenses;
-        if (savings / incomes) < 0.4:
+        savings = incomes - expenses
+        if incomes <= 0:
+            return "Bad"
+        elif (savings / incomes) < 0.4:
             return "Bad";
         else:
             return "Good";

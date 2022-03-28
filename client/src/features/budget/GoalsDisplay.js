@@ -9,7 +9,7 @@ function GoalsDisplay() {
             <Card
                 interactive={true}
                 elevation={Elevation.FOUR}
-                style={{ margin: "3%", width: "200%" }}
+                style={{ margin: "3%", width: "150%" }}
             >
                 <h5>
                     <a
