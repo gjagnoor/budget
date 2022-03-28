@@ -125,7 +125,6 @@ const saveIncome = async (details) => {
                 incomes,
                 summaryByMonths
             };
-            console.log(result);
             return result;
         })
         .catch((err) => console.error(err));
@@ -182,10 +181,19 @@ const saveExpense = async (details) => {
     return await axios
         .post("/api/expense", details)
         .then(async (res) => {
-            return await fetchExpenses({
+            let expenses = await fetchExpenses({
                 UserID: details.UserID,
                 Year: details.Year
             });
+            let summaryByMonths = await fetchSummaryByMonths({
+                UserID: details.UserID,
+                Year: details.Year
+            });
+            let result = {
+                expenses,
+                summaryByMonths
+            };
+            return result;
         })
         .catch((err) => console.error(err));
 };

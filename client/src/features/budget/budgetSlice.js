@@ -93,7 +93,8 @@ export const budgetSlice = createSlice({
                 return state;
             })
             .addCase(saveExpenseAsync.fulfilled, (state, { payload }) => {
-                state.expenses = payload || [];
+                state.expenses = payload.expenses || [];
+                state.summaryByMonths = payload.summaryByMonths || [];
                 state.loading = false;
                 return state;
             })
