@@ -48,7 +48,7 @@ class SummaryThisYearServer(SummaryServicer):
             totalExpenses = sum(totalExpenses)
             totalSavings = totalIncomes - totalExpenses
             # my seed data just doesn't make any sense
-            goal = round((mainGoal.amount - totalSavingsSoFar) / (13 - month))
+            goal = round((mainGoal.amount) / (13))
             monthData["month"] = months[month]
             monthData["totalIncomes"] = totalIncomes 
             monthData["totalExpenses"] = totalExpenses 
@@ -69,7 +69,7 @@ class SummaryThisYearServer(SummaryServicer):
         totalSavingsByNextYear = totalIncomesByNextYear - totalExpensesByNextYear;
         healthStatus = self.getHealthStatus(totalIncomes, totalExpenses);
         delta = self.getDelta(request.goal, totalSavingsByNextYear);
-        goalAchieved = self.getGoalAchieved(request.goal, totalSavings);
+        goalAchieved = self.goalToAchieve(request.goal);
         return summaryThisYearResponse(totalIncomes=totalIncomes, totalExpenses=totalExpenses, totalSavings=totalSavings, totalExpensesByNextYear=totalExpensesByNextYear, totalIncomesByNextYear=totalIncomesByNextYear, totalSavingsByNextYear=totalSavingsByNextYear, healthStatus=healthStatus, delta=delta, goalAchieved=goalAchieved);
     def getFutureExpenses(self, expenses, expensestodate):
         if date.today().month == 12 or date.today().month == 1:
@@ -110,15 +110,14 @@ class SummaryThisYearServer(SummaryServicer):
             return "Bad";
         else:
             return "Good";
-    def getGoalAchieved(self, goal, totalSavings):
-        if hasattr(goal, "amount") == False:
+    def goalToAchieve(self, mainGoal):
+        if hasattr(mainGoal, "amount") == False:
             return 0;
-        elif goal.amount == 0:
+        elif mainGoal.amount <= 0:
             return 0;
         else:
-            diff = goal.amount - totalSavings;
-            percentage = (diff / goal.amount) * 100;
-            return round(percentage);
+            diff = mainGoal.amount / 12;
+            return round(diff);
 
 if __name__ == '__main__':
     logging.basicConfig(

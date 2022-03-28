@@ -22,7 +22,13 @@ function GoalsDisplay() {
                         Your Goals This Year
                     </a>
                 </h5>
-                <p style={{ fontSize: "400%" }}>
+                <p
+                    style={{
+                        fontSize: "400%",
+                        display: "flex",
+                        flexDirection: "column"
+                    }}
+                >
                     [{" "}
                     {state.budget.goals
                         .filter((goal) => goal.Category !== "main")
