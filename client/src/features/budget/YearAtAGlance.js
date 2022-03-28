@@ -127,7 +127,7 @@ function YearAtAGlance() {
                     }}
                 >
                     <ComposedChart
-                        width={670}
+                        width={800}
                         height={560}
                         data={state.budget.summaryByMonths}
                         margin={{

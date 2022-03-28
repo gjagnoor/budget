@@ -216,10 +216,13 @@ const deleteIncome = async (details) => {
             }
         })
         .then(async (res) => {
-            return await fetchIncomes({
+            let incomes = await fetchIncomes({
                 UserID: details.UserID,
                 Year: details.Year
             });
+            console.log(details);
+            console.log("incomes => ", incomes);
+            return incomes;
         })
         .catch((err) => console.error(err));
 };

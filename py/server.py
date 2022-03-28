@@ -60,10 +60,12 @@ class SummaryThisYearServer(SummaryServicer):
         incomes = [income.amount for income in request.incomes]; # for this year
         expenses = [expense.amount for expense in request.expenses]; # for this year
         totalIncomes = sum(incomes);
-        totalExpenses = sum(expenses);
+        totalExpenses = sum(expenses) or 0;
         totalSavings = totalIncomes - totalExpenses;
         totalExpensesByNextYear = self.getFutureExpenses(request.expenses, totalExpenses);
-        totalIncomesByNextYear = self.getFutureIncome(request.incomes, totalIncomes);
+        totalExpensesByNextYear = 0
+        # totalIncomesByNextYear = self.getFutureIncome(request.incomes, totalIncomes);
+        totalIncomesByNextYear = 0
         totalSavingsByNextYear = totalIncomesByNextYear - totalExpensesByNextYear;
         healthStatus = self.getHealthStatus(totalIncomes, totalExpenses);
         delta = self.getDelta(request.goal, totalSavingsByNextYear);

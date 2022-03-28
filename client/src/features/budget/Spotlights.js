@@ -17,9 +17,7 @@ function Spotlights() {
         <React.Fragment>
             <div
                 style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    margin: `5% 0em 5% 0em`
+                    margin: `5em 0em 5em 0em`
                 }}
             >
                 <div>
@@ -43,12 +41,12 @@ function Spotlights() {
                             $ {state.budget.summaryByYear.totalExpenses}
                         </p>
                     </Card>
-                    <Icon
+                    {/*  <Icon
                         icon="arrow-down"
                         size={IconSize.LARGE}
                         style={{ color: "white" }}
-                    />
-                    <Card
+                    /> */}
+                    {/*  <Card
                         interactive={true}
                         elevation={Elevation.FOUR}
                         style={{ margin: "3%" }}
@@ -67,7 +65,7 @@ function Spotlights() {
                         <p style={{ fontSize: "400%" }}>
                             $ {state.budget.summaryByYear.expensesByNextYear}{" "}
                         </p>
-                    </Card>
+                    </Card> */}
                 </div>
                 <div style={{ marginTop: "25%" }}>
                     <Card
@@ -90,12 +88,12 @@ function Spotlights() {
                             $ {state.budget.summaryByYear.totalSavings}
                         </p>
                     </Card>
-                    <Icon
+                    {/* <Icon
                         icon="arrow-down"
                         size={IconSize.LARGE}
                         style={{ color: "white" }}
-                    />
-                    <Card
+                    /> */}
+                    {/* <Card
                         interactive={true}
                         elevation={Elevation.FOUR}
                         style={{ margin: "3%" }}
@@ -114,7 +112,7 @@ function Spotlights() {
                         <p style={{ fontSize: "400%" }}>
                             $ {state.budget.summaryByYear.savingsByNextYear}
                         </p>
-                    </Card>
+                    </Card> */}
                 </div>
             </div>
             <Goals />

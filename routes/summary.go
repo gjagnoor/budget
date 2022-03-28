@@ -19,6 +19,7 @@ func SummaryRoutes (api *gin.RouterGroup, db *gorm.DB, conn *grpc.ClientConn) {
 		var requestBody request
 		c.BindQuery(&requestBody)
 		summaryThisYear := database.GetSummaryByYear(requestBody.UserID, requestBody.Year, db, conn)
+		fmt.Println("===>", summaryThisYear)
 		c.JSON(http.StatusOK, summaryThisYear)
 	})
 

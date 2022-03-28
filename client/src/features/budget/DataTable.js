@@ -25,10 +25,11 @@ export default function DataTable() {
             )
         );
         const deleteDetails = {
-            userID: state.user.ID,
-            incomeID: income.ID,
-            initialDate: firstOfThisMonth,
-            endDate: lastOfThisMonth
+            UserID: state.user.ID,
+            IncomeID: income.ID,
+            InitialDate: firstOfThisMonth,
+            EndDate: lastOfThisMonth,
+            Year: state.budget.activeYear
         };
         dispatch(deleteIncomeAsync(deleteDetails));
         return;
