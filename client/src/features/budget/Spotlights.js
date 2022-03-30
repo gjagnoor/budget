@@ -5,6 +5,7 @@ import { connect, useSelector } from "react-redux";
 import { Button, Card, Elevation } from "@blueprintjs/core";
 import Goals from "./Goals";
 import { Icon } from "@blueprintjs/core";
+import { useMediaQuery } from "react-responsive";
 
 export const colorScheme = [
     "#182026", // dark
@@ -13,18 +14,22 @@ export const colorScheme = [
 
 function Spotlights() {
     const state = useSelector((state) => state);
+    const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
+
     return (
         <React.Fragment>
             <div
                 style={{
-                    margin: `5em 0em 5em 0em`
+                    margin: `5em 0em 5em 5em`
                 }}
             >
                 <div>
                     <Card
                         interactive={true}
                         elevation={Elevation.FOUR}
-                        style={{ margin: "3%" }}
+                        style={{
+                            margin: "3%"
+                        }}
                     >
                         <h5>
                             <a
@@ -71,7 +76,9 @@ function Spotlights() {
                     <Card
                         interactive={true}
                         elevation={Elevation.FOUR}
-                        style={{ margin: "3%" }}
+                        style={{
+                            margin: "3%"
+                        }}
                     >
                         <h5>
                             <a

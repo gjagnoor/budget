@@ -22,7 +22,56 @@ code {
     height: 2em;
 }
 
-.this-year-at-a-glance {
+#year-at-a-glance {
     display: flex;
     justify-content: space-between;
 }
+
+#info {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* breakpoints for responsivenes */
+
+/* (Mobile S, 320px and up) */
+@media (max-width: 320px) {
+    #year-at-a-glance {
+        flex-direction: column;
+    }
+}
+
+/* (Mobile M, 375px and up) */
+@media (max-width: 375px) {
+    #year-at-a-glance {
+        flex-direction: column;
+    }
+}
+
+/* (Mobile L, 425px and up */
+@media (max-width: 425px) {
+    #year-at-a-glance {
+        flex-direction: column;
+    }
+}
+
+/* (desktop small, 500px and up */
+@media (max-width: 500px) {
+    #year-at-a-glance {
+        flex-direction: column;
+    }
+}
+
+/* (Tablet, 768px and up) */
+
+@media (max-width: 900px) {
+    #year-at-a-glance {
+        flex-direction: column;
+    }
+}
+
+/* (Laptop, 1024px and up) */
+
+/* (Latop, 1440px and up) */
+
+/* (4K 2560px, and up) */

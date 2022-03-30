@@ -100,12 +100,7 @@ export default function Budget() {
                             </p>
                         </div>
                     </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between"
-                        }}
-                    >
+                    <div id="info">
                         <YearAtAGlance />
                         <Sidebar />
                     </div>

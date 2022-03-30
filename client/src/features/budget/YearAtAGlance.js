@@ -16,6 +16,7 @@ import {
 import Goals from "./Goals";
 import GoalsDisplay from "./GoalsDisplay";
 import Spotlights from "./Spotlights";
+import { useMediaQuery } from "react-responsive";
 
 const yearlySavingGoal = 5000;
 
@@ -108,14 +109,13 @@ const data = [
 
 function YearAtAGlance() {
     const state = useSelector((state) => state);
+    const isDesktopOrLaptop = useMediaQuery({
+        query: "(min-width: 1224px)"
+    });
+    const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
     return (
         <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                }}
-            >
+            <div id="year-at-a-glance">
                 <div>
                     <Spotlights />
                 </div>
@@ -123,12 +123,14 @@ function YearAtAGlance() {
                     style={{
                         backgroundColor: "white",
                         borderRadius: "25px",
-                        padding: "1%"
+                        marginLeft: "1em",
+                        width: isTabletOrMobile ? "100%" : "auto",
+                        height: isDesktopOrLaptop ? "40em" : "20em"
                     }}
                 >
                     <ComposedChart
-                        width={800}
-                        height={560}
+                        width={isDesktopOrLaptop ? 850 : 480}
+                        height={isDesktopOrLaptop ? 400 : 200}
                         data={state.budget.summaryByMonths}
                     >
                         <CartesianGrid strokeDasharray="3 3" />

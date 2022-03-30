@@ -1,15 +1,23 @@
 import React from "react";
 import { connect, useSelector } from "react-redux";
 import { Button, Card, Elevation } from "@blueprintjs/core";
+import { useMediaQuery } from "react-responsive";
 
 function GoalsDisplay() {
     const state = useSelector((state) => state);
+    const isTabletOrMobile = useMediaQuery({
+        query: "(max-width: 1224px)"
+    });
+
     return (
         <React.Fragment>
             <Card
                 interactive={true}
                 elevation={Elevation.FOUR}
-                style={{ margin: "3%", width: "150%" }}
+                style={{
+                    margin: "3%",
+                    width: isTabletOrMobile ? "100%" : "auto"
+                }}
             >
                 <h5>
                     <a
